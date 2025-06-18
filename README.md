@@ -1,4 +1,4 @@
-# 🏀 Joiin — Connect Through Sport
+# Joiin — Connect Through Sport
 
 **Joiin** is a social platform built to bring people together through shared sports and physical activities. Whether you're a weekend footballer, yoga lover, or looking to start hiking with new friends — PlayConnect makes it easy to find events, host games, and build real communities through movement.
 
