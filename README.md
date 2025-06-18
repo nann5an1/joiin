@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏀 Joiin — Connect Through Sport
 
-## Getting Started
+**Joiin** is a social platform built to bring people together through shared sports and physical activities. Whether you're a weekend footballer, yoga lover, or looking to start hiking with new friends — PlayConnect makes it easy to find events, host games, and build real communities through movement.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🔍 **Interest-Based Activity Matching**  
+  Find sports events near you that match your interests and skill level.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🤝 **Social Connections & Community Building**  
+  Meet like-minded people, form friendships, and create recurring groups.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 🗓️ **Event Hosting & Management**  
+  Host your own sports events and manage invites, limits, and updates in one place.
 
-## Learn More
+- 📍 **Location-Aware Discovery**  
+  Smart suggestions based on your location to help you get active easily.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💡 Tagline  
+**Move Your Body. Meet Your People.**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧾 Pricing Plans
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Plan        | Description                                                                 |
+|-------------|-----------------------------------------------------------------------------|
+| **Free**    | Join local events, create a profile, and connect with nearby players.       |
+| **Medium**  | Host events, unlock more invites, and access enhanced social features.      |
+| **Premium** | Get priority placement, verified status, advanced filters, and team tools.  |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> 💡 **Flexible plans for every player** — whether you're just getting started or building a community.
+
+---
+
+## 🔐 Safety & Trust
+
+We encourage safe meetups through:
+- Public locations
+- User profiles with ratings
+- In-app messaging
+- Verified accounts for Premium users
+
+---
