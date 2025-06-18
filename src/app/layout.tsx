@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import {Footer} from "./components/Footer";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -27,7 +28,33 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <nav className="flex items-center justify-between flex-wrap bg-white p-6">
+          <ul className="flex">
+            <li className="mr-6">
+              <a className="text-blue-500 hover:text-blue-800" href="home">Home</a>
+            </li>
+            <li className="mr-6">
+              <a className="text-blue-500 hover:text-blue-800" href="about_us">About Us</a>
+            </li>
+            <li className="mr-6">
+              <a className="text-blue-500 hover:text-blue-800" href="upcoming_events">Upcoming Events</a>
+            </li>
+            <li className="mr-6">
+              <a className="text-blue-500 hover:text-blue-800" href="/your_events">Your Events</a>
+            </li>
+            <li className="mr-6">
+              <a className="text-blue-500 hover:text-blue-800" href="/contact_us">Contact Us</a>
+            </li>
+            <li className="mr-6">
+              <a className="text-blue-500 hover:text-blue-800" href="/create_events">Create Events</a>
+            </li>
+            <li className="mr-24">
+              <a className="text-blue-500 hover:text-blue-800" href="/user_profile">User Profile</a>
+            </li>
+        </ul>
+        </nav>
         {children}
+        <Footer />
       </body>
     </html>
   );
