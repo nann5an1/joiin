@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const port = process.env.port || 3000;
-const mysql = require('mysql2/promise');
+// const mysql = require('mysql2/promise');
 // const authenticateToken = require("./middleware/authenticateToken");
 // const authorizeRole = require("./middleware/authorizeRole");
 const eventRoute = require("./routes/eventRoute");
@@ -20,28 +20,15 @@ app.use(router); //use the router in the express
 
 async function main() {
   // Establish the database connection
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE,
-  });
+  // const connection = await mysql.createConnection({
+  //   host: process.env.DB_HOST,
+  //   user: process.env.DB_USER,
+  //   password: process.env.DB_PASS,
+  //   database: process.env.DB_DATABASE,
+  // });
   
 app.use("/api/v0.1/events", eventRoute); //event main page
-
-app.use("/api/v0.1/", async (req, res) => {
-  try {
-    const [results, fields] = await connection.query(
-      'SELECT * FROM events'
-    );
-
-    console.log(results);
-    res.json(results); // Respond with data instead of just "Hello"
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Database query failed");
-  }
-});
+app.use("/api/v0.1/", home);
 
 
   app.listen(port, () => {

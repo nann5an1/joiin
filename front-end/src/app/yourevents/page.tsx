@@ -5,7 +5,7 @@ export default function YourEvents() {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/v0.1/events/yourevents")
+        fetch("http://localhost:3001/api/v0.1/events/yourevents")
         // .then(data => setEvents(data))
         .catch(err => console.error("Error fetching : ", err));
     }, [])

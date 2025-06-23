@@ -4,46 +4,90 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 
 export default function CreateEventForm() {
-  useEffect(() => {
-      fetch("http://localhost:3000/api/v0.1/events/create")
-      // .then(data => setEvents(data))
-      .catch(err => console.error("Error fetching : ", err));
-  }, []);
+  const [formData, setFormData] = useState({
+    title: '',
+    category: '',
+    description: '',
+    image: '',
+    location: '',
+    org_name: '',
+    org_email: '',
+    org_phone: '',
+    start_date: '',
+    end_date: '',
+    status: '',
+    tags : [],
+  });
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
+    setFormData({
+      ...formData, 
+      [e.target.name]: e.target.value
+    });
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault(); // prevent the form from refresshing the page
+  // console.log(formData);
+
+    try {
+      const res = await fetch("http://localhost:3001/api/v0.1/events/create",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok)
+        alert("🎉 Event created!");
+      else
+        alert("⚠️ Failed to create event");
+    } catch (err) {
+        console.error("Something went wrong", err);
+    }
+  }
+
   return (
     <div className="container mx-auto p-4">
       {/* Page Title */}
-      <h1 className="text-3xl font-bold text-black mb-6">Create Event</h1>
+      <h1 className="text-3xl font-bold text-black mb-6 mt-6">Create Event</h1>
 
-      <form className="grid grid-cols-1 gap-6">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
         {/* Title */}
+        <h2 className="text-xl font-bold text-black">Event Title</h2>
         <div className="p-2">
           <input
             type="text"
             id="title"
             name="title"
             placeholder="Event Title"
+            onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
             style={{ backgroundColor: '#f6f6f6' }}
           />
         </div>
 
         {/* Category */}
+        <h3 className="text-xl font-bold text-black mb-6">Event Category</h3>
         <div className="p-2">
           <select
             id="category"
             name="category"
+            onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
             style={{ backgroundColor: '#f6f6f6' }}
           >
             <option value="">Select a category</option>
-            <option>Music</option>
-            <option>Sports</option>
-            <option>Arts</option>
-            <option>Technology</option>
+            <option>Badminton</option>
+            <option>Rugby</option>
+            <option>Swimming</option>
+            <option>Tennis</option>
           </select>
         </div>
 
         {/* Description and Image Upload */}
+        
+        <h3 className="text-xl font-bold text-black">Event Details</h3>
         <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Description */}
           <div>
@@ -52,6 +96,7 @@ export default function CreateEventForm() {
               name="description"
               rows={3}
               placeholder="Event Description"
+              onChange={handleChange}
               className="block w-full h-48 rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             />
@@ -80,6 +125,7 @@ export default function CreateEventForm() {
               id="image-upload"
               name="image"
               type="file"
+              onChange={handleChange}
               accept="image/*"
               className="sr-only"
             />
@@ -87,25 +133,29 @@ export default function CreateEventForm() {
         </div>
 
         {/* Location */}
+        <h3 className="text-xl font-bold text-black">Event Location</h3>
         <div className="p-2">
           <input
             type="text"
             id="location"
             name="location"
-            placeholder="Location"
+            placeholder="Central Singapore"
+            onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
             style={{ backgroundColor: '#f6f6f6' }}
           />
         </div>
 
         {/* Organizer Name and Email */}
+        <h3 className="text-xl font-bold text-black">Organizer Details</h3>
         <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <input
               type="text"
               id="organizer-name"
-              name="organizer-name"
-              placeholder="Organizer Name"
+              name="org_name"
+              placeholder="John Doe"
+              onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             />
@@ -115,21 +165,24 @@ export default function CreateEventForm() {
             <input
               type="email"
               id="organizer-email"
-              name="organizer-email"
-              placeholder="Organizer Email"
+              name="org_email"
+              placeholder="johndoe@gmail.com"
+              onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             />
           </div>
         </div>
 
-        {/* Organizer Address */}
+        {/* Organizer Phone Contact */}
+        <h3 className="text-xl font-bold text-black">Organizer Contact</h3>
         <div className="p-2">
           <input
-            type="text"
+            type="phone"
             id="organizer-address"
-            name="organizer-address"
-            placeholder="Organizer Address"
+            name="org_phone"
+            placeholder="+6588888888"
+            onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
             style={{ backgroundColor: '#f6f6f6' }}
           />
@@ -159,7 +212,8 @@ export default function CreateEventForm() {
             <input
               type="datetime-local"
               id="start-date"
-              name="start-date"
+              name="start_date"
+              onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             />
@@ -187,7 +241,8 @@ export default function CreateEventForm() {
             <input
               type="datetime-local"
               id="end-date"
-              name="end-date"
+              name="end_date"
+              onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             />
@@ -206,6 +261,7 @@ export default function CreateEventForm() {
             <select
               id="status"
               name="status"
+              onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             >
@@ -221,7 +277,8 @@ export default function CreateEventForm() {
               type="text"
               id="tags"
               name="tags"
-              placeholder="Tags (comma-separated)"
+              placeholder="Items Required (comma-separated)"
+              onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}
             />
@@ -232,7 +289,7 @@ export default function CreateEventForm() {
         <div className="col-span-full mt-6 p-2">
           <button
             type="submit"
-            className="block w-full bg-[#8c0327] hover:bg-[#6b0220] text-white font-bold py-3 px-4 rounded-full"
+            className="block w-full bg-[#55a630] hover:bg-[#6b0220] text-gray-500 font-bold py-3 px-4 rounded-full"
           >
             Register for Event
           </button>
