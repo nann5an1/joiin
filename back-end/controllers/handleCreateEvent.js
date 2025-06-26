@@ -1,14 +1,14 @@
 //constroller will be calling from the model, which has the database logic
+import { insertFormData } from "../models/insertFormData.js";   
 
-// const express = require("express");
-const insertFormData = require("../models/insertFormData.js");
-// const router = express.Router();
-
+console.log("before createEvent is running");
 export async function createEvent(req, res){
     try {
+        // console.log(req.body);
         const result = await insertFormData(req.body);
         res.status(201).json({"message created": result});
     } catch (error) {
+        console.log("error in responding for creating events");
         res.status(500).json("error in responding for creating events");
     }
 }

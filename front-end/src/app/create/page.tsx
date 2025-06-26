@@ -7,15 +7,17 @@ export default function CreateEventForm() {
   const [formData, setFormData] = useState({
     title: '',
     category: '',
-    description: '',
-    image: '',
+    descrip: '',
+    img: '',
     location: '',
+    pax: '',
     org_name: '',
     org_email: '',
     org_phone: '',
     start_date: '',
     end_date: '',
-    status: '',
+    fares: '',
+    e_status: '',
     tags : [],
   });
 
@@ -31,7 +33,7 @@ export default function CreateEventForm() {
   // console.log(formData);
 
     try {
-      const res = await fetch("http://localhost:3001/api/v0.1/events/create",{
+      const res = await fetch("http://localhost:3000/api/v0.1/events/create",{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,6 +148,20 @@ export default function CreateEventForm() {
           />
         </div>
 
+        {/* Pax Number */}
+        <h3 className="text-xl font-bold text-black">Pax</h3>
+        <div className="p-2">
+          <input
+            type="phone"
+            id="organizer-address"
+            name="pax"
+            placeholder="20"
+            onChange={handleChange}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
+            style={{ backgroundColor: '#f6f6f6' }}
+          />
+        </div>
+
         {/* Organizer Name and Email */}
         <h3 className="text-xl font-bold text-black">Organizer Details</h3>
         <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -247,6 +263,20 @@ export default function CreateEventForm() {
               style={{ backgroundColor: '#f6f6f6' }}
             />
           </div>
+        </div>
+
+        {/* Ticket Fares */}
+         <h3 className="text-xl font-bold text-black">Ticket Fares</h3>
+        <div className="p-2">
+          <input
+            type="phone"
+            id="organizer-address"
+            name="fares"
+            placeholder="$5SGD"
+            onChange={handleChange}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
+            style={{ backgroundColor: '#f6f6f6' }}
+          />
         </div>
 
         {/* Status and Tags */}

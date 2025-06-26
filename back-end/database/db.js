@@ -1,6 +1,8 @@
-const mysql = require('mysql2/promise');
-import dotenv from 'dotenv';
-dotenv.config();
+// const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
+import env from 'dotenv';
+// const env = require('dotenv');
+env.config();
 
 
     // Establish the database connection
