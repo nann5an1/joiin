@@ -14,7 +14,16 @@ import { Alert } from "@/components/ui/alert";
 
 function AccountSettings() {
   return (
-    <div className="flex h-full w-full items-start mobile:flex-col mobile:flex-nowrap mobile:gap-0">
+    <div>
+      
+    </div>
+  );
+}
+
+export default AccountSettings;
+
+
+{/* <div className="flex h-full w-full items-start mobile:flex-col mobile:flex-nowrap mobile:gap-0">
       <SettingsMenu className="mobile:w-full mobile:grow mobile:shrink-0 mobile:basis-0">
         <span className="w-full text-heading-3 font-heading-3 text-default-font">
           Settings
@@ -185,8 +194,4 @@ function AccountSettings() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-export default AccountSettings;
+    </div> */}

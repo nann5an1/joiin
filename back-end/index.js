@@ -6,6 +6,7 @@ const app = express();
 const port = process.env.port || 3000;
 dotenv.config();
 import eventRoute from "./routes/eventRoute.js";
+import userRoute from "./routes/userRoute.js";
 const router = express.Router(); //create a router object
 const jsonMiddleWare = express.json();
 
@@ -19,7 +20,7 @@ app.use(router); //use the router in the express
 async function main() {
 
 app.use("/api/v0.1/events", eventRoute); //event main page
-// app.use("/api/v0.1/", home);
+app.use("/api/v0.1/user", userRoute);
 
 
   app.listen(port, () => {
