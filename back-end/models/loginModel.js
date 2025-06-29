@@ -1,9 +1,11 @@
 import pool from "../database/db.js";
+import bcrypt from "bcryptjs"
 
 export async function loginModel(data){
-    const sql_cmd = `SELECT password from user WHERE email = ?`;
+    const sql_cmd = `SELECT id, name, password from user WHERE email = ?`;
     const {email, password} = data;
-    const data_values = [email, password];
-    const [result] = await pool.execute(sql_cmd, data_values[0]);
+    const data_values = [email];
+    const [result] = await pool.execute(sql_cmd, data_values); //will return the id, name, password
+    console.log("result in loginModel", result);
     return result;
 }

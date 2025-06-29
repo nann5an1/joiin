@@ -13,7 +13,11 @@ const jsonMiddleWare = express.json();
 
 // const subscriber = ["admin", "user"];
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3001",
+    credentials: true
+  }
+));
 app.use(jsonMiddleWare); //middleware for converting to the json type
 app.use(router); //use the router in the express
 

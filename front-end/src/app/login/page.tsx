@@ -1,8 +1,11 @@
 'use client'
 import {useState, useEffect} from 'react';
+import {useRouter} from 'next/navigation';
+
 
 export default function login(){
-    
+  // const navigate = useNavigate();
+  const router = useRouter();
     const [loginInfo, setLoginInfo] = useState({
         email: '',
         password: '',
@@ -23,10 +26,13 @@ export default function login(){
                 headers: {
                 "Content-Type": "application/json",
                 },
+                credentials: 'include',
                 body: JSON.stringify(loginInfo),
             });
-            if (result.ok)
-                console.log("Login okay:" , result);
+            if (result.ok){
+              console.log("Login okay:" , result);
+              router.push("/home"); //navigate back to user's home page
+            }
             else
                 console.error("Fail to login user account");
         } catch (error) {
@@ -50,10 +56,10 @@ export default function login(){
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
-                  value=""
+                  value={loginInfo.email}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
@@ -63,10 +69,10 @@ export default function login(){
               <div>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                 <input
-                  type="password"
+                  type="text"
                   name="password"
                   id="password"
-                  value=""
+                  value={loginInfo.password}
                   onChange={handleChange}
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
