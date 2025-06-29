@@ -33,11 +33,11 @@ export async function loginController(req, res) {
             maxAge: 60 * 60 * 1000 // 1 hour
         });
         console.log(token);
+        console.log(user.name);
         res.status(200).json({
             message: "Login successful",
             user: { id: user.id , username: user.name },
             });
-        alert("Login successful", user.name);
     } catch (error) {
          console.error("Login Error:", error);
         res.status(500).json({ message: "Server Login error" });

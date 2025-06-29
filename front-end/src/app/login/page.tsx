@@ -4,7 +4,6 @@ import {useRouter} from 'next/navigation';
 
 
 export default function login(){
-  // const navigate = useNavigate();
   const router = useRouter();
     const [loginInfo, setLoginInfo] = useState({
         email: '',

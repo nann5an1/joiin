@@ -1,20 +1,24 @@
-'use client'
-import  { useRouter } from 'next/router';
-const router = useRouter();
+'use client';
+import  { useRouter } from 'next/navigation';
 
-export default async function logout(){
-    try {
-        const result =await fetch("http://localhost:3000/api/v0.1/user/logout", 
-            {method: 'POST',
-            credentials: 'include',
-            });
-        if (result.ok)
-            router.push("/");
-    } catch (error) {
-        console.error("Logout error", error);
-    }
+export default function LogOutPage(){
+    async function logout(){
+        const router = useRouter();
+        try {
+            const result =await fetch("http://localhost:3000/api/v0.1/user/logout", 
+                {method: 'POST',
+                credentials: 'include',
+                });
+            if (result.ok)
+            {
+                console.log("Successful logout");
+                router.push("/");
+            }
+        } catch (error) {
+            console.error("Logout error", error);
+        }
     return (
         <div>
         </div>
-    )
+    )};
 }
