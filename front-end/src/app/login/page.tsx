@@ -30,12 +30,14 @@ export default function login(){
             });
             if (result.ok){
               console.log("Login okay:" , result);
+              // router.refresh();
               router.push("/home"); //navigate back to user's home page
+             
             }
             else
-                console.error("Fail to login user account");
+                console.log("Fail to login user account");
         } catch (error) {
-            console.error("Logging error for user account", error);   
+            console.log("Logging error for user account", error);   
         }
     }
     
