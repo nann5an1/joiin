@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const AuthHeader = () => {
     return (
-        <nav className="bg-gray-800 border-gray-800 text-white text-sm">
+        <nav className="bg-[var(--foreground)] text-white text-sm">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
               <img src="/next.svg" className="h-8" alt="Logo" />
