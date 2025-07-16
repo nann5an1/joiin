@@ -1,5 +1,6 @@
 'use client';
 
+import {Marquee} from '@/components/magicui/marquee';
 import Image from "next/image";
 import {useEffect} from 'react';
 import {useRouter} from 'next/navigation';
@@ -13,8 +14,8 @@ export default function Home() {
   }, [])
  return (
    <>
-    <section className="bg-white dark:bg-gray-900">
-        <div className="grid py-8 px-4 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+    <section className="bg-gray-900">
+        <div className="bg-amber-400 grid py-8 px-8 mt-16 mb-8 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <div className="place-self-center mr-auto lg:col-span-7">
                 <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Payments tool for software companies</h1>
                 <p className="mb-6 max-w-2xl font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From checkout to global sales tax compliance, companies around the world use Flowbite to simplify their payment stack.</p>
@@ -27,7 +28,7 @@ export default function Home() {
                 </a> 
             </div>
             <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup"></img>
+                <img src="/vercel.svg" alt="mockup"></img>
             </div>                
         </div>
     </section>
@@ -176,7 +177,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-gray-900">
+      <section className="bg-white dark:bg-gray-900">       
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="mx-auto max-w-screen-sm text-center">
                 <h2 className="mb-4 text-4xl font-extrabold leading-tight text-gray-900 dark:text-white">Start your free trial today</h2>
@@ -185,7 +186,11 @@ export default function Home() {
             </div>
         </div>
     </section>
-    
+
+
+    <section>
+        
+    </section>
     <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
    </>
   );
