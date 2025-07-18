@@ -35,7 +35,7 @@ export default async function RootLayout({
   const isAuthenticated = token !== undefined;
   
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <head>
         {/* <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> */}
       </head>
