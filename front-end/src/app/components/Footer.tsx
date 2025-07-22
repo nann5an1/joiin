@@ -2,7 +2,7 @@
 
 export const Footer = () => {
   return (
-    <div className="px-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen md:px-24 lg:px-8">
+    <div className="pt-10 mx-16 sm:max-w-xl md:max-w-full lg:max-w-screen md:px-24 lg:px-8">
       <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6">
         <div className="md:max-w-md lg:col-span-2">
           <a
@@ -41,7 +41,7 @@ export const Footer = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
+        <div className="grid grid-cols-4 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
           <div>
             <p className="font-semibold tracking-wide text-gray-800">
               Category

@@ -40,7 +40,7 @@ export default async function RootLayout({
         {/* <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--background)]`}
       >
        
        {isAuthenticated ? <AuthHeader/> : <UnauthHeader />}

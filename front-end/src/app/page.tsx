@@ -97,7 +97,7 @@ export default function Home() {
   }, [])
  return ( 
    <>
-    <section className="bg-gradient-to-b from-[var(--foreground)] from-40% via-[var(--foreground-secondary)] via-70% to-[var(--foreground-tertiary)] to-100% py-8 px-4 mx-auto lg:py-16">
+    <section className="m-8 flex justify-center bg-gradient-to-b from-[var(--foreground)] from-40% via-[var(--foreground-secondary)] via-70% to-[var(--foreground-tertiary)] to-100% rounded-xl ">
         <div className=" grid py-8 px-8 mt-16 mb-8 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <div className="place-self-center mr-auto lg:col-span-7">
                 <h1 className="mb-4 max-w-2xl text-4xl text-[var(--section)] font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Bring your game. Find your people.</h1>
@@ -106,92 +106,95 @@ export default function Home() {
                     Get started
                     <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                 </a>
-                <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                     Learn More
                 </a> 
             </div>
-            <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="/vercel.svg" alt="mockup"></img>
+            <div className="lg:mt-0 lg:col-span-5 lg:flex">
+                <img src="/tennis_bat.svg" alt="mockup"></img>
             </div>                
         </div>
     </section>
-    <section className=" flex justify-flex align-center py-auto px-auto mx-auto max-w-screen-xl lg:py-16">
-        <h2 className="flex justify-center align-center text-2xl">Looking for</h2>
-        <SplitText text="New Interests?"
+    <section className=" align-center py-auto px-auto mx-auto max-w-screen-xl lg:py-16">
+        <h2 className="flex justify-center align-center text-4xl font-extrabold p-16">Looking for</h2>
+        <div className="w-screen-full mx-16 pb-16 flex flex-wrap justify-between align-center font-semibold text-2xl">
+            <SplitText text="New Interests"
 
-        className="text-2xl font-semibold text-center flex justify-center align-center"
+            className="text-3xl font-semibold text-center flex justify-center align-center"
 
-        delay={100}
+            delay={100}
 
-        duration={0.6}
+            duration={0.6}
 
-        ease="bounce.out"
+            ease="bounce.out"
 
-        splitType="chars"
+            splitType="chars"
 
-        from={{ opacity: 0, y: 40 }}
+            from={{ opacity: 0, y: 40 }}
 
-        to={{ opacity: 1, y: 0 }}
+            to={{ opacity: 1, y: 0 }}
 
-        threshold={0.1}
+            threshold={0.1}
 
-        rootMargin="-100px"
+            rootMargin="-100px"
 
-        textAlign="center"
+            textAlign="center"
 
-        onLetterAnimationComplete={handleAnimationComplete}
+            onLetterAnimationComplete={handleAnimationComplete}
 
-        />
-         <SplitText text="New Friends?"
+            />
+            <SplitText text="New Friends"
 
-        className="text-2xl font-semibold text-center flex justify-center align-center"
+            className="text-3xl font-semibold text-center flex justify-center align-center"
 
-        delay={100}
+            delay={100}
 
-        duration={0.6}
+            duration={0.6}
 
-        ease="bounce.out"
+            ease="bounce.out"
 
-        splitType="chars"
+            splitType="chars"
 
-        from={{ opacity: 0, y: 40 }}
+            from={{ opacity: 0, y: 40 }}
 
-        to={{ opacity: 1, y: 0 }}
+            to={{ opacity: 1, y: 0 }}
 
-        threshold={0.1}
+            threshold={0.1}
 
-        rootMargin="-100px"
+            rootMargin="-100px"
 
-        textAlign="center"
+            textAlign="center"
 
-        onLetterAnimationComplete={handleAnimationComplete}
+            onLetterAnimationComplete={handleAnimationComplete}
 
-        />
-         <SplitText text="New Adventures?"
+            />
+            <SplitText text="New Adventures"
 
-        className="text-2xl font-semibold text-center flex justify-center align-center"
+            className="text-3xl font-semibold text-center flex justify-center align-center"
 
-        delay={100}
+            delay={100}
 
-        duration={0.6}
+            duration={0.6}
 
-        ease="bounce.out"
+            ease="bounce.out"
 
-        splitType="chars"
+            splitType="chars"
 
-        from={{ opacity: 0, y: 40 }}
+            from={{ opacity: 0, y: 40 }}
 
-        to={{ opacity: 1, y: 0 }}
+            to={{ opacity: 1, y: 0 }}
 
-        threshold={0.1}
+            threshold={0.1}
 
-        rootMargin="-100px"
+            rootMargin="-100px"
 
-        textAlign="center"
+            textAlign="center"
 
-        onLetterAnimationComplete={handleAnimationComplete}
+            onLetterAnimationComplete={handleAnimationComplete}
 
-        />
+            />
+        </div>
+        
     </section>
   
     {/* <section className="bg-[var(--background)]">
@@ -260,11 +263,11 @@ export default function Home() {
         </div>
     </section> */}
 
-    <section className="bg-white dark:bg-gray-900">
+    <section className="">
         <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
             <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
                 <h2 className="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white">What is Joiin?</h2>
-                <p className="mb-4">Joiin is a dynamic social sports platform designed to bring people together through shared physical activities. Whether you're looking to join a casual game, host an event, or meet like-minded individuals, Joiin makes it easy to connect, play, and build lasting communities. From football and hiking to yoga and cycling, it adapts to your interests and encourages active, meaningful social connections.</p>
+                <p className="mb-4 text-xl text-gray-700">Joiin is a dynamic social sports platform designed to bring people together through shared physical activities. Whether you're looking to join a casual game, host an event, or meet like-minded individuals, Joiin makes it easy to connect, play, and build lasting communities. From football and hiking to yoga and cycling, it adapts to your interests and encourages active, meaningful social connections.</p>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-8">
                 <img className="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1"></img>
@@ -273,13 +276,13 @@ export default function Home() {
         </div>
     </section>
 
-    <section className="bg-gray-50 dark:bg-gray-800">
+    <section className="m-10 bg-gray-50 dark:bg-gray-800 rounded-md">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="mb-8 max-w-screen-md lg:mb-16">
                 <h2 className="mb-4 text-4xl font-extrabold text-[var(--foreground)] ">What we do</h2>
                 <p className="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
             </div>
-            <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+            <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0 p-4">
                 <div>
                     <div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
                         <svg className="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
@@ -320,7 +323,7 @@ export default function Home() {
             </div>
         </div>
       </section> */}
-
+    <section className="py-24">
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
             <Marquee pauseOnHover className="[--duration:20s]">
                 {firstRow.map((review) => (
@@ -334,8 +337,10 @@ export default function Home() {
             </Marquee>
             <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
         </div>
+    </section>
+        
     <section>
-        <section className="bg-white dark:bg-gray-900">       
+        <section className="bg-[var(--foreground)] dark:bg-gray-900">       
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div className="mx-auto max-w-screen-sm text-center">
                 <h2 className="mb-4 text-4xl font-extrabold leading-tight text-gray-900 dark:text-white">Start your free trial today</h2>
@@ -343,8 +348,8 @@ export default function Home() {
                 <a href="#" className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Free trial for 30 days</a>
             </div>
         </div>
-        <div className="flex justify-center items-center w-1/5 mx-auto sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-1/5">
-            <button className="bg-[var(--foreground)] rounded-sm justify-center align-center text-gray-900 hover:transition duration-300 delay-200 hover:bg-gray-900 hover:text-white py-2 px-4">Get Started</button>
+        <div className="flex justify-center items-center py-8 w-2/5 mx-auto sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-1/5">
+            <button className="bg-[var(--foreground-tertiary)] rounded-sm justify-center align-center text-gray-900 hover:transition duration-300 delay-200 hover:bg-gray-900 hover:text-white py-2 px-4">Get Started</button>
         </div>
     </section>
         
