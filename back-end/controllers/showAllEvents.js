@@ -1,0 +1,17 @@
+
+import {recentActivitiesModel} from "../models/getRecentActivities.js"; // Import the model for recent activities
+
+export async function showAllEvents(req, res) {
+    let response;
+     console.log("=== showAllEvents called ==="); // Add this line first
+    const {recent, nearest, popular, free} =  req.query; //req.query will return the query parameters from the URL, which is after the ? in the URL
+    console.log("Query parameters received:", {recent, nearest, popular, free});
+    try {
+        if(recent)
+            response =  await recentActivitiesModel();
+        res.status(200).json(response);
+    } catch (error) {
+        
+    }
+    
+}

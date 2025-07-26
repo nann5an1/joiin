@@ -6,6 +6,7 @@ import Image from "next/image";
 import {useEffect} from 'react';
 import {useRouter} from 'next/navigation';
 import SplitText from "@/components/reactbits/splittext";
+import { Handshake } from 'lucide-react';
 
 export const dynamic = "force-dynamic";
 
@@ -97,7 +98,7 @@ export default function Home() {
   }, [])
  return ( 
    <>
-    <section className="m-8 flex justify-center bg-gradient-to-b from-[var(--foreground)] from-40% via-[var(--foreground-secondary)] via-70% to-[var(--foreground-tertiary)] to-100% rounded-xl ">
+    <section className="m-8 shadow-xl/20 flex justify-center bg-gradient-to-b from-[var(--foreground)] from-40% via-[var(--foreground-secondary)] via-70% to-[var(--foreground-tertiary)] to-100% rounded-xl ">
         <div className=" grid py-8 px-8 mt-16 mb-8 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <div className="place-self-center mr-auto lg:col-span-7">
                 <h1 className="mb-4 max-w-2xl text-4xl text-[var(--section)] font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Bring your game. Find your people.</h1>
@@ -115,9 +116,9 @@ export default function Home() {
             </div>                
         </div>
     </section>
-    <section className=" align-center py-auto px-auto mx-auto max-w-screen-xl lg:py-16">
-        <h2 className="flex justify-center align-center text-4xl font-extrabold p-16">Looking for</h2>
-        <div className="w-screen-full mx-16 pb-16 flex flex-wrap justify-between align-center font-semibold text-2xl">
+    <section className="my-auto border-solid border-2 border-[var(--foreground)] align-center mx-auto max-w-screen-xl lg:py-16 rounded-md">
+        <h2 className="flex justify-center align-center text-4xl font-extrabold p-16 text-[var(--section)]">Looking for</h2>
+        <div className="w-screen-full mx-16 pb-16 flex flex-wrap justify-between align-center font-semibold text-2xl font-[var(--section)]">
             <SplitText text="New Interests"
 
             className="text-3xl font-semibold text-center flex justify-center align-center"
@@ -143,6 +144,7 @@ export default function Home() {
             onLetterAnimationComplete={handleAnimationComplete}
 
             />
+            <Handshake />
             <SplitText text="New Friends"
 
             className="text-3xl font-semibold text-center flex justify-center align-center"

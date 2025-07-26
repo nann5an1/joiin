@@ -17,8 +17,10 @@
     "flowbite": "^3.1.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
-    "node": "^24.2.0",
-    "nodemon": "^3.1.10"
+    "node": "^24.2.0"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }

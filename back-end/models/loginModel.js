@@ -1,5 +1,4 @@
 import pool from "../database/db.js";
-import bcrypt from "bcryptjs"
 
 export async function loginModel(data){
     const sql_cmd = `SELECT id, name, password from user WHERE email = ?`;
