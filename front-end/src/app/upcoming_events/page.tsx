@@ -43,7 +43,7 @@ export default function upcomingeventsPage(){
                 },
             })
             if (response.ok){
-                console.log("Recent activities fetched successfully");
+                console.log("activities fetched successfully");
             }
         } catch (error) {
             console.error("Error fetching recent activities:", error);
@@ -78,10 +78,10 @@ export default function upcomingeventsPage(){
     }
     return(
         <div>
-            <div className='grid grid-cols-2 w-full h-full'>
-                <div className='w-1/3 border-2 border-solid border-gray-700 text-gray-800 p-5 m-5'>
+            <div className='p-10 grid grid-cols-4 grid-rows-4 w-full h-full'>
+                <div className='w-2/3 border-2 border-solid border-gray-700 text-gray-800 p-2'>
                     <fieldset>
-                        <legend className='text-xl font-bold'>Keywordshello</legend>
+                        <legend className='text-xl font-bold'>Keywords</legend>
                         <div className='grid grid-col-1 justify-left align-center gap-2 p-4'>
                             <div>
                                  <input
@@ -125,8 +125,70 @@ export default function upcomingeventsPage(){
                          </div>
                     </fieldset>   
                 </div>
-                <div className='border-2 border-solid border-gray-700'>
-                    products
+                <div className='grid border-2 p-4 border-solid border-gray-700 row-start-1 row-end-3 col-start-2 col-end-5'>
+                    <div className='grid grid-cols-3 grid-rows-1 gap-4 justify-start'>
+                        <div className='w-full border-solid rounded-md bg-gray-400'> 
+                        <div className='p-4 flex flex-row justify-center items-center'>
+                               <img src="vervel.svg" alt="product vercel" /> 
+                        </div>
+                        <div className='flex flex-row justify-end mr-4'>
+                            <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span className="sr-only"> Quick look </span>
+                                <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    {/* <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
+                                </svg>
+                            </button>
+                            <button type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span className="sr-only"> Add to Favorites </span>
+                                <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                {/* <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" /> */}
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div className='w-full border-solid rounded-md bg-gray-400'> 
+                        <div className='p-4 flex flex-row justify-center items-center'>
+                               <img src="vervel.svg" alt="product vercel" /> 
+                        </div>
+                        <div className='flex flex-row justify-end mr-4'>
+                            <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span className="sr-only"> Quick look </span>
+                                <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    {/* <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
+                                </svg>
+                            </button>
+                            <button type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span className="sr-only"> Add to Favorites </span>
+                                <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                {/* <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" /> */}
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div className='w-full border-solid rounded-md bg-gray-400'> 
+                        <div className='p-4 flex flex-row justify-center items-center'>
+                               <img src="vervel.svg" alt="product vercel" /> 
+                        </div>
+                        <div className='flex flex-row justify-end mr-4'>
+                            <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span className="sr-only"> Quick look </span>
+                                <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    {/* <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                                    <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
+                                </svg>
+                            </button>
+                            <button type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                <span className="sr-only"> Add to Favorites </span>
+                                <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                {/* <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" /> */}
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
