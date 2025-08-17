@@ -19,8 +19,5 @@
     "mysql2": "^3.14.1",
     "node": "^24.2.0"
   },
-  "type": "module",
-  "devDependencies": {
-    "nodemon": "^3.1.10"
-  }
+  "type": "module"
 }
