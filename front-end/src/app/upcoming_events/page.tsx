@@ -130,8 +130,6 @@ export default function upcomingeventsPage(){
                                 <label htmlFor="" className="pl-2">Free Activites</label>
                             </div>
                            
-                            {/* <input type="range" />
-                            <label htmlFor=""></label> */}
                          </div>
                     </fieldset>   
                 </div>
