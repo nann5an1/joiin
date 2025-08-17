@@ -31,7 +31,7 @@ export default function login(){
             if (result.ok){
               console.log("Login okay:" , result);
               // router.refresh();
-              router.push("/home"); //navigate back to user's home page
+              router.push("/"); //navigate back to user's home page
              
             }
             else
