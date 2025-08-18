@@ -8,6 +8,7 @@ import {useRouter} from 'next/navigation';
 import SplitText from "@/components/reactbits/splittext";
 import { Handshake } from 'lucide-react';
 
+
 export const dynamic = "force-dynamic";
 
 export default function Home() {
@@ -39,8 +40,8 @@ export default function Home() {
 
     {/*Cateogory section */}
     <section className="grid grid-cols-14 justify-center items-center col-gap-4 mt-16">
-        <div className="w-20 h-20 col-start-1 col-end-2 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="hiking.svg" alt="" />
+        <div className="w-20 h-20 col-start-1 col-end-2 bg-gray-200 rounded-xl justify-center p-4 hover:bg-[var(--foreground)]">
+            <img className="w-full " src="hiking.svg" alt="" />
         </div>
          <div className="w-20 h-20 col-start-3 col-end-4 bg-gray-200 rounded-xl justify-center p-4">
             <img className="w-full" src="pool.svg" alt="" />
