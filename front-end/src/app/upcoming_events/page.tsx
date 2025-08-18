@@ -134,7 +134,7 @@ export default function upcomingeventsPage(){
                     </fieldset>   
                 </div>
                 {/* Activities List */}
-                <div className='grid border-2 p-4 border-solid border-gray-700 row-start-1 row-end-3 col-start-2 col-end-5'>
+                <div className='grid border-2 p-4 border-solidrow-start-1 row-end-3 col-start-2 col-end-5'>
                      {loading && <p>Loading activities...</p>}
                      {error && <p className='text-red-500'>{error}</p>}
                      {!error && !loading && activities.length == 0 && <p>No activities found</p>}
