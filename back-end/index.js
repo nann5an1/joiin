@@ -2,14 +2,17 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
+import eventRoute from "./routes/eventRoute.js";
+import userRoute from "./routes/userRoute.js";
+import session from 'express-session';
+import path from "path";
+
 const app = express();
 const port = process.env.port || 3000;
 dotenv.config();
-import eventRoute from "./routes/eventRoute.js";
-import userRoute from "./routes/userRoute.js";
+
 const router = express.Router(); //create a router object
 const jsonMiddleWare = express.json();
-import session from 'express-session';
 
 
 // const subscriber = ["admin", "user"];
@@ -39,6 +42,7 @@ app.use(session({
 
 app.use("/api/v0.1/events", eventRoute); //event main page
 app.use("/api/v0.1/user", userRoute);
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads"))); 
 
 
   app.listen(port, () => {

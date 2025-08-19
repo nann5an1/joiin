@@ -144,8 +144,8 @@ export default function upcomingeventsPage(){
                         <div    
                             key={event.id}
                             className='w-full border-solid rounded-xl font-bodoni p-2 hover:shadow-xl'> 
-                            <div className='p-4 flex flex-row justify-center items-center'>
-                                {/* <img className="h-12 w-8" src="vercel.svg" alt="product vercel" />  */}
+                            <div className='p-4 flex flex-row justify-center items-center w-full'>
+                               {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
                             </div>
                             <div className='flex flex-row justify-end mr-4'>
                                  {/* <span className="text-xs text-gray-500">
@@ -162,7 +162,7 @@ export default function upcomingeventsPage(){
                                    <Heart color="#737373" size={24} strokeWidth={1.2} />
                                 </button>
                             </div>
-                            <div className="font-bodoni grid grid-cols-1 justify-center gap-2">
+                            <div className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
                                 <p className="text-gray-900 text-xl font-bold">{event.title}</p>
                                 {/* <p className="text-gray-800">{event.descrip}</p> */}
                                 {/* <div className='flex flex-row justify-end col-gap-2'> */}
