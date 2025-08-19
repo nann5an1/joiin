@@ -1,10 +1,13 @@
 //export the data into the database using the model
 import pool from "../database/db.js";
-
-export async function insertFormData(data){
+export async function insertFormData(data, file){
     try {
         // console.log("data check again", data);
-        const {title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, tags} = data;
+        const newEvent = {
+            ...data,
+            img: file ? `/uploads/${file.filename}` : null
+        };
+        const {title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, tags} = newEvent;
         const sql_cmd = `INSERT INTO create_events (
         title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, tags
         )

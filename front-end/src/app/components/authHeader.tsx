@@ -5,7 +5,7 @@ import {useState} from 'react';
 export const AuthHeader = () => {
   const [open, setOpen] = useState(false);
     return (
-     <nav className="grid grid-cols-4 justify-items-start w-full p-4 border gap-4 min-h-16">
+     <nav className="grid grid-cols-4 justify-items-start w-full p-4 border gap-4 min-h-16 font-semibold text-gray">
           <div className="col-start-1 col-end-2 w-10 h-10">
             <img src="join.png" alt="" />
           </div>

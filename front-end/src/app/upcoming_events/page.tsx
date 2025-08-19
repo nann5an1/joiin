@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {useState, useEffect} from 'react';
+import {Heart} from 'lucide-react';
 
 export default function upcomingeventsPage(){
     const [activities, setActivities] = useState<any[]>([]);
@@ -88,8 +89,8 @@ export default function upcomingeventsPage(){
     return(
         <div>
             {/* Filter List */}
-            <div className='p-10 grid grid-cols-4 grid-rows-4 w-full h-full'>
-                <div className='w-2/3 border-2 border-solid border-gray-700 text-gray-800 p-2'>
+            <div className='p-10 grid grid-cols-4 grid-rows-4 w-full h-2/3'>
+                <div className='w-2/3 border-2 border-solid border-gray-200 text-gray-800 p-2'>
                     <fieldset>
                         <legend className='text-xl font-bold'>Keywords</legend>
                         <div className='grid grid-col-1 justify-left align-center gap-2 p-4'>
@@ -134,22 +135,22 @@ export default function upcomingeventsPage(){
                     </fieldset>   
                 </div>
                 {/* Activities List */}
-                <div className='grid border-2 p-4 border-solidrow-start-1 row-end-3 col-start-2 col-end-5'>
+                <div className='grid p-4 row-start-1 row-end-3 col-start-2 col-end-5'>
                      {loading && <p>Loading activities...</p>}
                      {error && <p className='text-red-500'>{error}</p>}
                      {!error && !loading && activities.length == 0 && <p>No activities found</p>}
                     <div className='grid grid-cols-3 grid-rows-1 gap-4 justify-start'>
                         {activities.map((event) => (
-                        <div 
+                        <div    
                             key={event.id}
-                            className='w-full border-solid rounded-md bg-gray-400'> 
+                            className='w-full border-solid rounded-xl font-bodoni p-2 hover:shadow-xl'> 
                             <div className='p-4 flex flex-row justify-center items-center'>
-                                <img className="h-12 w-8" src="vercel.svg" alt="product vercel" /> 
+                                {/* <img className="h-12 w-8" src="vercel.svg" alt="product vercel" />  */}
                             </div>
                             <div className='flex flex-row justify-end mr-4'>
-                                 <span className="text-xs text-gray-500">
+                                 {/* <span className="text-xs text-gray-500">
                                     {new Date(event.start_date).toLocaleDateString()}
-                                </span>
+                                </span> */}
                                 <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                     <span className="sr-only"> Quick look </span>
                                     <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -157,24 +158,21 @@ export default function upcomingeventsPage(){
                                         <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
                                     </svg>
                                 </button>
-                                <button type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span className="sr-only"> Add to Favorites </span>
-                                    <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    {/* <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" /> */}
-                                    </svg>
+                                <button type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-full p-2 hover:bg-gray-100 ">
+                                   <Heart color="#737373" size={24} strokeWidth={1.2} />
                                 </button>
                             </div>
-                            <div className='grid grid-cols-1 justify-center row-gap-2'>
-                                <p className="text-gray-800">{event.title}</p>
-                                <p className="text-gray-800">{event.descrip}</p>
-                                <p className="text-gray-800">Category :{event.category}</p>
-                                <p className="text-gray-800">Pax: {event.pax}</p>
-                                <p className="text-gray-800">{event.fares}</p>
-                                <p className="text-gray-800">Location :{event.location}</p>
-                                <div className='flex flex-row justify-end col-gap-2'>
-                                    <p className="text-gray-800">{event.start_date}</p>
-                                    <p className="text-gray-800">{event.end_date}</p>
-                                </div>
+                            <div className="font-bodoni grid grid-cols-1 justify-center gap-2">
+                                <p className="text-gray-900 text-xl font-bold">{event.title}</p>
+                                {/* <p className="text-gray-800">{event.descrip}</p> */}
+                                {/* <div className='flex flex-row justify-end col-gap-2'> */}
+                                <p className="text-gray-700">{event.start_date}</p>
+                                    {/* <p className="text-gray-800">{event.end_date}</p> */}
+                                {/* </div> */}
+                                <p className="text-gray-700">{event.location}</p>
+                                <p className="text-gray-800">{event.category}</p>
+                                {/* <p className="text-gray-800">{event.pax}</p> */}
+                                <p className="text-gray-800 text-lg font-semibold">{event.fares}</p>
                             </div>
                         </div>
                         ))}

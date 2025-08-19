@@ -8,7 +8,7 @@ export default function CreateEventForm() {
     title: '',
     category: '',
     descrip: '',
-    img: '',
+    img: '' as File | string,
     location: '',
     pax: '',
     org_name: '',
@@ -28,17 +28,43 @@ export default function CreateEventForm() {
     });
   }
 
+{/*handle file change for image*/}
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  if (e.target.files && e.target.files[0]) {
+    setFormData({
+      ...formData,
+      img: e.target.files[0],  // store File object
+    });
+  }
+}
+
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
-    e.preventDefault(); // prevent the form from refresshing the page
-  // console.log(formData);
+  e.preventDefault(); // prevent the form from refresshing the page
+  
+  const formDataToSend = new FormData();
+
+  // append all fields
+  Object.entries(formData).forEach(([key, value]) => {
+    if (key === "img") return; // skip img here
+    if (key === "tags") {
+      // handle array, split by comma if needed
+      formDataToSend.append(key, value.toString());
+    } else {
+      formDataToSend.append(key, value as string);
+    }
+  });
+
+  // append file separately
+  if (formData.img instanceof File) {
+    formDataToSend.append("image", formData.img);
+  }
+
 
     try {
       const res = await fetch("http://localhost:3000/api/v0.1/events/create",{
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
       if (res.ok)
         alert("🎉 Event created!");
@@ -54,7 +80,7 @@ export default function CreateEventForm() {
       {/* Page Title */}
       <h1 className="text-3xl font-bold text-black mb-6 mt-6">Create Event</h1>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6" >
         {/* Title */}
         <h2 className="text-xl font-bold text-black">Event Title</h2>
         <div className="p-2">
@@ -94,8 +120,8 @@ export default function CreateEventForm() {
           {/* Description */}
           <div>
             <textarea
-              id="description"
-              name="description"
+              id="descrip"
+              name="descrip"
               rows={3}
               placeholder="Event Description"
               onChange={handleChange}
@@ -127,7 +153,7 @@ export default function CreateEventForm() {
               id="image-upload"
               name="image"
               type="file"
-              onChange={handleChange}
+              onChange={handleFileChange}
               accept="image/*"
               className="sr-only"
             />

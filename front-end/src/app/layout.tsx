@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import {Footer} from "./components/Footer";
 import {AuthHeader} from "./components/authHeader";
 import {UnauthHeader} from "./components/unauthHeader";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Geist, Geist_Mono, Bodoni_Moda  } from "next/font/google";
 import {cookies} from "next/headers";
+import "./globals.css";
 
+
+const bodoni = Bodoni_Moda({
+  subsets: ['latin'],
+  weight: ['400', '700'], // choose the weights you want
+  variable: '--font-bodoni', // optional: expose as CSS variable
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +46,7 @@ export default async function RootLayout({
         {/* <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--background)]`}
+        className={` ${bodoni.variable} antialiased bg-[var(--background)]`}
       >
        
        {isAuthenticated ? <AuthHeader/> : <UnauthHeader />}
@@ -53,3 +59,4 @@ export default async function RootLayout({
     </html>
   );
 }
+
