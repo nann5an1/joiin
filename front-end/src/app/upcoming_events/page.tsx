@@ -176,9 +176,9 @@ export default function upcomingeventsPage(){
                             </div>
                         </div>
                         ))}
-                        
                     </div>
                 </div>
+
             </div>
         </div>
     )
