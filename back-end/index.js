@@ -6,45 +6,52 @@ import eventRoute from "./routes/eventRoute.js";
 import userRoute from "./routes/userRoute.js";
 import session from 'express-session';
 import path from "path";
+import cookieParser from "cookie-parser";
 
-const app = express();
-const port = process.env.port || 3000;
+// Load environment variables first
 dotenv.config();
 
-const router = express.Router(); //create a router object
-const jsonMiddleWare = express.json();
+const app = express();
+const port = process.env.PORT || 3000;
 
-
-// const subscriber = ["admin", "user"];
+// CORS configuration
+// app.use(cors({
+//     origin: "http://localhost:3001",
+//     credentials: true
+// }));
 
 app.use(cors({
     origin: "http://localhost:3001",
-    credentials: true
-  }
-));
-app.use(jsonMiddleWare); //middleware for converting to the json type
-app.use(router); //use the router in the express
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
-async function main() {
+// Middleware setup in correct order
+app.use(cookieParser()); // Cookie parser must come before routes
+app.use(express.json()); // JSON middleware
 
-  //the cookie for the session is include as default with name(connect.sid), which has the same session id as the server side session
+// Session middleware (if you're using sessions alongside JWT)
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: false,   // true in production
+    secure: false,   // true in production with HTTPS
     sameSite: 'lax',
     maxAge: 60 * 60 * 1000
   }
 }));
 
-app.use("/api/v0.1/events", eventRoute); //event main page
+// Static files
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
+// Routes - these should come after all middleware
+app.use("/api/v0.1/events", eventRoute);
 app.use("/api/v0.1/user", userRoute);
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads"))); 
 
-
+async function main() {
   app.listen(port, () => {
     console.log("Server running on port " + port);
   });

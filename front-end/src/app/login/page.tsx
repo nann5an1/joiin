@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
 
 
+
 export default function login(){
   const router = useRouter();
     const [loginInfo, setLoginInfo] = useState({
@@ -21,17 +22,20 @@ export default function login(){
         e.preventDefault();
         try {
             const result = await fetch('http://localhost:3000/api/v0.1/user/login', {
-                method: 'POST',
-                headers: {
-                "Content-Type": "application/json",
-                },
-                credentials: 'include',
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include", // ✅ important: include cookies
                 body: JSON.stringify(loginInfo),
             });
             if (result.ok){
               console.log("Login okay:" , result);
+              // const data = await result.json();
+              // const token = data.token;
+
+            // Example: store in memory
+            // sessionStorage.setItem("token", token);
               // router.refresh();
-              router.push("/"); //navigate back to user's home page
+            router.push("/"); //navigate back to user's home page
              
             }
             else

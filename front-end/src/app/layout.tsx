@@ -37,8 +37,9 @@ export default async function RootLayout({
 }>) {
   
   const storedCookies = await cookies();
-  const token = storedCookies.get("connect.sid");
+  const token = storedCookies.get("token");
   const isAuthenticated = token !== undefined;
+  console.log("isAuthenticated", isAuthenticated);
   
   return (
     <html lang="en" className="scroll-smooth">

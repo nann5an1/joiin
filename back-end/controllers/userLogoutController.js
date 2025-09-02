@@ -9,7 +9,7 @@ export async function logoutController(req, res) {
             }
 
             // Clear the session cookie (the server-side session is invalidated but still need to clear for the browser side)
-            res.clearCookie("connect.sid", {
+            res.clearCookie("token", {
                 httpOnly: true,
                 secure: false,   // set to true in production
                 sameSite: "lax",

@@ -1,6 +1,4 @@
 //manage events home page for the user as the organizer
-import Link from "next/link";
-import { House,Info, Heart, CalendarPlus, Handshake, History, ListCheck  } from 'lucide-react';
 import Sidebar from '../components/sideBar';
 
 export default function ManageEventsPage(){
