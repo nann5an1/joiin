@@ -51,6 +51,7 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/api/v0.1/events", eventRoute);
 app.use("/api/v0.1/user", userRoute);
 
+
 async function main() {
   app.listen(port, () => {
     console.log("Server running on port " + port);

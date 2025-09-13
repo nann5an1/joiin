@@ -1,18 +1,29 @@
 //this page will record the events the user has created
-import React from 'react';
+'use client';
+
+import React, { use } from 'react';
+import { useEffect } from 'react';
 import Sidebar from '../components/sideBar';
-export default async function managedCreateEvents(){
-    try {
-        // const token = sessionStorage.getItem("token");
-        const response = await fetch(`http://localhost:3000/api/v0.1/user/created_events`, {
-            method: 'GET',
+export default function managedCreateEvents(){
+    useEffect(() => {
+        fetchUserCreatedEvents();
+    })
+    async function fetchUserCreatedEvents() {
+        try {
+            const response = await fetch("http://localhost:3000/api/v0.1/user/created_events", {
+            method: "GET",
             credentials: 'include',
+            headers: {
+            'Content-Type': 'application/json',
+            }
         });
         if(response.ok)
             console.log("organizer created events", response);
-    } catch (error) {
-        console.error("Error fetching created events", error);
+        } catch (error) {
+            console.error("Error fetching created events", error);
+        }
     }
+    
     return(
         <div>
             <Sidebar />

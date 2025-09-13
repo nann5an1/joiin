@@ -24,11 +24,12 @@ export default function login(){
             const result = await fetch('http://localhost:3000/api/v0.1/user/login', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                credentials: "include", // ✅ important: include cookies
+                credentials: "include", // ✅ important: include cookies so will include the user id
                 body: JSON.stringify(loginInfo),
             });
             if (result.ok){
-              console.log("Login okay:" , result);
+              console.log("Login okay:" , result.json());
+      
               // const data = await result.json();
               // const token = data.token;
 

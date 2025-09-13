@@ -1,19 +1,53 @@
 //export the data into the database using the model
 import pool from "../database/db.js";
-export async function insertFormData(data, file){
+export async function insertFormData(userId, data, file){
     try {
         // console.log("data check again", data);
         const newEvent = {
-            ...data,
-            img: file ? `/uploads/${file.filename}` : null
+            user_id: userId,
+            title: data.title,
+            category: data.category,
+            descrip: data.descrip,
+            img: file ? `/uploads/${file.filename}` : null,
+            location: data.location,
+            pax: data.pax,
+            org_name: data.org_name,
+            org_email: data.org_email,
+            org_phone: data.org_phone,
+            start_date: data.start_date,
+            end_date: data.end_date,
+            fares: data.fares,
+            e_status: data.e_status, // Now correctly mapped
+            tags: data.tags
         };
-        const {title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, tags} = newEvent;
+        const {
+            user_id, title, category, descrip, img, location, pax, org_name, org_email,
+            org_phone, start_date, end_date, fares, e_status, tags} = newEvent;
+        
+        const data_values = [
+            user_id,
+            title || null,
+            category || null,
+            descrip,
+            img,
+            location || null,
+            pax || null,
+            org_name || null,
+            org_email || null,
+            org_phone || null,
+            start_date || null,
+            end_date || null,
+            fares || null,
+            e_status,
+            tags ? JSON.stringify(tags.split(',').map(tag => tag.trim())) : null
+        ];
+
         const sql_cmd = `INSERT INTO create_events (
-        title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, tags
+        user_id, title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, tags
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const data_values = [title, category, descrip, img, location, pax, org_name, org_email, org_phone, start_date, end_date, fares, e_status, JSON.stringify(tags || [])];
+        
         data_values.forEach((val, i) => {
             if (val === undefined) console.warn("🚨 Undefined at index", i);
         });

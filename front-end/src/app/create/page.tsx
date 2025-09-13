@@ -64,6 +64,7 @@ export default function CreateEventForm() {
     try {
       const res = await fetch("http://localhost:3000/api/v0.1/events/create",{
         method: "POST",
+        credentials: 'include',
         body: formDataToSend,
       });
       if (res.ok)
@@ -316,7 +317,7 @@ export default function CreateEventForm() {
             </span>
             <select
               id="status"
-              name="status"
+              name="e_status"
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
               style={{ backgroundColor: '#f6f6f6' }}

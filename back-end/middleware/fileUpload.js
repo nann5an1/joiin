@@ -18,6 +18,12 @@ const storage = multer.diskStorage({
     }
     })
 
-const upload = multer({ storage: storage })
+const upload = multer({ 
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit per file
+        fieldSize: 10 * 1024 * 1024, // 10MB limit for form fields
+    },
+})
 
 export const handleFileUpload = upload.single("image"); //
