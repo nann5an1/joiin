@@ -8,33 +8,21 @@ export default function upcomingeventsPage(){
     const [activities, setActivities] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    // async function authenticateUser() {
-    //     try {
-    //         const response = await fetch('http://localhost:3000/api/v0.1/', {
-    //             method: 'GET',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         });
-    //         if (response.ok) {
-    //             console.log("User authenticated successfully");
-    //         } else {
-    //             console.error("Authentication failed");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error during authentication:", error);
-    //     }
-    // }
 
     // const [allActivities, setAllActivities] =  useState(true);
     const [recent, setRecentActivities] = useState(false);
     const [nearest, setNearestActivites] = useState(false);
     const [popular, setPopActivities] = useState(false);
     const [free, setFreeActivities] = useState(false);
+
+    const [interestedId, setInterestedId] = useState<number | null>(null); //the event id to pass to the API
      useEffect(()=> {
         fetchActivities();
+        if(interestedId)
+            handleInterestedEvents(interestedId);
+            setInterestedId(null);
         }, 
-        [recent, nearest, popular, free]); //the array dependency list, if any of these values change, the useEffect is watching on them, it will run again
+        [recent, nearest, popular, free, interestedId]); //the array dependency list, if any of these values change, the useEffect is watching on them, it will run again
     async function fetchFromAPI(params: URLSearchParams){
         try { //fetch recent activites 2 created days from now and still active
             setLoading(true);
@@ -86,6 +74,35 @@ export default function upcomingeventsPage(){
         }
         fetchActivities();
     }
+
+    //this function will post/add the user's interested events
+    async function handleInterestedEvents(interestedId: number){
+        try {
+            const event_id = interestedId;
+            console.log("event id: ", event_id);
+
+            const param = new URLSearchParams();
+            param.append('event_id', event_id.toString()); // Will show: "event_id=17"
+            console.log("param: ", param);
+            const data = await fetch (`http://localhost:3000/api/v0.1/events/interested_events?${param}`,{
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            });
+            if (data.ok){
+                console.log("Favourites Data: ", data);
+            }
+            else{
+                console.log("Fail to add to favourites");
+            }
+        } catch (error) {
+            console.error("Error adding to favourites", error);
+        }
+        
+    }
+
     return(
         <div>
             {/* Filter List */}
@@ -103,9 +120,6 @@ export default function upcomingeventsPage(){
                                 />
                                 <label htmlFor="" className="pl-2">Recent Activites</label>
                             </div>
-                            {/* <div>
-
-                            </div> */}
                             <div>
                                 <input type="checkbox" 
                                 className='w-4 h-4 appearance-none border-2'
@@ -148,9 +162,6 @@ export default function upcomingeventsPage(){
                                {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
                             </div>
                             <div className='flex flex-row justify-end mr-4'>
-                                 {/* <span className="text-xs text-gray-500">
-                                    {new Date(event.start_date).toLocaleDateString()}
-                                </span> */}
                                 <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                     <span className="sr-only"> Quick look </span>
                                     <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -158,7 +169,9 @@ export default function upcomingeventsPage(){
                                         <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
                                     </svg>
                                 </button>
-                                <button type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-full p-2 hover:bg-gray-100 ">
+                                <button onClick={() => {
+                                    handleInterestedEvents(event.id);
+                                }} type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-full p-2 hover:bg-gray-100 ">
                                    <Heart color="#737373" size={24} strokeWidth={1.2} />
                                 </button>
                             </div>

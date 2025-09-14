@@ -57,6 +57,6 @@ export async function insertFormData(userId, data, file){
     } catch (error) {   
         console.log("oops something went wrong in model insertFormData");
         console.error("Model error in insertFormData:", error.message);
-        throw error;
+        // throw error;
     }
 }
