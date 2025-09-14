@@ -3,7 +3,7 @@
 'use client'
 
 import Sidebar from '../components/sideBar';
-import { Trash } from 'lucide-react';
+import { X } from 'lucide-react';
 import {useState, useEffect} from 'react';
 
 interface Event{
@@ -53,6 +53,29 @@ export default function InterestedEventsPage() {
        
     }
 
+    //delete interested event from the interested_events table
+    async function removefromInterested(event_id: string | number) {
+        console.log("event id to delete: ", event_id);
+        const param = new URLSearchParams();
+        param.append('event_id', event_id.toString()); //event_id=17
+        try {
+            const response = await fetch(`http://localhost:3000/api/v0.1/user/del_interested_event?${param}`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        getUserInterestedEvents(); //do i need to recall this back? since the page will refresh due to useEffect
+        if (response.ok){
+            console.log("Favourites Data Deleted: ", response);
+        }
+        } catch (error) {
+            console.log("Error deleting interested event: ", error);
+        }
+       
+    }
+
     return (
         <div>
             <Sidebar />
@@ -80,8 +103,10 @@ export default function InterestedEventsPage() {
                                         <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
                                     </svg>
                                 </button>
-                                <button type="button" data-tooltip-target="remove from favourites" className="rounded-full p-2 hover:bg-gray-100 ">
-                                   <Trash color="#737373" size={24} strokeWidth={1.2} />
+                                <button onClick={() => {
+                                    removefromInterested(event.id)
+                                }} type="button" data-tooltip-target="remove from favourites" className="rounded-full p-2 hover:bg-gray-100 ">
+                                   <X color="#737373" size={24} strokeWidth={1.2} />
                                 </button>
                             </div>
                             <div className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">

@@ -13,7 +13,7 @@ export async function getInterestedEvents(user_id) {
         
         const [results] = await pool.execute(query, [user_id]);
         
-        console.log("getInterestedEvents results:", results);
+        // console.log("getInterestedEvents results:", results);
         
         // Return empty array if no results
         if (results.length === 0) {

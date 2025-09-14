@@ -13,16 +13,16 @@ export default function upcomingeventsPage(){
     const [recent, setRecentActivities] = useState(false);
     const [nearest, setNearestActivites] = useState(false);
     const [popular, setPopActivities] = useState(false);
-    const [free, setFreeActivities] = useState(false);
+    const [free, setFreeActivities]  = useState(false);
+    // const [favourites, setFavourites] = useState(false);
+    // const [interested, setInterested] = useState<number | null>(null);
 
-    const [interestedId, setInterestedId] = useState<number | null>(null); //the event id to pass to the API
      useEffect(()=> {
         fetchActivities();
-        if(interestedId)
-            handleInterestedEvents(interestedId);
-            setInterestedId(null);
+        // if(favourites && interested != null) handleInterestedEvents(interested);
+        // setInterested(null);
         }, 
-        [recent, nearest, popular, free, interestedId]); //the array dependency list, if any of these values change, the useEffect is watching on them, it will run again
+        [recent, nearest, popular, free]); //the array dependency list, if any of these values change, the useEffect is watching on them, it will run again
     async function fetchFromAPI(params: URLSearchParams){
         try { //fetch recent activites 2 created days from now and still active
             setLoading(true);
@@ -169,11 +169,30 @@ export default function upcomingeventsPage(){
                                         <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
                                     </svg>
                                 </button>
-                                <button onClick={() => {
-                                    handleInterestedEvents(event.id);
-                                }} type="button" data-tooltip-target="tooltip-add-to-favorites" className="rounded-full p-2 hover:bg-gray-100 ">
-                                   <Heart color="#737373" size={24} strokeWidth={1.2} />
-                                </button>
+                                <label className="cursor-pointer">
+                                    <input 
+                                    type="checkbox"
+                                    onChange={() => {
+                                        handleInterestedEvents(event.id);
+                                        // if(!favourites){
+                                        //     setFavourites(true);
+                                        //     setInterested(event.id);
+                                        // }   
+                                        // else
+                                        //     setFavourites(false);
+                                    }}
+                                    className="sr-only" // Hide the actual checkbox
+                                    />
+                                    <div className="rounded-full p-2 hover:bg-gray-100">
+                                        <Heart 
+                                            // color={favourites ? "#ef4444" : "#737373"} // Red when favorited, gray when not
+                                            // fill={favourites ? "#ef4444" : "none"} // Filled when favorited
+                                            size={24} 
+                                            strokeWidth={1.2} 
+                                        />
+                                    </div>
+                                </label>
+                                
                             </div>
                             <div className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
                                 <p className="text-gray-900 text-xl font-bold">{event.title}</p>
