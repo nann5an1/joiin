@@ -1,4 +1,4 @@
-import { get } from "http";
+
 import {getInterestedEvents} from "../models/getInterestedEvents.js";
 
 export async function showInterestedEvents(req, res){

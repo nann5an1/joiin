@@ -3,8 +3,8 @@ import { createEvent } from "../controllers/handleCreateEvent.js"; //handleCreat
 import {signUpController} from "../controllers/userSignUpController.js";
 import {showAllEvents} from "../controllers/showAllEvents.js";
 import { handleFileUpload } from "../middleware/fileUpload.js";
-import { addInterestedEvents } from "../controllers/InterestedEventsController.js";
-import {addAttendingEvents} from "../controllers/attendingEventsController.js";
+import { addInterestedEvents } from "../controllers/postInterestedEventsController.js";
+import {addAttendingEvents} from "../controllers/postAttendingEventsController.js";
 import {authenticateToken} from "../middleware/authMiddleware.js";
 
 // import {authorizeRoles} from "../middleware/authorizeRole.js";

@@ -117,7 +117,7 @@ export default function upcomingeventsPage(){
             if(data.ok)
                 console.log("Join Event Data: ", data);
             else
-                console.log("Fail to join event");
+                console.log("Event has been added you attending list");
         } catch (error) {
              console.error("Error adding to join events", error);
         }

@@ -14,7 +14,7 @@ export async function showAllEvents(req, res) {
         // console.log("Response from recentActivitiesModel:", response);
         res.status(200).json(response);
     } catch (error) {
-        
+         res.status(500).json(error);
     }
     
 }

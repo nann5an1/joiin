@@ -1,9 +1,9 @@
-import {attendEventsModel} from '../models/attendEventsModel.js'
+import {attendEventsModel} from '../models/postAttendEventsModel.js'
 
 export async function addAttendingEvents(req, res) {
     try {
         const {event_id} = req.query;
-        console.log("event id in controller: ", event_id);
+        // console.log("event id in controller: ", event_id);
         const modelResponse = await attendEventsModel(req.user.id, event_id);
         res.status(200).json(modelResponse);
     } catch (error) {

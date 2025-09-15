@@ -1,9 +1,6 @@
 import pool from '../database/db.js';
 
 export async function postInterestedEventsModel(user_id, event_id) {
-    // const user_id = req.user.id;
-    // const event_id = req.query;
-
     try {
         const checkSql = `SELECT id FROM interested_events WHERE user_id = ? AND event_id = ?`;
         const [existing] = await pool.execute(checkSql, [user_id, event_id]);
