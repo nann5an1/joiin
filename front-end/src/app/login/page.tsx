@@ -6,6 +6,12 @@ import {useRouter} from 'next/navigation';
 
 export default function login(){
   const router = useRouter();
+  useEffect(() => {
+    // Prefetch the home page
+    router.prefetch('/');
+  }
+  , [router]);
+  
     const [loginInfo, setLoginInfo] = useState({
         email: '',
         password: '',

@@ -1,12 +1,16 @@
 'use client'
 
 import React from 'react';
+import {useRouter} from 'next/navigation';
 import {useState, useEffect} from 'react';
 import {Heart} from 'lucide-react';
 import { Plus } from 'lucide-react';
+import EventCard from '../components/eventCard';
 
 export default function upcomingeventsPage(){
+    const router = useRouter();
     const [activities, setActivities] = useState<any[]>([]);
+    const [detailedActivity, setDetailedActivity] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +41,6 @@ export default function upcomingeventsPage(){
                 },
             })
             const data = await response.json();
-            // const flat = data.flat(); //flatten the nested array into a single array
             console.log("Acitivities fetched:", data);
             setActivities(data);
         } catch (error: any) {
@@ -123,11 +126,20 @@ export default function upcomingeventsPage(){
         }
     }
 
+    //will retrieve the details of 'clicked' event
+    async function eventDetails(event_id: number){
+        try {
+            router.push(`/event_details?event_id=${event_id}`);
+        } catch (error) {
+            console.error("Error getting event details", error);
+        }
+    }
+
     return(
         <div>
             {/* Filter List */}
             <div className='p-10 grid grid-cols-4 grid-rows-4 w-full h-2/3'>
-                <div className='w-2/3 border-2 border-solid border-gray-200 text-gray-800 p-2'>
+                <div className='w-2/3 border-2 border-solid border-gray-200 text-gray-800 ml-8 p-4'>
                     <fieldset>
                         <legend className='text-xl font-bold'>Keywords</legend>
                         <div className='grid grid-col-1 justify-left align-center gap-2 p-4'>
@@ -168,81 +180,17 @@ export default function upcomingeventsPage(){
                          </div>
                     </fieldset>   
                 </div>
-                {/* Activities List */}
-                <div className='grid p-4 row-start-1 row-end-3 col-start-2 col-end-5'>
-                     {loading && <p>Loading activities...</p>}
-                     {error && <p className='text-red-500'>{error}</p>}
-                     {!error && !loading && activities.length == 0 && <p>No activities found</p>}
-                    <div className='grid grid-cols-3 grid-rows-1 gap-4 justify-start'>
-                        {activities.map((event) => (
-                        <div    
-                            key={event.id}
-                            className='w-full border-solid rounded-xl font-bodoni p-2 hover:shadow-xl'> 
-                            <div className='p-4 flex flex-row justify-center items-center w-full'>
-                               {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
-                            </div>
-                            <div className='flex flex-row justify-end mr-4'>
-                                {/* <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            
-                                </button> */}
-                                <label className="cursor-pointer">
-                                    <input 
-                                    type="checkbox"
-                                    onChange={() => {
-                                        handleInterestedEvents(event.id);
-                                        // if(!favourites){
-                                        //     setFavourites(true);
-                                        //     setInterested(event.id);
-                                        // }   
-                                        // else
-                                        //     setFavourites(false);
-                                    }}
-                                    className="sr-only" // Hide the actual checkbox
-                                    />
-                                    <div className="rounded-full p-2 hover:bg-gray-100">
-                                        <Heart 
-                                            // color={favourites ? "#ef4444" : "#737373"} // Red when favorited, gray when not
-                                            // fill={favourites ? "#ef4444" : "none"} // Filled when favorited
-                                            size={24} 
-                                            strokeWidth={1.2} 
-                                        />
-                                    </div>
-                                </label>
-                                 <label className="cursor-pointer">
-                                    <input 
-                                    type="button"
-                                    onClick={() => {
-                                        handleJoinEvent(event.id);
-                                    }}
-                                    className="sr-only" // Hide the actual checkbox
-                                    />
-                                    <div className="rounded-full p-2 hover:bg-gray-100">
-                                        <Plus 
-                                            // color={favourites ? "#ef4444" : "#737373"} // Red when favorited, gray when not
-                                            // fill={favourites ? "#ef4444" : "none"} // Filled when favorited
-                                            size={24} 
-                                            strokeWidth={1.2} 
-                                        />
-                                    </div>
-                                </label>
-                            </div>
-                            <div className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
-                                <p className="text-gray-900 text-xl font-bold">{event.title}</p>
-                                {/* <p className="text-gray-800">{event.descrip}</p> */}
-                                {/* <div className='flex flex-row justify-end col-gap-2'> */}
-                                <p className="text-gray-700">{event.start_date}</p>
-                                    {/* <p className="text-gray-800">{event.end_date}</p> */}
-                                {/* </div> */}
-                                <p className="text-gray-700">{event.location}</p>
-                                <p className="text-gray-800">{event.category}</p>
-                                {/* <p className="text-gray-800">{event.pax}</p> */}
-                                <p className="text-gray-800 text-lg font-semibold">{event.fares}</p>
-                            </div>
-                        </div>
-                        ))}
-                    </div>
-                </div>
-
+                
+                <EventCard 
+                activities={activities}
+                loading={loading}
+                error={error}
+                onActionInterested={(eventId: number) => handleInterestedEvents(eventId)}
+                onActionJoin={(eventId: number) => handleJoinEvent(eventId)}
+                onActionDetails={(eventId: number) => eventDetails(eventId)}
+                interestedIcon={<Heart color="#737373" size={24} strokeWidth={1.2} />}
+                joinIcon={<Plus color="#737373" size={24} strokeWidth={1.2} />}
+                />
             </div>
         </div>
     )

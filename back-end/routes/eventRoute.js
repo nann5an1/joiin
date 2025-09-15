@@ -2,6 +2,7 @@
 import { createEvent } from "../controllers/handleCreateEvent.js"; //handleCreateEvent from "../controllers/handleCreateEvent.js";
 import {signUpController} from "../controllers/userSignUpController.js";
 import {showAllEvents} from "../controllers/showAllEvents.js";
+import {showEventDetails} from "../controllers/showEventDetails.js";
 import { handleFileUpload } from "../middleware/fileUpload.js";
 import { addInterestedEvents } from "../controllers/postInterestedEventsController.js";
 import {addAttendingEvents} from "../controllers/postAttendingEventsController.js";
@@ -20,7 +21,7 @@ router.post("/interested_events", authenticateToken, addInterestedEvents);
 router.post("/join_events", authenticateToken, addAttendingEvents);
 
 router.get("/allevents", showAllEvents);
-
+router.get("/event_details", showEventDetails);
 
 // router.get("/yourevents", showCreatedEvents);
 // Add this to your routes for testing
