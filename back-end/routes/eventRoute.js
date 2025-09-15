@@ -1,12 +1,14 @@
 //eventRoute.js Router file
 import { createEvent } from "../controllers/handleCreateEvent.js"; //handleCreateEvent from "../controllers/handleCreateEvent.js";
-// import { showCreatedEvents } from "../controllers/showCreatedEvents.js";
 import {signUpController} from "../controllers/userSignUpController.js";
 import {showAllEvents} from "../controllers/showAllEvents.js";
 import { handleFileUpload } from "../middleware/fileUpload.js";
 import { addInterestedEvents } from "../controllers/InterestedEventsController.js";
+import {addAttendingEvents} from "../controllers/attendingEventsController.js";
 import {authenticateToken} from "../middleware/authMiddleware.js";
+
 // import {authorizeRoles} from "../middleware/authorizeRole.js";
+
 import { Router } from "express";
 const router = Router();
 
@@ -15,6 +17,7 @@ const router = Router();
 router.post("/create", authenticateToken, handleFileUpload, createEvent);  //after logging in and having the token access, need to authorize token
 router.post("/signup", signUpController);
 router.post("/interested_events", authenticateToken, addInterestedEvents);
+router.post("/join_events", authenticateToken, addAttendingEvents);
 
 router.get("/allevents", showAllEvents);
 

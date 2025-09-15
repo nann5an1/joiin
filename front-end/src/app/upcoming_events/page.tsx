@@ -3,6 +3,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import {Heart} from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 export default function upcomingeventsPage(){
     const [activities, setActivities] = useState<any[]>([]);
@@ -78,11 +79,10 @@ export default function upcomingeventsPage(){
     //this function will post/add the user's interested events
     async function handleInterestedEvents(interestedId: number){
         try {
-            const event_id = interestedId;
-            console.log("event id: ", event_id);
+            // console.log("event id: ", event_id);
 
             const param = new URLSearchParams();
-            param.append('event_id', event_id.toString()); // Will show: "event_id=17"
+            param.append('event_id', interestedId.toString()); // Will show: "event_id=17"
             console.log("param: ", param);
             const data = await fetch (`http://localhost:3000/api/v0.1/events/interested_events?${param}`,{
             method: 'POST',
@@ -100,7 +100,27 @@ export default function upcomingeventsPage(){
         } catch (error) {
             console.error("Error adding to favourites", error);
         }
-        
+    }
+
+    async function handleJoinEvent(event_id: number){
+        try {
+            console.log("event id: ", event_id);
+            const param = new URLSearchParams();
+            param.append('event_id', event_id.toString());   //event_id=17
+            const data = await fetch(`http://localhost:3000/api/v0.1/events/join_events?${param}`,{
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            });
+            if(data.ok)
+                console.log("Join Event Data: ", data);
+            else
+                console.log("Fail to join event");
+        } catch (error) {
+             console.error("Error adding to join events", error);
+        }
     }
 
     return(
@@ -162,13 +182,9 @@ export default function upcomingeventsPage(){
                                {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
                             </div>
                             <div className='flex flex-row justify-end mr-4'>
-                                <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <span className="sr-only"> Quick look </span>
-                                    <svg className="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        {/* <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                                        <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /> */}
-                                    </svg>
-                                </button>
+                                {/* <button type="button" data-tooltip-target="tooltip-quick-look" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            
+                                </button> */}
                                 <label className="cursor-pointer">
                                     <input 
                                     type="checkbox"
@@ -192,7 +208,23 @@ export default function upcomingeventsPage(){
                                         />
                                     </div>
                                 </label>
-                                
+                                 <label className="cursor-pointer">
+                                    <input 
+                                    type="button"
+                                    onClick={() => {
+                                        handleJoinEvent(event.id);
+                                    }}
+                                    className="sr-only" // Hide the actual checkbox
+                                    />
+                                    <div className="rounded-full p-2 hover:bg-gray-100">
+                                        <Plus 
+                                            // color={favourites ? "#ef4444" : "#737373"} // Red when favorited, gray when not
+                                            // fill={favourites ? "#ef4444" : "none"} // Filled when favorited
+                                            size={24} 
+                                            strokeWidth={1.2} 
+                                        />
+                                    </div>
+                                </label>
                             </div>
                             <div className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
                                 <p className="text-gray-900 text-xl font-bold">{event.title}</p>
