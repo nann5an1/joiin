@@ -1,5 +1,10 @@
 'use client'
 
+import {Badge} from "@/components/ui/badge"
+import {Separator} from "@/components/ui/separator"
+import {Card, CardTitle} from "@/components/ui/card"
+import { MapPin, Calendar, Users, Clock, Ticket } from "lucide-react";
+
 export default function EventCard({
   activities, 
   loading, 
@@ -22,58 +27,108 @@ export default function EventCard({
             {!error && !loading && activities.length === 0 && <p>No activities found</p>}
             
             <div className='grid grid-cols-3 grid-rows-1 gap-4 justify-start'>
-                {activities.map((event: any) => (
-                <div    
-                    key={event.id}
-                    className='w-full border-solid rounded-xl font-bodoni p-2 hover:shadow-xl'>
-                    
-                    <div className='p-4 flex flex-row justify-center items-center w-full'>
-                       {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
-                    </div>
-                    
-                    <div className='flex flex-row justify-end mr-4'>
-                        {onActionInterested && (
-                            <button 
-                                onClick={() => onActionInterested(event.id)} 
-                                type="button" 
-                                data-tooltip-target={actionTooltip} 
-                                className="rounded-full p-2 hover:bg-gray-100"
-                            >
-                                {interestedIcon}
-                            </button>
-                        )}
-                        {onActionJoin && (
-                            <button 
-                                onClick={() => onActionJoin(event.id)} 
-                                type="button" 
-                                data-tooltip-target={actionTooltip} 
-                                className="rounded-full p-2 hover:bg-gray-100"
-                            >
-                                {joinIcon}
-                            </button>
-                        )}
-                        {/* Action Button - only show if onActionClick is provided */}
-                        {onActionClick && (
-                            <button 
-                                onClick={() => onActionClick(event.id)} 
-                                type="button" 
-                                data-tooltip-target={actionTooltip} 
-                                className="rounded-full p-2 hover:bg-gray-100"
-                            >
-                                {actionIcon}
-                            </button>
-                        )}
-                    </div>
-                        <div onClick={() => onActionDetails?.(event.id)}
-                        className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
-                            <p className="text-gray-900 text-xl font-bold">{event.title}</p>
-                            <p className="text-gray-700">{event.start_date}</p>
-                            <p className="text-gray-700">{event.location}</p>
-                            <p className="text-gray-800">{event.category}</p>
-                            <p className="text-gray-800 text-lg font-semibold">{event.fares}</p>
+                {/* <Card> */}
+                    {activities.map((event: any) => (
+                    <div    
+                        key={event.id}
+                        className='w-full border-solid rounded-xl font-bodoni p-2 hover:shadow-xl'>
+                        
+                        <div className='p-4 flex flex-row justify-center items-center w-full'>
+                        {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
                         </div>
-                </div>
-                ))}
+                        
+                        <div className="flex flex-row justify-start items-center">
+                            <Badge variant="secondary" className="ml-4 mr-40 bg-white/90 text-primary">
+                                {event.category}
+                            </Badge>
+                            <div className='flex flex-row justify-end mr-4'>
+                                {onActionInterested && (
+                                    <button 
+                                        onClick={() => onActionInterested(event.id)} 
+                                        type="button" 
+                                        data-tooltip-target={actionTooltip} 
+                                        className="rounded-full p-2 hover:bg-gray-100"
+                                    >
+                                        {interestedIcon}
+                                    </button>
+                                )}
+                                {onActionJoin && (
+                                    <button 
+                                        onClick={() => onActionJoin(event.id)} 
+                                        type="button" 
+                                        data-tooltip-target={actionTooltip} 
+                                        className="rounded-full p-2 hover:bg-gray-100"
+                                    >
+                                        {joinIcon}
+                                    </button>
+                                )}
+                                {/* Action Button - only show if onActionClick is provided */}
+                                {onActionClick && (
+                                    <button 
+                                        onClick={() => onActionClick(event.id)} 
+                                        type="button" 
+                                        data-tooltip-target={actionTooltip} 
+                                        className="rounded-full p-2 hover:bg-gray-100"
+                                    >
+                                        {actionIcon}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                            <div onClick={() => onActionDetails?.(event.id)}
+                            className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
+                                <CardTitle>
+                                    <p className="text-gray-900 text-xl font-bold">{event.title}</p>
+                                </CardTitle>
+                                
+                                <div className="grid grid-cols-10 text-gray-700">
+                                    <div className="col-start-1 justify-items-center">
+                                        <MapPin className="h-4 w-4"/>
+                                    </div>
+                                    <div className="col-start-2 col-span-9">
+                                        {event.location}
+                                    </div>          
+                                </div>
+                                <div className="grid grid-cols-10 text-gray-700">
+                                    <div className="col-start-1 justify-items-center">
+                                        <Calendar className="h-4 w-4"/>
+                                    </div>
+                                    <div className="col-start-2 col-span-9">
+                                        {event.start_date}
+                                    </div>    
+                                </div>
+
+                                <div className="grid grid-cols-10 text-gray-700">
+                                    <div className="col-start-1 justify-items-center">
+                                        <Clock className="h-4 w-4"/>
+                                    </div>
+                                    <div className="col-start-2 col-span-9">
+                                        {event.start_date}
+                                    </div>    
+                                </div>
+                                
+                                <div className="grid grid-cols-10 text-gray-700">
+                                    <div className="col-start-1 justify-items-center">
+                                        <Users className="h-4 w-4"/>
+                                    </div>
+                                    <div className="col-start-2 col-span-9">
+                                        {event.pax} participants
+                                    </div>    
+                                </div>
+                                <Separator />
+                                <div className="grid grid-cols-10"> 
+                                    <div className="col-start-1">
+                                        <Ticket className="h-4 w-4 mr-2"/>Ticket
+                                    </div>
+                                    <div className="col-start-3 col-span-5">
+                                        <Badge variant="secondary">$ {event.fares}</Badge>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    </div>
+                    ))}
+                {/* </Card> */}
             </div>
         </div>
         </>

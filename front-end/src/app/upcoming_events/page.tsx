@@ -1,11 +1,12 @@
 'use client'
 
 import React from 'react';
-import {useRouter} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 import {useState, useEffect} from 'react';
 import {Heart} from 'lucide-react';
 import { Plus } from 'lucide-react';
 import EventCard from '../components/eventCard';
+
 
 export default function upcomingeventsPage(){
     const router = useRouter();
@@ -19,13 +20,19 @@ export default function upcomingeventsPage(){
     const [nearest, setNearestActivites] = useState(false);
     const [popular, setPopActivities] = useState(false);
     const [free, setFreeActivities]  = useState(false);
+    // const [hasEventId, setEventId] = useState(false);
     // const [favourites, setFavourites] = useState(false);
     // const [interested, setInterested] = useState<number | null>(null);
-
-     useEffect(()=> {
+    
+    const parsed_eventId = useSearchParams().get('event_id') as string; //retrieve the event_id coming from the home page
+    if(parsed_eventId != null){
+        if(useSearchParams().get('interested') == 'true') handleInterestedEvents(parseInt(parsed_eventId));
+        else if(useSearchParams().get('join_events') == 'true') handleJoinEvent(parseInt(parsed_eventId));
+        else if(useSearchParams().get('event_details') == 'true') eventDetails(parseInt(parsed_eventId));
+    }
+    
+    useEffect(()=> {
         fetchActivities();
-        // if(favourites && interested != null) handleInterestedEvents(interested);
-        // setInterested(null);
         }, 
         [recent, nearest, popular, free]); //the array dependency list, if any of these values change, the useEffect is watching on them, it will run again
     async function fetchFromAPI(params: URLSearchParams){
@@ -132,6 +139,14 @@ export default function upcomingeventsPage(){
             router.push(`/event_details?event_id=${event_id}`);
         } catch (error) {
             console.error("Error getting event details", error);
+        }
+    }
+
+    async function comesFromHomePage(){
+        try {
+            
+        } catch (error) {
+            
         }
     }
 

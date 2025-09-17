@@ -1,12 +1,20 @@
 'use client';
 
-import { cn } from "@/lib/utils";
-import { Marquee } from "@/components/magicui/marquee";
-import Image from "next/image";
 import {useEffect} from 'react';
 import {useRouter} from 'next/navigation';
 import SplitText from "@/components/reactbits/splittext";
+import {Separator} from "@/components/ui/separator";
+import { HowItWorksSection } from "./components/HowItWorksSection";
+import {FeaturesSection} from "./components/FeatureSection";
+import { Card, CardTitle, CardDescription,CardHeader, CardFooter, CardAction, CardContent } from "@/components/ui/card";
+import {FeaturedEventsSection} from './components/FeaturedEvents';
+import EventCard from './components/eventCard';
+
 import { Handshake } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { Marquee } from "@/components/magicui/marquee";
+import Image from "next/image";
+
 
 
 export const dynamic = "force-dynamic";
@@ -17,11 +25,18 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     router.refresh();
-  }, [])
+  }, []);
+
+  async function handleFeaturedEvents(){
+    router.push("/featured_events");
+  }
+
+
+
  return ( 
    <div className="min-h-screen flex flex-col items-center">
    {/*Hero section */}
-    <section className="w-full shadow-xl/20 flex justify-center bg-gradient-to-b from-[var(--foreground)] from-40% via-[var(--foreground-secondary)] via-70% to-[var(--foreground-tertiary)] to-100% rounded-xl ">
+    <section className="w-full shadow-xl/20 flex justify-center bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl ">
         <div className=" grid mx-auto max-w-screen-md lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12">
             <div className="place-self-center mr-auto lg:col-span-7">
                 <h1 className="mb-4 max-w-2xl text-4xl text-[var(--section)] font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Bring your game. Find your people.</h1>
@@ -63,10 +78,20 @@ export default function Home() {
         </div>
     </section>
 
+    <Separator />
     <section>
         <h3>Featured Events</h3>
-        
+        <FeaturedEventsSection/>
     </section>
+
+    <section>
+        <HowItWorksSection />
+    </section>
+    
+    <section>
+        <FeaturesSection />
+    </section>
+
     {/* <section className="my-auto border-solid border-2 border-[var(--foreground)] align-center mx-auto max-w-screen-xl lg:py-16 rounded-md">
         <h2 className="flex justify-center align-center text-4xl font-extrabold p-16 text-[var(--section)]">Looking for</h2>
         <div className="w-screen-full mx-16 pb-16 flex flex-wrap justify-between align-center font-semibold text-2xl font-[var(--section)]">
