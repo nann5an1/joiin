@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@subframe/core": "^1.143.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flowbite": "^3.1.2",
+    "framer-motion": "^12.23.15",
     "gsap": "^3.13.0",
     "lucide": "^0.525.0",
     "lucide-react": "^0.523.0",

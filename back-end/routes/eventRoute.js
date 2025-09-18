@@ -7,6 +7,7 @@ import { handleFileUpload } from "../middleware/fileUpload.js";
 import { addInterestedEvents } from "../controllers/postInterestedEventsController.js";
 import {addAttendingEvents} from "../controllers/postAttendingEventsController.js";
 import {authenticateToken} from "../middleware/authMiddleware.js";
+import {postFeaturedEventsController} from "../controllers/postFeaturedEventsController.js";
 
 // import {authorizeRoles} from "../middleware/authorizeRole.js";
 
@@ -18,19 +19,12 @@ const router = Router();
 router.post("/create", authenticateToken, handleFileUpload, createEvent);  //after logging in and having the token access, need to authorize token
 router.post("/signup", signUpController);
 router.post("/interested_events", authenticateToken, addInterestedEvents);
-router.post("/join_events", authenticateToken, addAttendingEvents);
+router.post("/join_events", authenticateToken, addAttendingEvents); //need to update the joining counter
+router.post("/post_featured_events", postFeaturedEventsController); //don't need the frontend since will trigger from the vercel.json
 
 router.get("/allevents", showAllEvents);
 router.get("/event_details", showEventDetails);
+// router.get("/featured_events", featured_events); //get the details of the featured events which are set as bool_featured = true
 
-// router.get("/yourevents", showCreatedEvents);
-// Add this to your routes for testing
-// router.get("/test-auth", authenticateToken, (req, res) => {
-//     res.json({ 
-//         message: "Authentication successful!", 
-//         user: req.user,
-//         cookies: req.cookies 
-//     });
-// });
 
 export default router;

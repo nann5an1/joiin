@@ -44,10 +44,6 @@ export function HowItWorksSection() {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
             Get your sports event up and running in four simple steps
           </p>
-          <Button variant="outline" className="mb-8">
-            <Play className="mr-2 h-4 w-4" />
-            Watch 2-minute Demo
-          </Button>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">

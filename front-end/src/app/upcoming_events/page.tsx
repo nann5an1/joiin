@@ -126,8 +126,9 @@ export default function upcomingeventsPage(){
             });
             if(data.ok)
                 console.log("Join Event Data: ", data);
-            else
-                console.log("Event has been added you attending list");
+            else {
+                console.log("HTTP request failed:", data.status, data.statusText);
+            }
         } catch (error) {
              console.error("Error adding to join events", error);
         }
@@ -201,7 +202,10 @@ export default function upcomingeventsPage(){
                 loading={loading}
                 error={error}
                 onActionInterested={(eventId: number) => handleInterestedEvents(eventId)}
-                onActionJoin={(eventId: number) => handleJoinEvent(eventId)}
+                onActionJoin={
+                    (eventId: number) => handleJoinEvent(eventId)
+
+                }
                 onActionDetails={(eventId: number) => eventDetails(eventId)}
                 interestedIcon={<Heart color="#737373" size={24} strokeWidth={1.2} />}
                 joinIcon={<Plus color="#737373" size={24} strokeWidth={1.2} />}

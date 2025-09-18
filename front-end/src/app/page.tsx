@@ -6,6 +6,9 @@ import SplitText from "@/components/reactbits/splittext";
 import {Separator} from "@/components/ui/separator";
 import { HowItWorksSection } from "./components/HowItWorksSection";
 import {FeaturesSection} from "./components/FeatureSection";
+import {CategorySection} from "./components/CategorySection";
+import {TestimonialsSection} from "./components/TestimonialSection";
+import { CTASection } from "./components/CTASection";
 import { Card, CardTitle, CardDescription,CardHeader, CardFooter, CardAction, CardContent } from "@/components/ui/card";
 import {FeaturedEventsSection} from './components/FeaturedEvents';
 import EventCard from './components/eventCard';
@@ -27,14 +30,9 @@ export default function Home() {
     router.refresh();
   }, []);
 
-  async function handleFeaturedEvents(){
-    router.push("/featured_events");
-  }
-
-
 
  return ( 
-   <div className="min-h-screen flex flex-col items-center">
+   <div className="min-h-screen flex flex-col">
    {/*Hero section */}
     <section className="w-full shadow-xl/20 flex justify-center bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl ">
         <div className=" grid mx-auto max-w-screen-md lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12">
@@ -54,43 +52,28 @@ export default function Home() {
     </section>
 
     {/*Cateogory section */}
-    <section className="grid grid-cols-14 justify-center items-center col-gap-4 mt-16">
-        <div className="w-20 h-20 col-start-1 col-end-2 bg-gray-200 rounded-xl justify-center p-4 hover:bg-[var(--foreground)]">
-            <img className="w-full " src="hiking.svg" alt="" />
-        </div>
-         <div className="w-20 h-20 col-start-3 col-end-4 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="pool.svg" alt="" />
-        </div>
-         <div className="w-20 h-20 col-start-5 col-end-6 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="bike.svg" alt="" />
-        </div>
-         <div className="w-20 h-20 col-start-7 col-end-8 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="badminton.svg" alt="" />
-        </div>
-         <div className="w-20 h-20 col-start-9 col-end-10 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="scuba_diving.svg" alt="" />
-        </div>
-         <div className="w-20 h-20 col-start-11 col-end-12 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="yoga.svg" alt="" />
-        </div>
-         <div className="w-20 h-20 col-start-13 col-end-14 bg-gray-200 rounded-xl justify-center p-4">
-            <img className="w-full" src="camping.svg" alt="" />
-        </div>
-    </section>
+    <div className="container mx-auto py-8">
+        <h1 className="text-center mb-8">Activity Categories</h1>
+        <CategorySection />
+    </div>
+    
 
     <Separator />
     <section>
         <h3>Featured Events</h3>
-        <FeaturedEventsSection/>
-    </section>
-
-    <section>
-        <HowItWorksSection />
+        {/* <FeaturedEventsSection/> */}
     </section>
     
     <section>
         <FeaturesSection />
     </section>
+
+     <section>
+        <HowItWorksSection />
+    </section>
+
+    <TestimonialsSection />
+    <CTASection />
 
     {/* <section className="my-auto border-solid border-2 border-[var(--foreground)] align-center mx-auto max-w-screen-xl lg:py-16 rounded-md">
         <h2 className="flex justify-center align-center text-4xl font-extrabold p-16 text-[var(--section)]">Looking for</h2>
