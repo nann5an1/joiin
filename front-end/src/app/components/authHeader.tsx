@@ -14,7 +14,7 @@ export const AuthHeader = () => {
     if (e.key === 'Enter' && inputVal.trim()) {
       console.log('Searching for:', inputVal);
       // Navigate to upcoming events with search parameter
-      // router.push(`/upcoming_events?search=${encodeURIComponent(inputVal.trim())}`);
+      router.push(`/upcoming_events?search=${inputVal.trim()}`);
     }
   };
 
