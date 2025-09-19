@@ -13,21 +13,20 @@ export async function postFeaturedEventsModel() {
             UPDATE audience_count ac
             JOIN create_events ce ON ac.event_id = ce.id
             SET ac.bool_featured = CASE 
-                WHEN ce.pax > 0 AND (ac.current_count / ce.pax) >= 0.25 THEN 1
+                WHEN ce.pax > 0 AND (ac.current_count / ce.pax * 1.0) >= 0.25 THEN 1
                 ELSE 0
             END
         `;
-        
+    
         const [result] = await connection.execute(updateAllFeaturedSql);
         console.log(`✅ Featured status updated for ${result.affectedRows} events`);
-        
+        // console.log("affected bool featured: ", result.affectedRows);
         await connection.commit();
         
         return {
             success: true,
             message: "Featured events calculation completed",
-            affectedRows: result.affectedRows,
-            summary: summary[0]
+            affectedRows: result.affectedRows
         };
         
     } catch (error) {

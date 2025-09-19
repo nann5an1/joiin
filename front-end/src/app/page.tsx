@@ -34,7 +34,7 @@ export default function Home() {
  return ( 
    <div className="min-h-screen flex flex-col">
    {/*Hero section */}
-    <section className="w-full shadow-xl/20 flex justify-center bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl ">
+    <section className="w-full shadow-xl/20 flex justify-center bg-gradient-to-br from-indigo-500 to-indigo-100 rounded-xl ">
         <div className=" grid mx-auto max-w-screen-md lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12">
             <div className="place-self-center mr-auto lg:col-span-7">
                 <h1 className="mb-4 max-w-2xl text-4xl text-[var(--section)] font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Bring your game. Find your people.</h1>
@@ -53,7 +53,6 @@ export default function Home() {
 
     {/*Cateogory section */}
     <div className="container mx-auto py-8">
-        <h1 className="text-center mb-8">Activity Categories</h1>
         <CategorySection />
     </div>
     

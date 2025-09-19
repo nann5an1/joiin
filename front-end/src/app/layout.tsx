@@ -46,9 +46,7 @@ export default async function RootLayout({
       <head>
         {/* <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> */}
       </head>
-      <body
-        className={` ${bodoni.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} ${bodoni.variable} antialiased`}>
        
        {isAuthenticated ? <AuthHeader/> : <UnauthHeader />}
         {children}

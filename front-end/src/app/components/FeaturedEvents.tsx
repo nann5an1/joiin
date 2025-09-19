@@ -24,10 +24,31 @@ export  function FeaturedEventsSection(){
     const [error, setError] = useState<string | null>(null);
     const [activities, setActivities] = useState<Event[]>([]);
     useEffect(()=> {
+        // postFeaturedEventsController();
         fetchFeaturedEvents();
     }, []);
 
     const router = useRouter();
+
+    //the post is for testing for the localhost only
+    async function postFeaturedEventsController() {
+        try {
+            const data = await fetch("http://localhost:3000/api/v0.1/events/post_featured_events", {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if(data.ok){
+                console.log("postFeaturedEventsController data: ", data);
+                setLoading(false);
+            }
+        } catch (error) {
+            setError("Failed to fetch results for the featured events.");
+        }
+    }
+
     async function fetchFeaturedEvents() {
         try {
              const data = await fetch("http://localhost:3000/api/v0.1/events/featured_events", {
@@ -65,6 +86,7 @@ export  function FeaturedEventsSection(){
 
     return (
         <>
+            <button onClick={() => postFeaturedEventsController()}></button>
             <EventCard 
                 activities={activities}
                 loading={loading}

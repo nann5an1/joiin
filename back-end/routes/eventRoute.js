@@ -8,6 +8,7 @@ import { addInterestedEvents } from "../controllers/postInterestedEventsControll
 import {addAttendingEvents} from "../controllers/postAttendingEventsController.js";
 import {authenticateToken} from "../middleware/authMiddleware.js";
 import {postFeaturedEventsController} from "../controllers/postFeaturedEventsController.js";
+import {showFeaturedEventsController} from "../controllers/showFeaturedEventsController.js";
 
 // import {authorizeRoles} from "../middleware/authorizeRole.js";
 
@@ -24,7 +25,7 @@ router.post("/post_featured_events", postFeaturedEventsController); //don't need
 
 router.get("/allevents", showAllEvents);
 router.get("/event_details", showEventDetails);
-// router.get("/featured_events", featured_events); //get the details of the featured events which are set as bool_featured = true
+router.get("/featured_events", showFeaturedEventsController); //get the details of the featured events which are set as bool_featured = true
 
 
 export default router;

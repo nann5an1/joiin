@@ -43,7 +43,7 @@ export const UnauthHeader = () => {
           <div className="flex flex-row col-start-4 justify-right items-center font-semibold">
               <Link href="/create" className="mr-8 font-medium block py-2 px-3  rounded  md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Create Events</Link>
               <Link href="/upcoming_events" className="mr-8 font-medium block py-2 px-3 rounded hover:bg-gray-900 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Upcoming Events</Link>
-              <Link href="/yourevents" className="mr-8 font-medium block py-2 px-3rounded hover:bg-gray-900 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Your Events</Link>     
+              {/* <Link href="/yourevents" className="mr-8 font-medium block py-2 px-3rounded hover:bg-gray-900 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Your Events</Link>      */}
               <Link href="/login" className="mr-8 font-medium block py-2 px-3  rounded hover:bg-gray-900 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Login</Link>                         
               <Link href="/sign_up" className="mr-8 font-medium block py-2 px-3  rounded hover:bg-gray-109000 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Sign Up</Link>  
           </div>

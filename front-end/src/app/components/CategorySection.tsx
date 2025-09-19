@@ -35,17 +35,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const categories = [
   { name: "Hiking", icon: "hiking.svg" },
-  { name: "Swimming", icon: "🏊" },
-  { name: "Cycling", icon: "🚴" },
-  { name: "Badminton", icon: "🏸" },
-  { name: "Scuba Diving", icon: "🤿" },
-  { name: "Yoga", icon: "🧘" },
-  { name: "Camping", icon: "🏕️" },
-  { name: "Rock Climbing", icon: "🧗" },
-  { name: "Surfing", icon: "🏄" },
-  { name: "Tennis", icon: "🎾" },
-  { name: "Running", icon: "🏃" },
-  { name: "Golf", icon: "⛳" }
+  { name: "Running", icon: "running.svg" },
+  { name: "Swimming", icon: "pool.svg" },
+  { name: "Cycling", icon: "bike.svg" },
+  { name: "Badminton", icon: "badminton.svg" },
+  { name: "Yoga", icon: "yoga.svg" },
+  { name: "Camping", icon: "camping.svg" },
+  { name: "Pickleball", icon: "pickleball.svg" },
+  { name: "VolleyBall", icon: "volleyball.svg" },
+  { name: "Basketball", icon: "basketball.svg" },
+  { name: "Football", icon: "football.svg" },
+  { name: "Tennis", icon: "tennis.svg" }
+
 ];
 
 export function CategorySection() {
@@ -135,7 +136,7 @@ export function CategorySection() {
         {/* Navigation Buttons */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110 dark:bg-black/90 dark:hover:bg-black"
+          className="border-none absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110 dark:bg-black/90 dark:hover:bg-black"
           aria-label="Previous category"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -143,7 +144,7 @@ export function CategorySection() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110 dark:bg-black/90 dark:hover:bg-black"
+          className="border-none absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-2 transition-all duration-200 hover:scale-110 dark:bg-black/90 dark:hover:bg-black"
           aria-label="Next category"
         >
           <ChevronRight className="h-5 w-5" />
