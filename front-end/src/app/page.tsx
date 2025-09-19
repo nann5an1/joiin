@@ -17,6 +17,7 @@ import { Handshake } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
 import Image from "next/image";
+import Spline from '@splinetool/react-spline';
 
 
 
@@ -37,6 +38,7 @@ export default function Home() {
     <section className="w-full shadow-xl/20 flex justify-center bg-gradient-to-br from-indigo-500 to-indigo-100 rounded-xl ">
         <div className=" grid mx-auto max-w-screen-md lg:gap-8 xl:gap-0 lg:py-8 lg:grid-cols-12">
             <div className="place-self-center mr-auto lg:col-span-7">
+                {/* <Spline scene="https://prod.spline.design/QPv1soOSfZAdPaXB/scene.splinecode" /> */}
                 <h1 className="mb-4 max-w-2xl text-4xl text-[var(--section)] font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Bring your game. Find your people.</h1>
                 <p className="mb-6 max-w-2xl font-light text-gray-900 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Need a sport buddy? From quick pick-ups to full leagues, Joiin helps players find teammates, fill spots, and keep the game going strong.</p>
                 <a href="#" className="inline-flex justify-center items-center py-3 px-5 mr-3 text-base font-medium text-center text-gray-900 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">

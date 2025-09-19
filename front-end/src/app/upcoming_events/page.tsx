@@ -11,7 +11,8 @@ import EventCard from '../components/eventCard';
 export default function upcomingeventsPage(){
     const router = useRouter();
     const [activities, setActivities] = useState<any[]>([]);
-    const [detailedActivity, setDetailedActivity] = useState<any>(null);
+    const [searchedActivities, setSearchedActivities] = useState<any[]>([]);
+    // const [detailedActivity, setDetailedActivity] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -30,6 +31,10 @@ export default function upcomingeventsPage(){
         else if(useSearchParams().get('join_events') == 'true') handleJoinEvent(parseInt(parsed_eventId));
         else if(useSearchParams().get('event_details') == 'true') eventDetails(parseInt(parsed_eventId));
     }
+
+    const searchString = useSearchParams().get('search'); //trimmed word ("hello world")
+    console.log("Frontend search string: ", searchString);
+    if(searchString != null) handleSearch(searchString);
     
     useEffect(()=> {
         fetchActivities();
@@ -143,11 +148,18 @@ export default function upcomingeventsPage(){
         }
     }
 
-    async function comesFromHomePage(){
-        try {
-            
-        } catch (error) {
-            
+    async function handleSearch(searchString: string){
+        const data = await fetch(`http://localhost:3000/api/v0.1/events/search_events?${searchString}`, {
+            method: 'GET',
+            credentials: 'include',   
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if(data.ok){
+            const response = await data.json();
+            console.log("Search Data: ", response);
+            setActivities(response); //return the searched activities from the search bar
         }
     }
 
