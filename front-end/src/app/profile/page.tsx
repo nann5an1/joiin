@@ -1,22 +1,23 @@
 "use client";
 
 import React from "react";
-import { SettingsMenu } from "@/ui/components/SettingsMenu";
-import { FeatherLock } from "@subframe/core";
-import { FeatherBellRing } from "@subframe/core";
-import { FeatherCreditCard } from "@subframe/core";
-import { FeatherShapes } from "@subframe/core";
-import { FeatherUsers } from "@subframe/core";
-import { Button } from "@/components/ui/button";
-import { FeatherUpload } from "@subframe/core";
-import { TextArea } from "@/components/ui/textarea";
-import { Alert } from "@/components/ui/alert";
+import { ProfilePage } from "../components/ProfilePage";
+// import { SettingsMenu } from "@/ui/components/SettingsMenu";
+// import { FeatherLock } from "@subframe/core";
+// import { FeatherBellRing } from "@subframe/core";
+// import { FeatherCreditCard } from "@subframe/core";
+// import { FeatherShapes } from "@subframe/core";
+// import { FeatherUsers } from "@subframe/core";
+// import { Button } from "@/components/ui/button";
+// import { FeatherUpload } from "@subframe/core";
+// import { TextArea } from "@/components/ui/textarea";
+// import { Alert } from "@/components/ui/alert";
 
 function AccountSettings() {
   return (
-    <div>
-      
-    </div>
+    <>
+      <ProfilePage />
+    </>
   );
 }
 
