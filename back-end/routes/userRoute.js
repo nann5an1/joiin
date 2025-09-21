@@ -8,17 +8,23 @@ import {showInterestedEvents} from "../controllers/showInterestedEventsControlle
 import {removeInterestedEvents} from "../controllers/delInterestedEventsController.js"
 import {removeAttendingEvents} from "../controllers/delAttendingEventsController.js"
 import {showAttendingEvents} from "../controllers/showAttendingEventsController.js"
+import {setMFAController} from "../controllers/setMFAController.js"
+import {isEnabledMFA} from "../controllers/isEnabledMFAController.js"
+import {verifyMFA} from "../controllers/verifyMFAController.js"
 
 const router = express.Router();
 
 router.post("/signup", signUpController);
-router.post("/login", loginController);
+router.post("/login",loginController); //verify the MFA if user has MFA enabled
 router.post("/logout", logoutController);
+router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
 
 //user as an organizer getting his created events
 router.get("/created_events", authenticateToken ,organizerCreatedEvents);
 router.get("/interested_events", authenticateToken , showInterestedEvents);
 router.get("/attend_events", authenticateToken , showAttendingEvents);
+router.get("/isEnabledMFA", authenticateToken, isEnabledMFA);
+router.get("/verifyMFA", verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
 
 
 router.delete("/del_interested_event", authenticateToken, removeInterestedEvents);

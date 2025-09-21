@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import {useRouter} from "next/navigation";
 import { 
   User, 
   Settings, 
@@ -42,6 +43,33 @@ export function ProfilePage() {
     showPhone: false,
     allowMessages: true
   });
+
+  const router = useRouter();
+  async function setMFA(){
+      try {
+        const data = await fetch('http://localhost:3000/api/v0.1/user/setMFA', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // ✅ important: include cookies so will include the user id
+        });
+      if(data.ok) { //get the url for the qr code
+        console.log("data", data);
+        // console.log("MFA passed", data);
+        const data_json = await data.json();
+        // console.log("urlQR: ", urlQR);
+        const urlQR = data_json.qrCode;
+        console.log("urlQR: ", urlQR);
+
+        const manualEntryKey = data_json.manualEntryKey;
+        console.log("manualEntryKey: ", manualEntryKey);
+        //url is only needed for prior setup before the user can use MFA
+        router.push(`/showURLimg?urlQR=${urlQR}?manual=${manualEntryKey}`); //re-route the user to show the QR code
+      }
+      else console.log("MFA failed", data);
+      } catch (error) {
+        console.error("Error authenticating MFA", error);
+      }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -360,7 +388,7 @@ export function ProfilePage() {
                     <p className="text-sm text-gray-600 mb-4">
                       Add an extra layer of security to your account
                     </p>
-                    <Button>Enable 2FA</Button>
+                    <Button onClick={() => setMFA()}>Enable 2FA</Button>
                   </div>
                   <div>
                     <h4 className="font-medium mb-2">Recent Login Activity</h4>

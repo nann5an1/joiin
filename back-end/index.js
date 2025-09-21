@@ -7,7 +7,8 @@ import userRoute from "./routes/userRoute.js";
 import session from 'express-session';
 import path from "path";
 import cookieParser from "cookie-parser";
-
+import helmet from "helmet";
+// import speakeasy from 'speakeasy';
 // Load environment variables first
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+app.use(helmet());
 
 // Middleware setup in correct order
 app.use(cookieParser()); // Cookie parser must come before routes

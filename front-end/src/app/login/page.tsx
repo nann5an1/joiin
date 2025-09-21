@@ -1,10 +1,14 @@
+//login page
 'use client'
 import {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
+import { verify } from 'crypto';
 
 
 
 export default function login(){
+  const [enabledMFA, setEnabledMFA] = useState(false);
+
   const router = useRouter();
   useEffect(() => {
     // Prefetch the home page
@@ -24,6 +28,33 @@ export default function login(){
         })
     }
 
+    //isenableMFA controller
+    async function isEnabledMFA() {
+    try {
+        const data = await fetch(`http://localhost:3000/api/v0.1/user/isEnabledMFA`, {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+        });
+        
+        if (data.ok) {
+            const responded = await data.json();
+            console.log("MFA status response:", responded);
+            
+            // ✅ Fixed: Access the data correctly
+            const mfaEnabled = responded.data.mfaEnabled;
+            setEnabledMFA(mfaEnabled);
+            
+        } else {
+            console.error("Failed to fetch MFA status");
+            setEnabledMFA(false);
+        }
+    } catch (error) {
+        console.error("Error in checking if MFA enabled", error);
+        setEnabledMFA(false);
+    }
+  }
+  
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         try {
@@ -35,15 +66,9 @@ export default function login(){
             });
             if (result.ok){
               console.log("Login okay:" , result.json());
-      
-              // const data = await result.json();
-              // const token = data.token;
-
-            // Example: store in memory
-            // sessionStorage.setItem("token", token);
-              // router.refresh();
-            router.push("/"); //navigate back to user's home page
-             
+            await isEnabledMFA(); //check if the user has enabled MFA
+            if(enabledMFA) router.push("/verifyOTP"); //the column is still left null for the bool_otp(check_why)
+            else router.push("/"); //navigate back to user's home page
             }
             else
                 console.log("Fail to login user account");
