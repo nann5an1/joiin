@@ -1,8 +1,8 @@
 import pool from "../database/db.js";
 
 export async function getFeaturedEvents(){
+    const connection = await pool.getConnection();
     try {
-        const connection = await pool.getConnection();
         await connection.beginTransaction();
         
         const sql_cmd = `SELECT * from create_events ce JOIN audience_count ac ON ce.id = ac.event_id WHERE ac.bool_featured = 1`;
@@ -14,7 +14,7 @@ export async function getFeaturedEvents(){
         await connection.rollback();
     }finally{
         console.log("connection released from getFeaturedEventsModel");
-        await connection.release();
+        connection.release();
     }
     return (result);
 }

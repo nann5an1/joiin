@@ -2,12 +2,11 @@
 'use client'
 import {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
-import { verify } from 'crypto';
 
 
 
 export default function login(){
-  const [enabledMFA, setEnabledMFA] = useState(false);
+  // const [enabledMFA, setEnabledMFA] = useState(false);
 
   const router = useRouter();
   useEffect(() => {
@@ -43,15 +42,16 @@ export default function login(){
             
             // ✅ Fixed: Access the data correctly
             const mfaEnabled = responded.data.mfaEnabled;
-            setEnabledMFA(mfaEnabled);
-            
+            console.log("mfaEnabled:", mfaEnabled);
+            // setEnabledMFA(mfaEnabled);
+            return mfaEnabled;
         } else {
             console.error("Failed to fetch MFA status");
-            setEnabledMFA(false);
+            // setEnabledMFA(false);
         }
     } catch (error) {
         console.error("Error in checking if MFA enabled", error);
-        setEnabledMFA(false);
+        // setEnabledMFA(false);
     }
   }
   
@@ -65,9 +65,14 @@ export default function login(){
                 body: JSON.stringify(loginInfo),
             });
             if (result.ok){
-              console.log("Login okay:" , result.json());
-            await isEnabledMFA(); //check if the user has enabled MFA
-            if(enabledMFA) router.push("/verifyOTP"); //the column is still left null for the bool_otp(check_why)
+              const data = await result.json();
+              const user_id = data.user.id;
+              console.log("user id from login:", user_id);
+            const enabledMFA = await isEnabledMFA(); //check if the user has enabled MFA
+            console.log("MFA status:", enabledMFA);
+            if(enabledMFA){
+              router.push("/verifyOTP?user_id=" + user_id); 
+            }//the column is still left null for the bool_otp(check_why)
             else router.push("/"); //navigate back to user's home page
             }
             else

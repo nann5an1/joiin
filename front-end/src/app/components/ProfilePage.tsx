@@ -63,7 +63,7 @@ export function ProfilePage() {
         const manualEntryKey = data_json.manualEntryKey;
         console.log("manualEntryKey: ", manualEntryKey);
         //url is only needed for prior setup before the user can use MFA
-        router.push(`/showURLimg?urlQR=${urlQR}?manual=${manualEntryKey}`); //re-route the user to show the QR code
+        router.push(`/showURLimg?urlQR=${urlQR}&manual=${manualEntryKey}`); //re-route the user to show the QR code
       }
       else console.log("MFA failed", data);
       } catch (error) {

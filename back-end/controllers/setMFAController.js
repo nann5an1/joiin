@@ -1,7 +1,6 @@
 //generate secret and verify TOTO in this file
 import speakeasy from 'speakeasy';
 import qrcode from 'qrcode';
-import cyrpto from 'crypto';
 import {setMFAModel} from '../models/setMFAModel.js'
 
 //set up the MFA authentication
