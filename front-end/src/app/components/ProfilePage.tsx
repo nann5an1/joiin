@@ -71,6 +71,22 @@ export function ProfilePage() {
       }
   }
 
+  async function deleteAccount(){
+    try {
+      const data = await fetch('http://localhost:3000/api/v0.1/user/deleteAccount', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // ✅ important: include cookies so will include the user id
+      });
+      if(data.ok){
+        console.log(await data.json());
+      }
+      else console.log("something went wrong in deleting account");
+    } catch (error) {
+      console.log("failed to delete account", error);
+    } 
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -178,6 +194,7 @@ export function ProfilePage() {
                     />
                   </div>
                 </CardContent>
+                <Button type="submit">Confirm changes</Button>
               </Card>
 
               <Card>
@@ -282,7 +299,7 @@ export function ProfilePage() {
                     <h4 className="font-medium text-red-900">Delete Account</h4>
                     <p className="text-sm text-red-600">Permanently delete your account and all data</p>
                   </div>
-                  <Button variant="destructive">Delete Account</Button>
+                  <Button variant="destructive" onClick={deleteAccount}>Delete Account</Button>
                 </div>
               </CardContent>
             </Card>
