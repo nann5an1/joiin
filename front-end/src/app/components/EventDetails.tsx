@@ -77,7 +77,7 @@ export function EventDetailsComponent ({ description, organizer_name, organizer_
         {/* Organizer Info */}
         <Card>
           <CardHeader>
-            <CardTitle>Game Organizer</CardTitle>
+            <CardTitle>Event Organizer</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
@@ -95,12 +95,9 @@ export function EventDetailsComponent ({ description, organizer_name, organizer_
                     {organizer_phone}
                   </a>
                 </div>
-                {/* <div className="flex items-center gap-2 text-sm">
-                  <Globe className="h-4 w-4 text-muted-foreground" />
-                  <a href={organizer.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    Website
-                  </a>
-                </div> */}
+                {/* <div className="flex items-center gap-2 text-sm"> */}
+                  {/* <input type="button" onClick={seeMoreDetails}>See More Details</input> */}
+                {/* </div> */}
               </div>
             </div>
           </CardContent>

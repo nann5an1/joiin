@@ -14,6 +14,8 @@ import {verifyMFA} from "../controllers/verifyMFAController.js"
 import {deleteAccountController} from "../controllers/deleteAccountController.js"
 import {fetchEventCountController} from "../controllers/fetchEventCountController.js"
 import {delCreatedEventController} from "../controllers/delCreatedEventController.js"
+import {updateProfileController} from "../controllers/updateProfileController.js"
+import {fetchBriefProfileController} from "../controllers/fetchBriefProfileController.js"
 
 const router = express.Router();
 
@@ -22,6 +24,7 @@ router.post("/login",loginController); //verify the MFA if user has MFA enabled
 router.post("/logout", logoutController);
 router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
 router.post("/deleteAccount", authenticateToken, deleteAccountController);
+router.post("/updateProfile", authenticateToken, updateProfileController); 
 
 //user as an organizer getting his created events
 router.get("/created_events", authenticateToken ,organizerCreatedEvents);
@@ -30,6 +33,7 @@ router.get("/attend_events", authenticateToken , showAttendingEvents);
 router.get("/isEnabledMFA", authenticateToken, isEnabledMFA);
 router.get("/verifyMFA", verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
 router.get("/totalEventCount", authenticateToken, fetchEventCountController);
+router.get("/briefProfile", authenticateToken, fetchBriefProfileController);
 
 router.delete("/del_interested_event", authenticateToken, removeInterestedEvents);
 router.delete("/remove_attending_events", authenticateToken, removeAttendingEvents);

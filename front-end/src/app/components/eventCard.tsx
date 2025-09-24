@@ -4,6 +4,8 @@ import {Badge} from "@/components/ui/badge"
 import {Separator} from "@/components/ui/separator"
 import {Card, CardTitle} from "@/components/ui/card"
 import { MapPin, Calendar, Users, Clock, Ticket } from "lucide-react";
+import {format} from 'date-fns';
+import {useState} from 'react';
 
 export default function EventCard({
   activities, 
@@ -18,6 +20,12 @@ export default function EventCard({
   actionIcon, 
   actionTooltip,
 }: any) {
+    // const [formattedDate, setFormattedDate] = useState('');
+    // function changeDateFormat(originalDate :any){
+    //     setFormattedDate(format(originalDate, 'dd/MM/yyyy HH:mm'));
+    //     return formattedDate;
+    // }
+
     return (
         <>
         {/* Activities List */}

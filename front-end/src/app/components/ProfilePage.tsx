@@ -25,7 +25,8 @@ import {
   Trophy,
   Users,
   Eye,
-  EyeOff
+  EyeOff,
+  CheckCircle2Icon
 } from "lucide-react";
 import {
   AlertDialog,
@@ -38,6 +39,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 
 export function ProfilePage() {
 
@@ -58,11 +65,19 @@ export function ProfilePage() {
   const [dialogueOpen, setDialogueOpen] = useState(false);
   const [createdCount, setCreatedEventCount] = useState(0);
   const [joinedEvents, setJoinedEvents] = useState(0);
+  const [userName, setUserName] = useState("");
+  const [profileName, setProfileName] = useState("");
+  const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState("");
+  const [makeChanges, setMakeChanges] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
     totalEventsCount();
+    fetchBriefProfile();
   }, []);
+
   async function setMFA(){
       try {
         const data = await fetch('http://localhost:3000/api/v0.1/user/setMFA', {
@@ -126,6 +141,48 @@ export function ProfilePage() {
     }
   }
 
+    async function fetchBriefProfile(){
+      try {
+          const data = await fetch(`http://localhost:3000/api/v0.1/user/briefProfile`, {
+            method: "GET",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"},
+        });
+        if(data.ok){
+          console.log("successfully fetch brief profile");
+          const json_data = await data.json();
+          setProfileName(json_data.profileName);
+          setEmail(json_data.email);
+        }
+      } catch (error) {
+        console.error("oops somwthing went wrong in fetching brief profile")
+      }
+    }
+
+
+  async function makeProfileChanges(username: string){
+    try {
+      const data = await fetch(`http://localhost:3000/api/v0.1/user/updateProfile?username=${username}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+    });
+    if(data.ok){
+      console.log("changes made for profile");
+      const json_data = await data.json();
+      if(json_data.success == false) console.log(json_data.msg);
+      setMakeChanges(true);
+      // router.push("/profile"); //re-render the profile
+    }
+    else
+      console.log("Fail to update profile");
+    } catch (error) {
+      console.error("Oops something went wrong in updating profile", error);
+    }
+  }
+
+
+    
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -147,10 +204,10 @@ export function ProfilePage() {
                 </Button>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">John Doe</h1>
-                <p className="text-gray-600">john.doe@example.com</p>
+                <h1 className="text-2xl font-bold text-gray-900">{profileName}</h1>
+                <p className="text-gray-600">{email}</p>
                 <div className="flex items-center space-x-2 mt-2">
-                  <Badge variant="secondary">Pro Member</Badge>
+                  <Badge variant="secondary"></Badge>
                   <Badge variant="outline">Event Organizer</Badge>
                 </div>
               </div>
@@ -193,30 +250,22 @@ export function ProfilePage() {
                   <CardTitle>Personal Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" defaultValue="John" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" defaultValue="Doe" />
-                    </div>
-                  </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                      <Input id="email" defaultValue="john.doe@example.com" className="pl-10" />
-                    </div>
+                    <Label htmlFor="firstName">UserName</Label>
+                    <Input id="username"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}/>
                   </div>
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <Label htmlFor="phone">Phone</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                      <Input id="phone" defaultValue="+1 (555) 123-4567" className="pl-10" />
+                      <Input id="phone" 
+                      value={phone}
+                      className="pl-10" 
+                      onChange={(e) => setPhone(e.target.value)}/>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="space-y-2">
                     <Label htmlFor="bio">Bio</Label>
                     <Textarea 
@@ -225,8 +274,19 @@ export function ProfilePage() {
                       rows={3}
                     />
                   </div>
+                  <div className="space-y-2">
+                    <Button type="submit" onClick={() => makeProfileChanges(userName)}>Confirm Changes</Button>
+                  </div>
+                  {makeChanges && (
+                    <Alert>
+                      <CheckCircle2Icon />
+                      <AlertTitle>Success! Your changes have been saved</AlertTitle>
+                      <AlertDescription>
+                        You can change back the username if you want.
+                      </AlertDescription>
+                  </Alert>
+                  )}
                 </CardContent>
-                <Button type="submit">Confirm changes</Button>
               </Card>
 
               <Card>
@@ -298,7 +358,7 @@ export function ProfilePage() {
                     onCheckedChange={(checked) => setPrivacy(prev => ({ ...prev, showEmail: checked }))}
                   />
                 </div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <div>
                     <Label>Show Phone Number</Label>
                     <p className="text-sm text-gray-600">Display your phone number on your public profile</p>
@@ -307,7 +367,7 @@ export function ProfilePage() {
                     checked={privacy.showPhone} 
                     onCheckedChange={(checked) => setPrivacy(prev => ({ ...prev, showPhone: checked }))}
                   />
-                </div>
+                </div> */}
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Allow Direct Messages</Label>
