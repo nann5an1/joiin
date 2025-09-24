@@ -89,13 +89,13 @@ export function ProfilePage() {
         console.log("data", data);
         const data_json = await data.json();
         // console.log("urlQR: ", urlQR);
-        const urlQR = data_json.qrCode;
-        console.log("urlQR: ", urlQR);
+        const totp_uri = data_json.totp_uri;
+        console.log("totp_uri: ", totp_uri);
 
         const manualEntryKey = data_json.manualEntryKey;
         console.log("manualEntryKey: ", manualEntryKey);
         //url is only needed for prior setup before the user can use MFA
-        router.push(`/showURLimg?urlQR=${urlQR}&manual=${manualEntryKey}`); //re-route the user to show the QR code
+        router.push(`/showURLimg?totp_uri=${totp_uri}&manual=${manualEntryKey}`); //re-route the user to show the QR code
       }
       else console.log("MFA failed", data);
       } catch (error) {

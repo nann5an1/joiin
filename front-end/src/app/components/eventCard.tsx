@@ -5,7 +5,6 @@ import {Separator} from "@/components/ui/separator"
 import {Card, CardTitle} from "@/components/ui/card"
 import { MapPin, Calendar, Users, Clock, Ticket } from "lucide-react";
 import {format} from 'date-fns';
-import {useState} from 'react';
 
 export default function EventCard({
   activities, 
@@ -21,6 +20,7 @@ export default function EventCard({
   actionTooltip,
 }: any) {
     // const [formattedDate, setFormattedDate] = useState('');
+    // // const [originalDate, setOriginalDate] = useState('');
     // function changeDateFormat(originalDate :any){
     //     setFormattedDate(format(originalDate, 'dd/MM/yyyy HH:mm'));
     //     return formattedDate;
@@ -39,7 +39,7 @@ export default function EventCard({
                     {activities.map((event: any) => (
                     <div    
                         key={event.id}
-                        className='w-full border-solid rounded-xl font-bodoni p-2 hover:shadow-xl'>
+                        className='w-full border-solid-1 rounded-xl font-bodoni p-2 hover:shadow-xl'>
                         
                         <div className='p-4 flex flex-row justify-center items-center w-full'>
                         {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
@@ -102,7 +102,7 @@ export default function EventCard({
                                         <Calendar className="h-4 w-4"/>
                                     </div>
                                     <div className="col-start-2 col-span-9">
-                                        {event.start_date}
+                                        {format(event.start_date, "dd/MM/yyyy HH:mm")}
                                     </div>    
                                 </div>
 
@@ -111,8 +111,8 @@ export default function EventCard({
                                         <Clock className="h-4 w-4"/>
                                     </div>
                                     <div className="col-start-2 col-span-9">
-                                        {event.start_date}
-                                    </div>    
+                                        {format(event.start_date, "dd/MM/yyyy HH:mm")}
+                                    </div>
                                 </div>
                                 
                                 <div className="grid grid-cols-10 text-gray-700">
