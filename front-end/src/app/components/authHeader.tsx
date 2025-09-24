@@ -8,6 +8,7 @@ export const AuthHeader = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [userName, setUserName] = useState("");
 
   // Fix: Proper event handler for Enter key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,6 +39,17 @@ export const AuthHeader = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  async function getUserName(){
+    const data = await fetch('http://localhost:3000/api/v0.1/user/getUserName', {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+    });
+    if(data.ok){
+      
+    }
+  }
 
   return (
     <nav className="grid grid-cols-4 justify-items-start w-full p-4 border gap-4 min-h-16 font-semibold text-gray-700">
@@ -99,7 +111,7 @@ export const AuthHeader = () => {
             onClick={() => setOpen(!open)}
             className="font-medium py-2 px-4 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors flex items-center gap-2"
           >
-            Menu
+            {userName || 'User'}
             <svg 
               className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
               fill="none" 

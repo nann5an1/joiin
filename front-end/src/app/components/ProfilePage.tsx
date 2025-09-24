@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,8 +27,20 @@ import {
   Eye,
   EyeOff
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export function ProfilePage() {
+
   const [showPassword, setShowPassword] = useState(false);
   const [notifications, setNotifications] = useState({
     email: true,
@@ -43,8 +55,14 @@ export function ProfilePage() {
     showPhone: false,
     allowMessages: true
   });
-
+  const [dialogueOpen, setDialogueOpen] = useState(false);
+  const [createdCount, setCreatedEventCount] = useState(0);
+  const [joinedEvents, setJoinedEvents] = useState(0);
   const router = useRouter();
+
+  useEffect(() => {
+    totalEventsCount();
+  }, []);
   async function setMFA(){
       try {
         const data = await fetch('http://localhost:3000/api/v0.1/user/setMFA', {
@@ -54,7 +72,6 @@ export function ProfilePage() {
         });
       if(data.ok) { //get the url for the qr code
         console.log("data", data);
-        // console.log("MFA passed", data);
         const data_json = await data.json();
         // console.log("urlQR: ", urlQR);
         const urlQR = data_json.qrCode;
@@ -73,6 +90,7 @@ export function ProfilePage() {
 
   async function deleteAccount(){
     try {
+      
       const data = await fetch('http://localhost:3000/api/v0.1/user/deleteAccount', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -80,11 +98,32 @@ export function ProfilePage() {
       });
       if(data.ok){
         console.log(await data.json());
+        router.push("/logout");
       }
       else console.log("something went wrong in deleting account");
     } catch (error) {
       console.log("failed to delete account", error);
     } 
+  }
+
+  async function totalEventsCount(){
+    try {
+      const data = await fetch('http://localhost:3000/api/v0.1/user/totalEventCount', {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      });
+      if(data.ok){
+        console.log("retrieving events okay from profile page: ", data);
+        const json_data = await data.json();
+        const created_count  = json_data.created_count;
+        const joined_count = json_data.joined_count;
+        setCreatedEventCount(created_count);
+        setJoinedEvents(joined_count);
+      }
+    } catch (error) {
+      console.log("failed to retrieve events from profile page", error);
+    }
   }
 
   return (
@@ -179,13 +218,6 @@ export function ProfilePage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                      <Input id="location" defaultValue="New York, NY" className="pl-10" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
                     <Label htmlFor="bio">Bio</Label>
                     <Textarea 
                       id="bio" 
@@ -205,12 +237,12 @@ export function ProfilePage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
                       <Trophy className="h-8 w-8 mx-auto text-blue-600 mb-2" />
-                      <div className="text-2xl font-bold text-blue-600">12</div>
+                      <div className="text-2xl font-bold text-blue-600">{createdCount}</div>
                       <div className="text-sm text-gray-600">Events Created</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <Users className="h-8 w-8 mx-auto text-green-600 mb-2" />
-                      <div className="text-2xl font-bold text-green-600">248</div>
+                      <div className="text-2xl font-bold text-green-600">{joinedEvents}</div>
                       <div className="text-sm text-gray-600">Events Joined</div>
                     </div>
                   </div>
@@ -299,7 +331,28 @@ export function ProfilePage() {
                     <h4 className="font-medium text-red-900">Delete Account</h4>
                     <p className="text-sm text-red-600">Permanently delete your account and all data</p>
                   </div>
-                  <Button variant="destructive" onClick={deleteAccount}>Delete Account</Button>
+                  {/* <Button variant="destructive" onClick={() => setDialogueOpen(true)} >Delete Account</Button> */}
+                   <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" onClick={() => setDialogueOpen(true)}>Delete Account</Button>
+                    </AlertDialogTrigger>
+                    {dialogueOpen && (
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your account
+                            and remove your data from our servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={deleteAccount}>Confirm</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                    )
+}                   
+                  </AlertDialog>
                 </div>
               </CardContent>
             </Card>

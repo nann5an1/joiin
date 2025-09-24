@@ -12,6 +12,8 @@ import {setMFAController} from "../controllers/setMFAController.js"
 import {isEnabledMFA} from "../controllers/isEnabledMFAController.js"
 import {verifyMFA} from "../controllers/verifyMFAController.js"
 import {deleteAccountController} from "../controllers/deleteAccountController.js"
+import {fetchEventCountController} from "../controllers/fetchEventCountController.js"
+import {delCreatedEventController} from "../controllers/delCreatedEventController.js"
 
 const router = express.Router();
 
@@ -27,10 +29,10 @@ router.get("/interested_events", authenticateToken , showInterestedEvents);
 router.get("/attend_events", authenticateToken , showAttendingEvents);
 router.get("/isEnabledMFA", authenticateToken, isEnabledMFA);
 router.get("/verifyMFA", verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
-
+router.get("/totalEventCount", authenticateToken, fetchEventCountController);
 
 router.delete("/del_interested_event", authenticateToken, removeInterestedEvents);
 router.delete("/remove_attending_events", authenticateToken, removeAttendingEvents);
-
+router.delete("/del_created_event", authenticateToken, delCreatedEventController);
 
 export default router;
