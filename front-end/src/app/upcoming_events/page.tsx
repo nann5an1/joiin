@@ -60,6 +60,7 @@ export default function upcomingeventsPage(){
             })
             const data = await response.json();
             console.log("Activities fetched:", data);
+            // if(data.length == 0) setError("No activities found");
             setActivities(data);
         } catch (error: any) {
             console.error("Error fetching activities:", error);

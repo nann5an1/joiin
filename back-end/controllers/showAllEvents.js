@@ -1,6 +1,7 @@
 
 import {recentActivitiesModel} from "../models/getRecentActivities.js"; // Import the model for recent activities
 import {defaultActivitiesModel} from "../models/getDefaultActivities.js";
+import {freeActivitiesModel} from "../models/getFreeActivitiesModel.js"
 export async function showAllEvents(req, res) {
     let response;
     //  console.log("=== showAllEvents called ==="); // Add this line first
@@ -11,6 +12,7 @@ export async function showAllEvents(req, res) {
             response =  await recentActivitiesModel();
         if(all)
             response = await defaultActivitiesModel();
+        if(free) response = await freeActivitiesModel();
         // console.log("Response from recentActivitiesModel:", response);
         res.status(200).json(response);
     } catch (error) {

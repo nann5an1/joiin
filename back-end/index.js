@@ -48,7 +48,13 @@ app.use(session({
 }));
 
 // Static files
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+// Static files with CORP headers
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads"), {
+  setHeaders: (res, path) => {
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3001');
+  }
+}));
 
 // Routes - these should come after all middleware
 app.use("/api/v0.1/events", eventRoute);
