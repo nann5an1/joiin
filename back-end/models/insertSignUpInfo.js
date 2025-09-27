@@ -2,12 +2,17 @@
     import bcrypt from "bcryptjs";
 
     export async function signUpModel(data){
-        const sql_cmd = `INSERT INTO user (name, email, password) VALUES (?, ?, ?)`;
         const {name, email, password} = data; //destructure the data
 
-        const [result] = `SELECT COUNT (*) from `
-       
-        console.log(data);
+        const [result] = await pool.execute(`SELECT COUNT (*) as count from user WHERE email = ?`, [email]);
+        
+        if(result[0].count > 0){
+            return {
+                success: false,
+                msg: "Email already exists"
+            };
+        }
+        // console.log(data);
 
         const saltRounds = 11;
         try {
@@ -15,9 +20,12 @@
             if(hashed.length > 0){
                 console.log("hashed password", hashed);
                 const data_values = [name, email, hashed];
-                const result = await pool.execute(sql_cmd, data_values);
+                const result = await pool.execute(`INSERT INTO user (name, email, password) VALUES (?, ?, ?)`, data_values);
                 console.log(result);
-                return (result);
+                return {
+                    success: true,
+                    result: result
+                };
             } 
         } catch (error) {
             console.error("Error in hashing password", error);

@@ -1,6 +1,11 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {useRouter} from 'next/navigation';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 
 export default function SignUpPage(){
     const router = useRouter();
@@ -9,7 +14,11 @@ export default function SignUpPage(){
         email: '',
         password: '',
     });
+    const [emailExist, setEmailExist] = useState(false);
     
+    useEffect(() => {
+        handleSubmit;
+    }, []);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setUserInfo({
@@ -22,7 +31,7 @@ export default function SignUpPage(){
         e.preventDefault();
        
         try {
-            const result = await fetch ("http://localhost:3000/api/v0.1/user/signup", {
+            const result = await fetch (`http://localhost:3000/api/v0.1/user/signup`, {
             method: 'POST',
             headers: {
                  'content-type': 'application/json',
@@ -30,9 +39,12 @@ export default function SignUpPage(){
             body: JSON.stringify(userInfo),
         });
         if(result.ok){
-            router.push("/login");
+            const res_data = await result.json();
+            if(res_data.success == true) router.push("/login");
+            else setEmailExist(true);
             console.log(result);
         }
+        else  console.log("Oops something went wrong in signing up");
         } catch (error) {
             console.log("error in sign up", error);
         }
@@ -82,6 +94,14 @@ export default function SignUpPage(){
                                     Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
                                 </p>
                             </form>
+                            {emailExist && (
+                            <Alert>
+                                <AlertTitle>The email you entered already exists</AlertTitle>
+                                <AlertDescription>
+                                    Please use a different email for your registration.
+                                </AlertDescription>
+                            </Alert>
+                        )}
                         </div>
                     </div>
                 </div>
