@@ -72,7 +72,7 @@ export default function login(){
             console.log("MFA status:", enabledMFA);
             if(enabledMFA){
               router.push("/verifyOTP?user_id=" + user_id); 
-            }//the column is still left null for the bool_otp(check_why)
+            }
             else router.push("/"); //navigate back to user's home page
             }
             else

@@ -31,6 +31,7 @@ export function EventHeader({
           alt={title}
           className="w-full h-full object-cover"
         /> */}
+        <img src={`http://localhost:3000${imageUrl}`} className="w-full h-full object-cover"></img>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         
         {/* Category Badge */}

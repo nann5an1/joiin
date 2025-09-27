@@ -20,7 +20,7 @@ export async function setMFAModel(user_id, secret) {
        
         const encrypted_with_iv = iv.toString('hex') + ':' + encrypted_data;
        
-        const sql_cmd = 'UPDATE user SET mfa_secret = ?, bool_otp = 1 WHERE id = ?';
+        const sql_cmd = 'UPDATE user SET mfa_secret = ? WHERE id = ?';
         const [result] = await connection.execute(sql_cmd, [encrypted_with_iv, user_id]);
        
         await connection.commit();

@@ -6,12 +6,12 @@ export async function isEnabledMFAModel(user_id) {
     await connection.beginTransaction();
     try {
         
-        const sql_cmd = 'SELECT mfa_secret, bool_otp FROM user WHERE id = ?';
+        const sql_cmd = 'SELECT mfa_secret FROM user WHERE id = ?';
         const [result] = await connection.execute(sql_cmd, [user_id]);
         
         // Check if user exists and has MFA enabled
         const user = result[0];
-        const isMFAEnabled = user && user.mfa_secret && user.bool_otp === 1;
+        const isMFAEnabled = user && user.mfa_secret;
         
         await connection.commit();
         return {
@@ -20,7 +20,7 @@ export async function isEnabledMFAModel(user_id) {
             data: {
                 mfaEnabled: isMFAEnabled,
                 hasSecret: !!user?.mfa_secret,
-                boolOTP: user?.bool_otp || 0
+                // boolOTP: user?.bool_otp || 0
             }
         };
         

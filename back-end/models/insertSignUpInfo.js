@@ -4,6 +4,8 @@
     export async function signUpModel(data){
         const sql_cmd = `INSERT INTO user (name, email, password) VALUES (?, ?, ?)`;
         const {name, email, password} = data; //destructure the data
+
+        const [result] = `SELECT COUNT (*) from `
        
         console.log(data);
 

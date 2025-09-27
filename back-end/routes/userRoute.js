@@ -31,7 +31,7 @@ router.get("/created_events", authenticateToken ,organizerCreatedEvents);
 router.get("/interested_events", authenticateToken , showInterestedEvents);
 router.get("/attend_events", authenticateToken , showAttendingEvents);
 router.get("/isEnabledMFA", authenticateToken, isEnabledMFA);
-router.get("/verifyMFA", verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
+router.get("/verifyMFA", authenticateToken, verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
 router.get("/totalEventCount", authenticateToken, fetchEventCountController);
 router.get("/briefProfile", authenticateToken, fetchBriefProfileController);
 

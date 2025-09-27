@@ -27,7 +27,9 @@ export async function verifyMFAModel(user_id, usertoken) {
         const sql_cmd = `SELECT mfa_secret from user WHERE id = ?`;
         const [result] = await connection.execute(sql_cmd, [user_id]);
         
+        //if the mfa.secret is null, this is the first time set up for mfa
         if (result.length === 0 || !result[0].mfa_secret) {
+            
             return { success: false, message: "MFA secret not found" };
         }
         
