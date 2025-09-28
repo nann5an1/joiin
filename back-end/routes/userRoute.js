@@ -16,6 +16,7 @@ import {fetchEventCountController} from "../controllers/fetchEventCountControlle
 import {delCreatedEventController} from "../controllers/delCreatedEventController.js"
 import {updateProfileController} from "../controllers/updateProfileController.js"
 import {fetchBriefProfileController} from "../controllers/fetchBriefProfileController.js"
+import {updatePasswordController} from "../controllers/updatePasswordController.js"
 
 const router = express.Router();
 
@@ -25,6 +26,7 @@ router.post("/logout", logoutController);
 router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
 router.post("/deleteAccount", authenticateToken, deleteAccountController);
 router.post("/updateProfile", authenticateToken, updateProfileController); 
+router.post("/updatePassword", authenticateToken, updatePasswordController);
 
 //user as an organizer getting his created events
 router.get("/created_events", authenticateToken ,organizerCreatedEvents);

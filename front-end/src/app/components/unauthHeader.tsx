@@ -67,7 +67,7 @@ export const UnauthHeader = () => {
       {/* Navigation links + dropdown */}
       <div className="flex flex-row col-start-4 justify-end items-center relative" ref={dropdownRef}>
         <Link 
-          href="/create" 
+          href="/login" 
           className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors"
         >
           Create

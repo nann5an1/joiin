@@ -70,12 +70,20 @@ export function ProfilePage() {
   const [email, setEmail] = useState("");
   // const [phone, setPhone] = useState("");
   const [makeChanges, setMakeChanges] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordStatus, setPasswordStatus] = useState(false);
+  const [unMatchedPassword, setUnMatchedPassword] = useState(false); //newpassword vs confirm password
+  const [oldPasswordComparison, setOldPasswordComparision] = useState(false); //current password vs old password
+  const [newPasswordComparison, setNewPasswordComparison] = useState(false); //new password vs old password
 
   const router = useRouter();
 
   useEffect(() => {
     totalEventsCount();
     fetchBriefProfile();
+    changePassword();
   }, []);
 
   async function setMFA(){
@@ -181,7 +189,33 @@ export function ProfilePage() {
     }
   }
 
-
+  async function changePassword(){
+    try {
+      if(newPassword != confirmPassword) {setUnMatchedPassword(true); return;}
+      if(!unMatchedPassword){
+          const data = await fetch(`http://localhost:3000/api/v0.1/user/updatePassword`, {
+          method: "POST",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({currentPassword,newPassword})
+        });
+         if(data.ok){
+          const res_json = await data.json();
+          if(res_json.success) setPasswordStatus(true);
+          else {
+            if(res_json.status == 0) setOldPasswordComparision(true);
+            else if(res_json.status == 1) setNewPasswordComparison(true);
+            setPasswordStatus(false);
+            setUnMatchedPassword(false);
+            console.log(res_json.msg);
+          }
+        }
+          else console.log("failed to change password");
+      }
+    } catch (error) {
+      console.error("Oops something went wrong in updating password", error);
+    }
+  }
     
   return (
     <div className="min-h-screen bg-gray-50">
@@ -481,6 +515,8 @@ export function ProfilePage() {
                     <Label htmlFor="currentPassword">Current Password</Label>
                     <div className="relative">
                       <Input 
+                        value={currentPassword}
+                        onChange={(e) => {setCurrentPassword(e.target.value)}}
                         id="currentPassword" 
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter current password"
@@ -497,13 +533,37 @@ export function ProfilePage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="newPassword">New Password</Label>
-                    <Input id="newPassword" type="password" placeholder="Enter new password" />
+                    <Input value={newPassword} onChange={(e) => {setNewPassword(e.target.value)}} id="newPassword" type="password" placeholder="Enter new password" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                    <Input id="confirmPassword" type="password" placeholder="Confirm new password" />
+                    <Input value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value)}} id="confirmPassword" type="password" placeholder="Confirm new password" />
                   </div>
-                  <Button className="w-full">Update Password</Button>
+                  <Button onClick={changePassword} className="w-full">Update Password</Button>
+                  {
+                    unMatchedPassword && (
+                      <p className="text-sm text-red-500 mt-2">Password confirmation does not match</p>
+                    )
+                  }
+                  {
+                    passwordStatus && (
+                      <p className="text-sm text-green-500 mt-2">Password changed successfully</p>)
+                  }
+                  {
+                    currentPassword && (
+                      <p className="text-sm text-red-500 mt-2">Current password is incorrect</p>
+                    )
+                  }
+                  {
+                    newPasswordComparison && (
+                      <p className="text-sm text-red-500 mt-2">New password cannot be the same as the current password</p>
+                    )
+                  }
+                  {
+                    oldPasswordComparison && (
+                      <p className="text-sm text-red-500 mt-2">Current password is incorrect</p>
+                    )
+                  }
                 </CardContent>
               </Card>
 

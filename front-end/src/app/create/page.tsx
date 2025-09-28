@@ -4,6 +4,7 @@ import React from 'react';
 import {useState} from 'react';
 
 export default function CreateEventForm() {
+  const [otherCategory, setOtherCategory] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -76,6 +77,10 @@ export default function CreateEventForm() {
     }
   }
 
+  function triggerFalse(){
+    setOtherCategory(false);
+  }
+
   return (
     <div className="container mx-auto p-4">
       {/* Page Title */}
@@ -107,11 +112,32 @@ export default function CreateEventForm() {
             style={{ backgroundColor: '#f6f6f6' }}
           >
             <option value="">Select a category</option>
-            <option>Badminton</option>
-            <option>Rugby</option>
-            <option>Swimming</option>
-            <option>Tennis</option>
+            <option onClick={() => setOtherCategory(false)}>Badminton</option>
+            <option onClick={() => setOtherCategory(false)}>Yoga</option>
+            <option onClick={() => setOtherCategory(false)}>Camping</option>
+            <option onClick={() => setOtherCategory(false)}>Pickleball</option>
+            <option onClick={() => setOtherCategory(false)}>Volleyball</option>
+            <option onClick={() => setOtherCategory(false)}>Football</option>
+            <option onClick={() => setOtherCategory(false)}>Tennis</option>
+            <option onClick={() => setOtherCategory(false)}>Hiking</option>
+            <option onClick={() => setOtherCategory(false)}>Running</option>
+            <option onClick={() => setOtherCategory(false)}>Swimming</option>
+            <option onClick={() => setOtherCategory(false)}>Cycling</option>
+            <option onClick={() => setOtherCategory(true)}>Other</option>
           </select>
+         
+          {otherCategory && (
+            <input
+            type="text"
+            id="category"
+            name="category"
+            placeholder="cycling"
+            onChange={handleChange}
+            className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
+            style={{ backgroundColor: '#f6f6f6' }}
+            /> 
+          )}
+            
         </div>
 
         {/* Description and Image Upload */}

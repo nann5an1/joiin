@@ -95,14 +95,14 @@ export const AuthHeader = () => {
           href="/create" 
           className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors"
         >
-          Create Events
+          Create
         </Link>
         
         <Link 
           href="/upcoming_events" 
           className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors"
         >
-          Upcoming Events
+          Upcoming
         </Link>
 
         {/* Dropdown */}

@@ -26,11 +26,6 @@ export function EventHeader({
     <div className="relative">
       {/* Hero Image */}
       <div className="h-[400px] relative overflow-hidden rounded-lg mb-8">
-        {/* <ImageWithFallback 
-          src={imageUrl}
-          alt={title}
-          className="w-full h-full object-cover"
-        /> */}
         <img src={`http://localhost:3000${imageUrl}`} className="w-full h-full object-cover"></img>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         

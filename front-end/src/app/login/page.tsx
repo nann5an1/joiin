@@ -2,8 +2,7 @@
 'use client'
 import {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
-
-
+import Link from 'next/link';
 
 export default function login(){
   // const [enabledMFA, setEnabledMFA] = useState(false);
@@ -140,7 +139,7 @@ export default function login(){
                 Sign in
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                Don’t have an account yet? <Link href="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
               </p>
             </form>
           </div>

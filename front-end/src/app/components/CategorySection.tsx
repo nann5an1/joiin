@@ -1,51 +1,21 @@
 
-// export  function CategorySection() {
-//     return (
-//         <>
-//         <section className="grid grid-cols-14 justify-center items-center col-gap-4 mt-16"> 
-//                 <div className="w-20 h-20 col-start-1 col-end-2 bg-gray-200 rounded-xl justify-center p-4 hover:bg-[var(--foreground)]">
-//                     <img className="w-full " src="hiking.svg" alt="" />
-//                 </div>
-//                  <div className="w-20 h-20 col-start-3 col-end-4 bg-gray-200 rounded-xl justify-center p-4">
-//                     <img className="w-full" src="pool.svg" alt="" />
-//                 </div>
-//                  <div className="w-20 h-20 col-start-5 col-end-6 bg-gray-200 rounded-xl justify-center p-4">
-//                     <img className="w-full" src="bike.svg" alt="" />
-//                 </div>
-//                  <div className="w-20 h-20 col-start-7 col-end-8 bg-gray-200 rounded-xl justify-center p-4">
-//                     <img className="w-full" src="badminton.svg" alt="" />
-//                 </div>
-//                  <div className="w-20 h-20 col-start-9 col-end-10 bg-gray-200 rounded-xl justify-center p-4">
-//                     <img className="w-full" src="scuba_diving.svg" alt="" />
-//                 </div>
-//                  <div className="w-20 h-20 col-start-11 col-end-12 bg-gray-200 rounded-xl justify-center p-4">
-//                     <img className="w-full" src="yoga.svg" alt="" />
-//                 </div>
-//                  <div className="w-20 h-20 col-start-13 col-end-14 bg-gray-200 rounded-xl justify-center p-4">
-//                     <img className="w-full" src="camping.svg" alt="" />
-//                 </div>
-//             </section>
-//         </>
-//     )
-// }
-
+import {useRouter} from 'next/navigation';
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const categories = [
-  { name: "Hiking", icon: "hiking.svg" },
-  { name: "Running", icon: "running.svg" },
-  { name: "Swimming", icon: "pool.svg" },
-  { name: "Cycling", icon: "bike.svg" },
-  { name: "Badminton", icon: "badminton.svg" },
-  { name: "Yoga", icon: "yoga.svg" },
-  { name: "Camping", icon: "camping.svg" },
-  { name: "Pickleball", icon: "pickleball.svg" },
-  { name: "VolleyBall", icon: "volleyball.svg" },
-  { name: "Basketball", icon: "basketball.svg" },
-  { name: "Football", icon: "football.svg" },
-  { name: "Tennis", icon: "tennis.svg" }
+  { name: "Hiking", icon: "hiking.svg", keyword: "hiking" },
+  { name: "Running", icon: "running.svg", keyword: "running" },
+  { name: "Swimming", icon: "pool.svg", keyword: "swimming" },
+  { name: "Cycling", icon: "bike.svg", keyword: "cycling"},
+  { name: "Badminton", icon: "badminton.svg" , keyword: "badminton"},
+  { name: "Yoga", icon: "yoga.svg", keyword: "yoga" },
+  { name: "Camping", icon: "camping.svg", keyword: "camping" },
+  { name: "Pickleball", icon: "pickleball.svg" , keyword: "pickleball"},
+  { name: "VolleyBall", icon: "volleyball.svg", keyword: "volleyball" },
+  { name: "Football", icon: "football.svg", keyword: "football" },
+  { name: "Tennis", icon: "tennis.svg"  , keyword: "tennis"},
 
 ];
 
@@ -54,6 +24,7 @@ export function CategorySection() {
   const [direction, setDirection] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(5);
 
+  const router = useRouter();
   useEffect(() => {
     const updateItemsPerView = () => {
       if (window.innerWidth < 640) setItemsPerView(2);
@@ -84,7 +55,7 @@ export function CategorySection() {
       visible.push({ ...categories[index], index });
     }
     return visible;
-  };
+  };    
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -130,6 +101,7 @@ export function CategorySection() {
     },
   };
 
+  
   return (
     <section className="mt-16 w-full px-4">
       <div className="relative max-w-6xl mx-auto">
@@ -190,6 +162,7 @@ export function CategorySection() {
                   >
                     {/* Animated background */}
                     <motion.div
+                    onClick={() => {router.push("/upcoming_events?search=" + category.keyword);}}
                       className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       animate={{
                         background: [
@@ -205,7 +178,7 @@ export function CategorySection() {
                     />
                     
                     
-                    <img src={category.icon} alt="" className="w-12 h-12"/>
+                    <img src={category.icon}  alt="" className="w-12 h-12"/>
                 
                   </motion.div>
                   
