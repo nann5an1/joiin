@@ -1,10 +1,12 @@
 'use client';
-
 import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
+import { useCreateEvent } from '@/hooks/useEvents';
 
 export default function CreateEventForm() {
   const [otherCategory, setOtherCategory] = useState(false);
+  // useMutation — isPending disables the submit button while the request is in-flight
+  const { mutate: createEvent, isPending } = useCreateEvent();
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -40,41 +42,33 @@ export default function CreateEventForm() {
 }
 
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
-  e.preventDefault(); // prevent the form from refresshing the page
-  
-  const formDataToSend = new FormData();
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  // append all fields
-  Object.entries(formData).forEach(([key, value]) => {
-    if (key === "img") return; // skip img here
-    if (key === "tags") {
-      // handle array, split by comma if needed
-      formDataToSend.append(key, value.toString());
-    } else {
-      formDataToSend.append(key, value as string);
+    const formDataToSend = new FormData();
+
+    // Append all fields — same logic as before
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "img") return;
+      if (key === "tags") {
+        formDataToSend.append(key, value.toString());
+      } else {
+        formDataToSend.append(key, value as string);
+      }
+    });
+
+    if (formData.img instanceof File) {
+      formDataToSend.append("image", formData.img);
     }
-  });
 
-  // append file separately
-  if (formData.img instanceof File) {
-    formDataToSend.append("image", formData.img);
-  }
-
-
-    try {
-      const res = await fetch("http://localhost:3000/api/v0.1/events/create",{
-        method: "POST",
-        credentials: 'include',
-        body: formDataToSend,
-      });
-      if (res.ok)
-        alert("🎉 Event created!");
-      else
-        alert("⚠️ Failed to create event");
-    } catch (err) {
+    // createEvent() triggers the API call — onSuccess/onError replace the old try/catch
+    createEvent(formDataToSend, {
+      onSuccess: () => alert("Event created!"),
+      onError: (err) => {
         console.error("Something went wrong", err);
-    }
+        alert("Failed to create event");
+      },
+    });
   }
 
   function triggerFalse(){

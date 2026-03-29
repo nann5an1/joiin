@@ -20,10 +20,10 @@ import {updatePasswordController} from "../controllers/updatePasswordController.
 
 const router = express.Router();
 
-router.post("/signup", signUpController);
-router.post("/login",loginController); //verify the MFA if user has MFA enabled
-router.post("/logout", logoutController);
-router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
+    router.post("/signup", signUpController);
+    router.post("/login",loginController); //verify the MFA if user has MFA enabled
+    router.post("/logout", logoutController);
+    router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
 router.post("/deleteAccount", authenticateToken, deleteAccountController);
 router.post("/updateProfile", authenticateToken, updateProfileController); 
 router.post("/updatePassword", authenticateToken, updatePasswordController);

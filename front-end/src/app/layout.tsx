@@ -4,6 +4,7 @@ import {AuthHeader} from "./components/authHeader";
 import {UnauthHeader} from "./components/unauthHeader";
 import { Geist, Geist_Mono, Bodoni_Moda  } from "next/font/google";
 import {cookies} from "next/headers";
+import QueryProvider from "@/providers/QueryProvider";
 import "./globals.css";
 
 
@@ -44,12 +45,13 @@ export default async function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> */}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${bodoni.variable} antialiased`}>
        
-       {isAuthenticated ? <AuthHeader/> : <UnauthHeader />}
-        {children}
+        <QueryProvider>
+          {isAuthenticated ? <AuthHeader/> : <UnauthHeader />}
+          {children}
+        </QueryProvider>
         <Footer/>
        
 

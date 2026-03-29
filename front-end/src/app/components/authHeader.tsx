@@ -2,54 +2,38 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserName } from '@/hooks/useUser';
 
 export const AuthHeader = () => {
   const [inputVal, setInputVal] = useState('');
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [userName, setUserName] = useState("");
 
-  // Fix: Proper event handler for Enter key
+  // useQuery — runs automatically when this component mounts.
+  // data holds the API response, no useState or useEffect needed for the fetch itself.
+  const { data: userNameData } = useUserName();
+  const userName = userNameData?.data?.username ?? 'User';
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputVal.trim()) {
-      console.log('Searching for:', inputVal);
-      // Navigate to upcoming events with search parameter
       router.push(`/upcoming_events?search=${inputVal.trim()}`);
     }
   };
 
-  // Fix: Proper typing and immediate state update
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputVal(value);
-    console.log('Input value:', value);
+    setInputVal(e.target.value);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => { document.removeEventListener('mousedown', handleClickOutside); };
   }, []);
-
-  async function getUserName(){
-    const data = await fetch('http://localhost:3000/api/v0.1/user/getUserName', {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-    });
-    if(data.ok){
-      
-    }
-  }
 
   return (
     <nav className="grid grid-cols-4 justify-items-start w-full p-4 border gap-4 min-h-16 font-semibold text-gray-700">
@@ -63,25 +47,14 @@ export const AuthHeader = () => {
       {/* Search bar with icon */}
       <div className="col-start-2 col-end-4 w-full relative">
         <div className="relative">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={inputVal}
-            className="rounded-xl bg-[var(--search-bar)] h-full w-full mt-2 pt-2 pb-2 pl-10 pr-4 border-none focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            className="rounded-xl bg-[var(--search-bar)] h-full w-full mt-2 pt-2 pb-2 pl-10 pr-4 border-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Search events, categories, locations..."
             onChange={handleOnChange}
             onKeyDown={handleKeyDown}
@@ -91,68 +64,28 @@ export const AuthHeader = () => {
 
       {/* Navigation links + dropdown */}
       <div className="flex flex-row col-start-4 justify-end items-center relative" ref={dropdownRef}>
-        <Link 
-          href="/create" 
-          className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors"
-        >
+        <Link href="/create" className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors">
           Create
         </Link>
-        
-        <Link 
-          href="/upcoming_events" 
-          className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors"
-        >
+        <Link href="/upcoming_events" className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors">
           Upcoming
         </Link>
 
         {/* Dropdown */}
         <div className="relative">
-          <button 
-            onClick={() => setOpen(!open)}
-            className="font-medium py-2 px-4 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors flex items-center gap-2"
-          >
-            {userName || 'User'}
-            <svg 
-              className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
+          <button onClick={() => setOpen(!open)} className="font-medium py-2 px-4 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors flex items-center gap-2">
+            {userName}
+            <svg className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
 
-          {/* Dropdown menu */}
           {open && (
             <div className="absolute top-full right-0 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black/5 z-50">
-              <Link
-                href="/manage_events"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-xl transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                Manage Events
-              </Link>
-              <Link
-                href="/profile"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                Profile
-              </Link>
-              <Link
-                href="/settings"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                Settings
-              </Link>
-              <Link
-                href="/logout"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                Logout
-              </Link>
+              <Link href="/manage_events" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-xl transition-colors" onClick={() => setOpen(false)}>Manage Events</Link>
+              <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors" onClick={() => setOpen(false)}>Profile</Link>
+              <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors" onClick={() => setOpen(false)}>Settings</Link>
+              <Link href="/logout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl transition-colors" onClick={() => setOpen(false)}>Logout</Link>
             </div>
           )}
         </div>

@@ -1,33 +1,19 @@
 'use client';
-import  { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useLogout } from '@/hooks/useAuth';
 
-export default function LogOutPage(){
+export default function LogOutPage() {
     const router = useRouter();
+    // useLogout gives us a mutate function — we call it to trigger the logout API call
+    const { mutate: logout } = useLogout();
+
     useEffect(() => {
-        async function logout(){
-        try {
-            const result =await fetch("http://localhost:3000/api/v0.1/user/logout", 
-                {method: 'POST',
-                credentials: 'include',
-                });
-            if (result.ok)
-            {
-                console.log("Successful logout");
-                // router.refresh();
-                router.push("/");
-                
-            }
-        } catch (error) {
-            console.error("Logout error", error);
-        }
-    };
-        logout();
+        logout(undefined, {
+            onSuccess: () => router.push('/'),
+            onError: (err) => console.error('Logout error', err),
+        });
     }, []);
 
-    
-    return (
-        <div>
-        </div>
-    )
+    return <div></div>;
 }
