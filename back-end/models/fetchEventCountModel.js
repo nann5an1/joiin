@@ -1,15 +1,13 @@
-import pool from "../database/db.js";
+import prisma from "../database/prismaClient.js";
 
 export async function fetchEventCountModel(user_id) {
     try {
-        const [result] = await pool.execute('SELECT COUNT (*) as count FROM create_events WHERE user_id = ?', [user_id]); //./execute return the tuple
-         console.log("result", result);
-
-        const [returned] = await pool.execute('SELECT COUNT (*) as count FROM attending_events WHERE user_id = ?', [user_id]); //./execute return the tuple
-        return {
-            created_count: result[0].count,
-            joined_count: returned[0].count
-        };
+        const [created_count, joined_count] = await Promise.all([
+            prisma.create_events.count({ where: { user_id: user_id } }),
+            prisma.attending_events.count({ where: { user_id: String(user_id) } })
+        ]);
+        console.log("result", { created_count, joined_count });
+        return { created_count, joined_count };
     } catch (error) {
         console.log("Error in fetchEventCountModel", error);
         throw error;

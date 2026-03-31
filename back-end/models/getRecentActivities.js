@@ -1,7 +1,8 @@
-import pool from "../database/db.js";
-export async function recentActivitiesModel() { //must retrieve recent activites from the database (the timing must be checked here)
-    // This function will interact with the database to fetch recent activities
-    const [rows] = await pool.execute("SELECT * FROM create_events WHERE start_date > NOW()");
-//    console.log("Recent activities fetched:", result);
+import prisma from "../database/prismaClient.js";
+
+export async function recentActivitiesModel() {
+    const rows = await prisma.create_events.findMany({
+        where: { start_date: { gt: new Date() } }
+    });
     return rows;
 }

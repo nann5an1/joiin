@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx prisma:*)",
+      "Bash(npm search:*)",
+      "Bash(node -e \"const d=require\\(''''fs''''\\).readFileSync\\(''''/dev/stdin'''',''''utf8''''\\); try{const a=JSON.parse\\(d\\);a.slice\\(0,10\\).forEach\\(p=>console.log\\(p.name\\)\\)}catch\\(e\\){console.log\\(d.substring\\(0,500\\)\\)}\")",
+      "Bash(npm install:*)",
+      "Bash(node -e \"import\\(''@prisma/adapter-mariadb''\\).then\\(m=>console.log\\(Object.keys\\(m\\)\\)\\)\")",
+      "Bash(node --input-type=module -e \"import\\(''@prisma/adapter-mariadb''\\).then\\(m=>console.log\\(Object.keys\\(m\\)\\)\\)\")",
+      "WebFetch(domain:voice-ardent-73075037.figma.site)",
+      "WebFetch(domain:www.figma.com)"
+    ]
+  }
+}

@@ -1,10 +1,12 @@
-import pool from "../database/db.js";
+import prisma from "../database/prismaClient.js";
 
-export async function freeActivitiesModel(){
-    try{
-        const [response] = await pool.execute(`SELECT * from create_events WHERE LOWER(fares) = "free"`);
+export async function freeActivitiesModel() {
+    try {
+        const response = await prisma.create_events.findMany({
+            where: { fares: { equals: 'free' } }
+        });
         return response;
-    }catch(error){
+    } catch (error) {
         console.error("error in fetching activiites model: ", error);
         throw error;
     }

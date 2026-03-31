@@ -1,19 +1,21 @@
-import pool from '../database/db.js';
+import prisma from "../database/prismaClient.js";
 
 export async function postInterestedEventsModel(user_id, event_id) {
     try {
-        const checkSql = `SELECT id FROM interested_events WHERE user_id = ? AND event_id = ?`;
-        const [existing] = await pool.execute(checkSql, [user_id, event_id]);
-        
-        if (existing.length > 0) {
+        const existing = await prisma.interested_events.findFirst({
+            where: { user_id: String(user_id), event_id: String(event_id) }
+        });
+
+        if (existing) {
             return { success: false, message: "Already added to interested events" };
         }
 
-        const sql_cmd = `INSERT INTO interested_events (user_id, event_id) VALUES (?, ?)`; //user_id, event_id
-        const [result] = await pool.execute(sql_cmd, [user_id, event_id]); //will return the id, name, password
+        const result = await prisma.interested_events.create({
+            data: { user_id: String(user_id), event_id: String(event_id) }
+        });
         return result;
     } catch (error) {
         console.error("Error adding interested event:", error);
         throw error;
-    }   
+    }
 }

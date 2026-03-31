@@ -1,20 +1,15 @@
-import pool from "../database/db.js";
+import prisma from "../database/prismaClient.js";
 
-export async function getFeaturedEvents(){
-    const connection = await pool.getConnection();
+export async function getFeaturedEvents() {
     try {
-        await connection.beginTransaction();
-        
-        const sql_cmd = `SELECT * from create_events ce JOIN audience_count ac ON ce.id = ac.event_id WHERE ac.bool_featured = 1`;
-        const [result] = await connection.execute(sql_cmd);
+        const result = await prisma.$queryRaw`
+            SELECT ce.* FROM create_events ce
+            JOIN audience_count ac ON ce.id = ac.event_id
+            WHERE ac.bool_featured = 1
+        `;
         console.log("result from getFeaturedEventsModel", result);
-        await connection.commit();
+        return result;
     } catch (error) {
         console.log("Error in getFeaturedEventsModel", error);
-        await connection.rollback();
-    }finally{
-        console.log("connection released from getFeaturedEventsModel");
-        connection.release();
     }
-    return (result);
 }

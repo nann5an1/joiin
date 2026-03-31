@@ -1,7 +1,7 @@
-import pool from "../database/db.js";
+import prisma from "../database/prismaClient.js";
 
 export async function defaultActivitiesModel() {
-    const [rows] = await pool.execute(`SELECT * FROM create_events`); //./execute return the tuple
+    const rows = await prisma.create_events.findMany();
     console.log("rows output in defaultActivitiesModel", rows);
     return rows;
 }
