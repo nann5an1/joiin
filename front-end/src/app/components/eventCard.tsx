@@ -1,144 +1,173 @@
 'use client'
 
-import {Badge} from "@/components/ui/badge"
-import {Separator} from "@/components/ui/separator"
-import {Card, CardTitle} from "@/components/ui/card"
-import { MapPin, Calendar, Users, Clock, Ticket } from "lucide-react";
-import {format} from 'date-fns';
+import { Card } from "@/components/ui/card";
+import { MapPin, Calendar, Users } from "lucide-react";
+import { motion } from "framer-motion";
+import { format, isValid } from 'date-fns';
+
+function safeFormat(dateStr: string, fmt: string): string {
+  try {
+    const d = new Date(dateStr);
+    return isValid(d) ? format(d, fmt) : '—';
+  } catch {
+    return '—';
+  }
+}
+
+function getPriceBadge(event: any): { label: string; cls: string } {
+  const fare = parseFloat(event.fares ?? 0);
+  if (!fare || fare === 0) return { label: 'Free', cls: 'bg-blue-500 text-white' };
+  return { label: `$${fare}`, cls: 'bg-blue-500 text-white' };
+}
+
+function getEnvTag(event: any): string {
+  const tags = Array.isArray(event.tags)
+    ? event.tags
+    : (typeof event.tags === 'string' ? (() => { try { return JSON.parse(event.tags); } catch { return []; } })() : []);
+  const str = tags.join(' ').toLowerCase();
+  if (str.includes('indoor')) return 'Indoor';
+  if (str.includes('outdoor')) return 'Outdoor';
+  return 'Outdoor';
+}
 
 export default function EventCard({
-  activities, 
-  loading, 
-  error, 
+  activities = [],
+  loading,
+  error,
+  onActionDetails,
   onActionClick,
   onActionInterested,
   onActionJoin,
-  onActionDetails,
+  actionIcon,
+  actionTooltip,
   interestedIcon,
   joinIcon,
-  actionIcon, 
-  actionTooltip,
+  gridClassName,
 }: any) {
-    // const [formattedDate, setFormattedDate] = useState('');
-    // // const [originalDate, setOriginalDate] = useState('');
-    // function changeDateFormat(originalDate :any){
-    //     setFormattedDate(format(originalDate, 'dd/MM/yyyy HH:mm'));
-    //     return formattedDate;
-    // }
+  const safeActivities = Array.isArray(activities) ? activities : [];
+  const grid = gridClassName ?? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
 
-    return (
-        <>
-        {/* Activities List */}
-        <div className='ml-20 grid p-4 row-start-1 row-end-3 col-start-2 col-end-5'>
-            {loading && <p>Loading activities...</p>}
-            {error && <p className='text-red-500'>{error}</p>}
-            {!error && !loading && activities.length === 0 && <p>No activities found</p>}
-            
-            <div className='grid grid-cols-3 grid-rows-1 gap-4 justify-start'>
-                {/* <Card> */}
-                    {activities.map((event: any) => (
-                    <div    
-                        key={event.id}
-                        className='w-full border-solid-1 rounded-xl font-bodoni p-2 hover:shadow-xl'>
-                        
-                        <div className='p-4 flex flex-row justify-center items-center w-full'>
-                        {event.img && <img className="w-full h-48 object-cover rounded-md" src={`http://localhost:3000${event.img}`} alt={event.title || ""} />}
-                        </div>
-                        
-                        <div className="flex flex-row justify-start items-center">
-                            <Badge variant="secondary" className="ml-4 mr-40 bg-white/90 text-primary">
-                                {event.category}
-                            </Badge>
-                            <div className='flex flex-row justify-end mr-4'>
-                                {onActionInterested && (
-                                    <button 
-                                        onClick={() => onActionInterested(event.id)} 
-                                        type="button" 
-                                        data-tooltip-target={actionTooltip} 
-                                        className="rounded-full p-2 hover:bg-gray-100"
-                                    >
-                                        {interestedIcon}
-                                    </button>
-                                )}
-                                {onActionJoin && (
-                                    <button 
-                                        onClick={() => onActionJoin(event.id)} 
-                                        type="button" 
-                                        data-tooltip-target={actionTooltip} 
-                                        className="rounded-full p-2 hover:bg-gray-100"
-                                    >
-                                        {joinIcon}
-                                    </button>
-                                )}
-                                {/* Action Button - only show if onActionClick is provided */}
-                                {onActionClick && (
-                                    <button 
-                                        onClick={() => onActionClick(event.id)} 
-                                        type="button" 
-                                        data-tooltip-target={actionTooltip} 
-                                        className="rounded-full p-2 hover:bg-gray-100"
-                                    >
-                                        {actionIcon}
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                            <div onClick={() => onActionDetails?.(event.id)}
-                            className="font-bodoni grid grid-cols-1 justify-center gap-2 p-2">
-                                <CardTitle>
-                                    <p className="text-gray-900 text-xl font-bold">{event.title}</p>
-                                </CardTitle>
-                                
-                                <div className="grid grid-cols-10 text-gray-700">
-                                    <div className="col-start-1 justify-items-center">
-                                        <MapPin className="h-4 w-4"/>
-                                    </div>
-                                    <div className="col-start-2 col-span-9">
-                                        {event.location}
-                                    </div>          
-                                </div>
-                                <div className="grid grid-cols-10 text-gray-700">
-                                    <div className="col-start-1 justify-items-center">
-                                        <Calendar className="h-4 w-4"/>
-                                    </div>
-                                    <div className="col-start-2 col-span-9">
-                                        {format(event.start_date, "dd/MM/yyyy HH:mm")}
-                                    </div>    
-                                </div>
+  return (
+    <div className={`grid ${grid} gap-6 items-start`}>
+      {loading && (
+        <p className="col-span-full text-center text-gray-500 py-8">Loading events...</p>
+      )}
+      {error && (
+        <p className="col-span-full text-center text-red-500 py-8">{error}</p>
+      )}
+      {!loading && !error && safeActivities.length === 0 && (
+        <p className="col-span-full text-center text-gray-500 py-8">No events found</p>
+      )}
 
-                                <div className="grid grid-cols-10 text-gray-700">
-                                    <div className="col-start-1 justify-items-center">
-                                        <Clock className="h-4 w-4"/>
-                                    </div>
-                                    <div className="col-start-2 col-span-9">
-                                        {format(event.start_date, "dd/MM/yyyy HH:mm")}
-                                    </div>
-                                </div>
-                                
-                                <div className="grid grid-cols-10 text-gray-700">
-                                    <div className="col-start-1 justify-items-center">
-                                        <Users className="h-4 w-4"/>
-                                    </div>
-                                    <div className="col-start-2 col-span-9">
-                                        {event.pax} participants
-                                    </div>    
-                                </div>
-                                <Separator />
-                                <div className="grid grid-cols-10"> 
-                                    <div className="col-start-1">
-                                        <Ticket className="h-4 w-4 mr-2"/>Ticket
-                                    </div>
-                                    <div className="col-start-3 col-span-5">
-                                        <Badge variant="secondary">$ {event.fares}</Badge>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                    </div>
-                    ))}
-                {/* </Card> */}
-            </div>
-        </div>
-        </>
-    )
+      {safeActivities.map((event: any, i: number) => {
+        const { label: priceLabel, cls: priceCls } = getPriceBadge(event);
+        const envTag = getEnvTag(event);
+        const dateStr = safeFormat(event.start_date, 'MMM dd, yyyy');
+        const timeStr = safeFormat(event.start_date, 'HH:mm');
+        const categoryLabel = event.category
+          ? event.category.charAt(0).toUpperCase() + event.category.slice(1)
+          : 'Event';
+
+        return (
+          <motion.div
+            key={event.id}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: i * 0.05 }}
+          >
+            <Card
+              className="overflow-hidden rounded-2xl border-0 shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col w-full cursor-pointer"
+              onClick={() => onActionDetails?.(event.id)}
+            >
+              {/* Image */}
+              <div className="relative h-44 overflow-hidden shrink-0">
+                {event.img ? (
+                  <img
+                    className="w-full h-full object-cover"
+                    src={`http://localhost:3000${event.img}`}
+                    alt={event.title ?? ''}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-sky-200 to-blue-400" />
+                )}
+
+                {/* Category badge — top left */}
+                <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+                  {categoryLabel}
+                </span>
+
+                {/* Price badge — top right */}
+                <span className={`absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full shadow-sm ${priceCls}`}>
+                  {priceLabel}
+                </span>
+              </div>
+
+              {/* Body */}
+              <div className="flex-1 p-4 flex flex-col gap-2.5">
+                {/* Environment tag */}
+                <span className="inline-flex w-fit items-center border border-blue-200 text-blue-600 bg-blue-50 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                  {envTag}
+                </span>
+
+                <h3 className="text-gray-900 font-bold text-lg leading-snug">
+                  {event.title}
+                </h3>
+
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Calendar className="h-4 w-4 shrink-0" />
+                  <span>{dateStr} at {timeStr}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-blue-500">
+                  <MapPin className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{event.location}</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Users className="h-4 w-4 shrink-0" />
+                  <span>{event.current_count ?? 0}/{event.pax ?? '?'} Participants</span>
+                </div>
+              </div>
+
+              {/* Legacy action buttons */}
+              {(onActionInterested || onActionJoin || onActionClick) && (
+                <div className="px-4 pb-3 flex justify-end gap-1">
+                  {onActionInterested && (
+                    <button
+                      onClick={e => { e.stopPropagation(); onActionInterested(event.id); }}
+                      type="button"
+                      title={actionTooltip}
+                      className="rounded-full p-2 hover:bg-gray-100"
+                    >
+                      {interestedIcon}
+                    </button>
+                  )}
+                  {onActionJoin && (
+                    <button
+                      onClick={e => { e.stopPropagation(); onActionJoin(event.id); }}
+                      type="button"
+                      title={actionTooltip}
+                      className="rounded-full p-2 hover:bg-gray-100"
+                    >
+                      {joinIcon}
+                    </button>
+                  )}
+                  {onActionClick && (
+                    <button
+                      onClick={e => { e.stopPropagation(); onActionClick(event.id); }}
+                      type="button"
+                      title={actionTooltip}
+                      className="rounded-full p-2 hover:bg-gray-100"
+                    >
+                      {actionIcon}
+                    </button>
+                  )}
+                </div>
+              )}
+            </Card>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
 }

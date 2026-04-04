@@ -2,18 +2,13 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserName } from '@/hooks/useUser';
+import { Bell, UserCircle2, ChevronDown } from 'lucide-react';
 
 export const AuthHeader = () => {
   const [inputVal, setInputVal] = useState('');
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // useQuery — runs automatically when this component mounts.
-  // data holds the API response, no useState or useEffect needed for the fetch itself.
-  const { data: userNameData } = useUserName();
-  const userName = userNameData?.data?.username ?? 'User';
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputVal.trim()) {
@@ -36,56 +31,52 @@ export const AuthHeader = () => {
   }, []);
 
   return (
-    <nav className="grid grid-cols-4 justify-items-start w-full p-4 border gap-4 min-h-16 font-semibold text-gray-700">
+    <nav className="flex items-center justify-between w-full px-6 py-3 border-b border-slate-100 bg-white/80 backdrop-blur-sm">
       {/* Logo */}
-      <div className="col-start-1 col-end-2 w-10 h-10">
-        <Link href="/">
-          <img src="join.png" alt="Logo" className="w-full h-full object-contain" />
-        </Link>
-      </div>
-
-      {/* Search bar with icon */}
-      <div className="col-start-2 col-end-4 w-full relative">
-        <div className="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.35-4.35"/>
+      <Link href="/" className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="4" width="18" height="16" rx="2" stroke="white" strokeWidth="2"/>
+            <path d="M3 9h18" stroke="white" strokeWidth="2"/>
+            <circle cx="8" cy="6.5" r="1" fill="white"/>
+            <circle cx="16" cy="6.5" r="1" fill="white"/>
           </svg>
-          <input
-            type="text"
-            value={inputVal}
-            className="rounded-xl bg-[var(--search-bar)] h-full w-full mt-2 pt-2 pb-2 pl-10 pr-4 border-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Search events, categories, locations..."
-            onChange={handleOnChange}
-            onKeyDown={handleKeyDown}
-          />
         </div>
-      </div>
+        <span className="text-base font-bold text-slate-800">SportSync</span>
+      </Link>
 
-      {/* Navigation links + dropdown */}
-      <div className="flex flex-row col-start-4 justify-end items-center relative" ref={dropdownRef}>
-        <Link href="/create" className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors">
-          Create
-        </Link>
-        <Link href="/upcoming_events" className="mr-4 font-medium block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 transition-colors">
-          Upcoming
+      {/* Right: Bell + Avatar dropdown */}
+      <div className="flex items-center gap-3" ref={dropdownRef}>
+        {/* Bell */}
+        <button className="relative p-2 rounded-full hover:bg-slate-100 transition-colors">
+          <Bell className="h-5 w-5 text-slate-600" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+        </button>
+
+        {/* Avatar → /profile (direct link) */}
+        <Link
+          href="/profile"
+          className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center hover:opacity-90 transition-opacity"
+        >
+          <UserCircle2 className="h-5 w-5 text-white" />
         </Link>
 
-        {/* Dropdown */}
+        {/* Chevron dropdown for nav links */}
         <div className="relative">
-          <button onClick={() => setOpen(!open)} className="font-medium py-2 px-4 rounded-md bg-gray-200 hover:bg-gray-300 transition-colors flex items-center gap-2">
-            {userName}
-            <svg className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+          <button
+            onClick={() => setOpen(!open)}
+            className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors text-slate-500"
+          >
+            <ChevronDown className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`} />
           </button>
 
           {open && (
-            <div className="absolute top-full right-0 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black/5 z-50">
-              <Link href="/manage_events" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-xl transition-colors" onClick={() => setOpen(false)}>Manage Events</Link>
-              <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors" onClick={() => setOpen(false)}>Profile</Link>
-              <Link href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors" onClick={() => setOpen(false)}>Settings</Link>
-              <Link href="/logout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-xl transition-colors" onClick={() => setOpen(false)}>Logout</Link>
+            <div className="absolute top-full right-0 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black/5 z-50 py-1">
+              <Link href="/manage_events" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors" onClick={() => setOpen(false)}>Dashboard</Link>
+              <Link href="/profile" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors" onClick={() => setOpen(false)}>Profile</Link>
+              <Link href="/settings" className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors" onClick={() => setOpen(false)}>Settings</Link>
+              <hr className="my-1 border-slate-100" />
+              <Link href="/logout" className="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors" onClick={() => setOpen(false)}>Logout</Link>
             </div>
           )}
         </div>

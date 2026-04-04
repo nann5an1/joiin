@@ -5,7 +5,7 @@ export async function insertFormData(userId, data, file) {
         const result = await prisma.$transaction(async (tx) => {
             const tags = data.tags
                 ? JSON.stringify(data.tags.split(',').map(tag => tag.trim()))
-                : null;
+                : '[]';
 
             const event = await tx.create_events.create({
                 data: {
@@ -15,12 +15,12 @@ export async function insertFormData(userId, data, file) {
                     descrip: data.descrip,
                     img: file ? `/uploads/${file.filename}` : null,
                     location: data.location || null,
-                    pax: data.pax || null,
+                    pax: data.pax ? parseInt(data.pax, 10) : null,
                     org_name: data.org_name || null,
                     org_email: data.org_email || null,
                     org_phone: data.org_phone || null,
-                    start_date: data.start_date || null,
-                    end_date: data.end_date || null,
+                    start_date: data.start_date ? new Date(data.start_date) : null,
+                    end_date: data.end_date ? new Date(data.end_date) : null,
                     fares: data.fares || null,
                     e_status: data.e_status,
                     tags
@@ -33,7 +33,7 @@ export async function insertFormData(userId, data, file) {
                 data: {
                     event_id: String(event.id),
                     current_count: '0',
-                    remaining_count: String(data.pax),
+                    remaining_count: data.pax ? String(parseInt(data.pax, 10)) : '0',
                     bool_featured: '0'
                 }
             });

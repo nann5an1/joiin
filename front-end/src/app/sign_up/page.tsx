@@ -1,15 +1,29 @@
 'use client'
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Eye, EyeOff, Check } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useSignUp } from "@/hooks/useAuth";
+
+const FEATURES = [
+    '14-day free trial, no credit card required',
+    'Unlimited events and participants',
+    'Real-time notifications and updates',
+    'Advanced analytics and reporting',
+    '24/7 customer support',
+];
 
 export default function SignUpPage() {
     const router = useRouter();
     const [userInfo, setUserInfo] = useState({ name: '', email: '', password: '' });
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [agreed, setAgreed] = useState(false);
     const [emailExist, setEmailExist] = useState(false);
+    const [passwordMismatch, setPasswordMismatch] = useState(false);
 
-    // useMutation for sign up — isPending is true while the request is in-flight
     const { mutate: signUp, isPending } = useSignUp();
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -19,8 +33,13 @@ export default function SignUpPage() {
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setEmailExist(false);
+        setPasswordMismatch(false);
 
-        // signUp() triggers the API call. onSuccess/onError replace the old try/catch
+        if (userInfo.password !== confirmPassword) {
+            setPasswordMismatch(true);
+            return;
+        }
+
         signUp(userInfo, {
             onSuccess: (data) => {
                 if (data.success === true) router.push('/login');
@@ -31,61 +50,188 @@ export default function SignUpPage() {
     }
 
     return (
-        <>
-            <section className="bg-gray-300">
-                <div className="flex flex-col items-center justify-center mx-auto  pb-20 md:flex">
-                    <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                        <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
-                        Flowbite
-                    </a>
-                    <div className="bg-[var(--card)] md:w-3/5 sm:w-1/2 lg:w-1/3 p-6 rounded-lg">
-                        <div className="p-30 space-y-4 md:space-y-6 sm:p-8">
-                            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Create an account
-                            </h1>
-                            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
-                                <div>
-                                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                                    <input onChange={handleChange} type="input" name="name" id="name" className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 decorate-none" placeholder="John Doe" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                    <input onChange={handleChange} type="email" name="email" id="email" className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                    <input onChange={handleChange} type="password" name="password" id="password" placeholder="••••••••" className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                                    <input onChange={handleChange} type="confirm-password" name="confirm-password" id="confirm-password" placeholder="••••••••" className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required />
-                                </div>
-                                <div className="flex items-start">
-                                    <div className="flex items-center h-5">
-                                        <input onChange={handleChange} id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-primary-300" required />
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</a></label>
-                                    </div>
-                                </div>
-                                {/* isPending disables the button while the request is running */}
-                                <button type="submit" disabled={isPending} className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                    {isPending ? 'Creating...' : 'Create an account'}
-                                </button>
-                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Already have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
-                                </p>
-                            </form>
-                            {emailExist && (
-                                <Alert>
-                                    <AlertTitle>The email you entered already exists</AlertTitle>
-                                    <AlertDescription>Please use a different email for your registration.</AlertDescription>
-                                </Alert>
-                            )}
-                        </div>
+        <div className="login-page-bg min-h-screen flex items-center justify-center px-4 py-12">
+            <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-12 items-center">
+
+                {/* ── Left: Marketing copy ── */}
+                <div className="space-y-6">
+                    {/* Heading */}
+                    <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight tracking-tight">
+                        Start Managing{' '}
+                        <span className="text-blue-500">
+                            Sports Events
+                        </span>
+                    </h1>
+
+                    <p className="text-slate-500 text-base max-w-md">
+                        Join thousands of coordinators who trust Joiin to manage their events efficiently.
+                    </p>
+
+                    {/* Feature list */}
+                    <ul className="space-y-3">
+                        {FEATURES.map(f => (
+                            <li key={f} className="flex items-center gap-3 text-slate-700 text-sm">
+                                <span className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shrink-0">
+                                    <Check className="h-3.5 w-3.5 text-blue-500" strokeWidth={3} />
+                                </span>
+                                {f}
+                            </li>
+                        ))}
+                    </ul>
+
+                    {/* Social proof */}
+                    <div className="flex items-center gap-3 pt-2">
+                        <p className="text-sm text-slate-500">
+                            <span className="font-bold text-slate-900">50,000+</span> event coordinators already use Joiin
+                        </p>
                     </div>
                 </div>
-            </section>
-        </>
+
+                {/* ── Right: Form card ── */}
+                <div className="w-full lg:w-[420px] bg-white rounded-2xl shadow-lg border border-slate-100 p-8 space-y-5">
+                    <div>
+                        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Create your account</h2>
+                        <p className="text-slate-500 text-sm mt-1">Get started with your free trial</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+
+                        {/* Full Name */}
+                        <div>
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-slate-700">
+                                Full Name
+                            </label>
+                            <div className="flex items-center px-4 bg-slate-50 rounded-xl border border-slate-200 focus-within:border-blue-300 focus-within:bg-white transition-colors">
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    placeholder="John Doe"
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-transparent border-none focus:outline-none py-3 text-slate-700 placeholder:text-slate-400 text-sm"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Email */}
+                        <div>
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-slate-700">
+                                Email
+                            </label>
+                            <div className="flex items-center px-4 bg-slate-50 rounded-xl border border-slate-200 focus-within:border-blue-300 focus-within:bg-white transition-colors">
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="you@example.com"
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-transparent border-none focus:outline-none py-3 text-slate-700 placeholder:text-slate-400 text-sm"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Password */}
+                        <div>
+                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-slate-700">
+                                Password
+                            </label>
+                            <div className="flex items-center px-4 bg-slate-50 rounded-xl border border-slate-200 focus-within:border-blue-300 focus-within:bg-white transition-colors">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Create a strong password"
+                                    onChange={handleChange}
+                                    required
+                                    className="w-full bg-transparent border-none focus:outline-none py-3 text-slate-700 placeholder:text-slate-400 text-sm"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(v => !v)}
+                                    className="text-slate-400 hover:text-slate-600 shrink-0"
+                                >
+                                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                </button>
+                            </div>
+                            <p className="text-xs text-slate-400 mt-1">Must be at least 8 characters</p>
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div>
+                            <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-slate-700">
+                                Confirm Password
+                            </label>
+                            <div className={`flex items-center px-4 bg-slate-50 rounded-xl border focus-within:bg-white transition-colors ${
+                                passwordMismatch ? 'border-red-400 focus-within:border-red-400' : 'border-slate-200 focus-within:border-blue-300'
+                            }`}>
+                                <input
+                                    id="confirm-password"
+                                    name="confirm-password"
+                                    type={showConfirm ? 'text' : 'password'}
+                                    placeholder="Re-enter your password"
+                                    value={confirmPassword}
+                                    onChange={e => setConfirmPassword(e.target.value)}
+                                    required
+                                    className="w-full bg-transparent border-none focus:outline-none py-3 text-slate-700 placeholder:text-slate-400 text-sm"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirm(v => !v)}
+                                    className="text-slate-400 hover:text-slate-600 shrink-0"
+                                >
+                                    {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                </button>
+                            </div>
+                            {passwordMismatch && (
+                                <p className="text-xs text-red-500 mt-1">Passwords do not match</p>
+                            )}
+                        </div>
+
+                        {/* Terms checkbox */}
+                        <div className="flex items-start gap-3 pt-1">
+                            <input
+                                id="terms"
+                                type="checkbox"
+                                checked={agreed}
+                                onChange={e => setAgreed(e.target.checked)}
+                                required
+                                className="mt-0.5 w-4 h-4 rounded border-slate-300 accent-cyan-500"
+                            />
+                            <label htmlFor="terms" className="text-sm text-slate-500">
+                                I agree to the{' '}
+                                <a href="#" className="font-medium text-cyan-600 hover:text-blue-600 hover:underline transition-colors">Terms of Service</a>
+                                {' '}and{' '}
+                                <a href="#" className="font-medium text-cyan-600 hover:text-blue-600 hover:underline transition-colors">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        {/* Submit */}
+                        <button
+                            type="submit"
+                            disabled={isPending || !agreed}
+                            className="w-full login-page-bg hover:from-cyan-600 hover:to-blue-600 text-gray-800 font-semibold rounded-xl py-3 text-sm shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                            {isPending ? 'Creating account...' : 'Register'}
+                        </button>
+
+                        <p className="text-sm text-center text-slate-500">
+                            Already have an account?{' '}
+                            <Link href="/login" className="font-medium text-cyan-600 hover:text-blue-600 hover:underline transition-colors">
+                                Sign in
+                            </Link>
+                        </p>
+                    </form>
+
+                    {emailExist && (
+                        <Alert variant="destructive">
+                            <AlertTitle>Email already exists</AlertTitle>
+                            <AlertDescription>Please use a different email for your registration.</AlertDescription>
+                        </Alert>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 }

@@ -1,87 +1,73 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, Settings, Share2, Play } from "lucide-react";
-
 const steps = [
   {
     step: "01",
-    icon: Plus,
     title: "Create Your Event",
-    description: "Use our intuitive builder to set up your sports event with all the details, rules, and requirements.",
-    color: "bg-blue-500"
+    description: "Set up your sports event in minutes with our intuitive event creation wizard. Define teams, venues, and schedules.",
   },
   {
     step: "02",
-    icon: Settings,
-    title: "Configure & Customize",
-    description: "Set registration limits, pricing, schedules, and customize the look to match your brand.",
-    color: "bg-green-500"
+    title: "Invite & Coordinate",
+    description: "Send invitations to teams, coaches, and officials. Everyone stays connected through our unified platform.",
   },
   {
     step: "03",
-    icon: Share2,
-    title: "Share & Promote",
-    description: "Share your event link across social media, email, and other channels to attract participants.",
-    color: "bg-purple-500"
+    title: "Manage & Track",
+    description: "Monitor everything in real-time. Update scores, manage changes, and keep all participants informed instantly.",
   },
   {
     step: "04",
-    icon: Play,
-    title: "Manage & Execute",
-    description: "Track registrations, communicate with participants, and run your event smoothly on event day.",
-    color: "bg-orange-500"
-  }
+    title: "Analyze & Improve",
+    description: "Review comprehensive analytics and feedback to make your next event even better.",
+  },
 ];
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+    <section id="how-it-works" className="py-16" style={{ background: 'linear-gradient(to bottom, #e8f4ff, #C2EFFF)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Centered header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <span className="inline-block bg-blue-100 text-blue-700 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
             How It Works
+          </span>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Get Started in <span className="text-cyan-400">Four Simple Steps</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-            Get your sports event up and running in four simple steps
+          <p className="text-gray-600 mt-3 text-lg">
+            From setup to success, we've streamlined the entire process
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="relative">
-              <Card className="hover:shadow-lg transition-shadow h-full">
-                <CardContent className="p-6 text-center h-full flex flex-col">
-                  <div className="mb-4">
-                    <div className={`w-16 h-16 ${step.color} text-white rounded-full flex items-center justify-center mx-auto mb-3`}>
-                      <step.icon className="h-8 w-8" />
-                    </div>
-                    <div className="text-sm font-bold text-gray-400 mb-2">
-                      STEP {step.step}
-                    </div>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg text-gray-900 mb-3">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 -right-4 w-8 h-0.5 bg-gray-300"></div>
-              )}
+
+        {/* 2-column layout */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+          {/* Left: steps list */}
+          <div className="flex flex-col gap-8">
+            {steps.map((step, index) => (
+              <div key={index} className="flex items-start gap-5">
+                <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-blue-600 flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">{step.step}</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-lg mb-1">{step.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: gradient placeholder */}
+          <div className="rounded-2xl overflow-hidden shadow-lg">
+            <div className="w-full h-96 bg-gradient-to-br from-blue-400 via-cyan-500 to-teal-400 flex items-center justify-center">
+              <div className="text-white text-center px-8">
+                <div className="text-6xl mb-4">⚽</div>
+                <p className="font-semibold text-xl mb-2">Get in the Game</p>
+                <p className="text-sm opacity-80">Start your sports journey today</p>
+              </div>
             </div>
-          ))}
-        </div>
-        
-        <div className="text-center mt-12">
-          <Button size="lg">
-            Start Creating Your Event
-          </Button>
+          </div>
+
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ export async function createEvent(req, res){
             category: req.body.category || null,
             descrip: req.body.descrip || null,
             location: req.body.location || null,
-            pax: req.body.pax || null,
+            pax: Number(req.body.pax) || null,
             org_name: req.body.org_name || null,
             org_email: req.body.org_email || null,
             org_phone: req.body.org_phone || null,

@@ -8,7 +8,14 @@
       "Bash(node -e \"import\\(''@prisma/adapter-mariadb''\\).then\\(m=>console.log\\(Object.keys\\(m\\)\\)\\)\")",
       "Bash(node --input-type=module -e \"import\\(''@prisma/adapter-mariadb''\\).then\\(m=>console.log\\(Object.keys\\(m\\)\\)\\)\")",
       "WebFetch(domain:voice-ardent-73075037.figma.site)",
-      "WebFetch(domain:www.figma.com)"
+      "WebFetch(domain:www.figma.com)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -E \"\\\\.tsx$\")",
+      "Bash(node -e ':*)",
+      "Bash(node -e \"import\\('./package.json', {assert:{type:'json'}}\\).then\\(m => { const d = m.default.dependencies; console.log\\('prisma:', d.prisma, '@prisma/client:', d['@prisma/client'], 'adapter-mariadb:', d['@prisma/adapter-mariadb'], 'mariadb:', d.mariadb\\); }\\)\")",
+      "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\).dependencies; console.log\\(JSON.stringify\\({prisma:d.prisma,client:d['@prisma/client'],adapter:d['@prisma/adapter-mariadb'],mariadb:d.mariadb},null,2\\)\\)\")",
+      "Bash(node -e \"import\\('@prisma/adapter-mariadb'\\).then\\(m => console.log\\('exports:', Object.keys\\(m\\)\\)\\).catch\\(e => console.error\\(e.message\\)\\)\")",
+      "Bash(node --input-type=module)"
     ]
   }
 }

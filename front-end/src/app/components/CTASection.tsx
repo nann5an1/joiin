@@ -1,35 +1,64 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap } from "lucide-react";
 
 export function CTASection() {
   return (
-    <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6">
-            <Zap className="h-8 w-8" />
+    <section className="py-16 bg-gradient-to-r from-blue-600 to-teal-500 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+          {/* Left: content */}
+          <div>
+            <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
+              ✦ Limited Time Offer
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4 leading-tight">
+              Ready to Transform Your Sports Events?
+            </h2>
+            <p className="text-lg opacity-90 mb-8 max-w-lg">
+              Join thousands of event coordinators who have already revolutionized their
+              sports management. Start your free 14-day trial today — no credit card required.
+            </p>
+            <div className="flex flex-row gap-4 flex-wrap">
+              <Link href="/sign_up">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white bg-transparent hover:bg-white hover:text-blue-600 px-8"
+                >
+                  Start Free Trial →
+                </Button>
+              </Link>
+              <Link href="/sign_up">
+                <Button
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-white/90 px-8"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-6 flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {['bg-pink-400', 'bg-purple-400', 'bg-blue-400'].map((c, i) => (
+                  <div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-white`} />
+                ))}
+              </div>
+              <span className="text-sm opacity-80">50k+ coordinators trust us</span>
+            </div>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            Ready to Create Your First Event?
-          </h2>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-            Join thousands of event organizers who trust Join to bring their sports communities together. 
-            Start creating amazing events today – it's free to get started!
-          </p>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-            Start Free Trial
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-          <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-white/30 text-white hover:bg-white/10">
-            Schedule Demo Call
-          </Button>
-        </div>
-        
-        <div className="mt-8 text-sm opacity-75">
-          <p>No credit card required • 14-day free trial • Cancel anytime</p>
+
+          {/* Right: bordered placeholder box */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="w-80 h-64 rounded-2xl border-2 border-white/40 bg-white/10 backdrop-blur-sm flex items-center justify-center shadow-2xl">
+              <div className="text-center text-white/80">
+                <div className="text-5xl mb-3">🏆</div>
+                <p className="font-semibold text-lg">Your next event awaits</p>
+                <p className="text-sm opacity-70 mt-1">Sign up and get started today</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -9,10 +9,11 @@ export async function showAllEvents(req, res) {
     // console.log("Query parameters received:", {recent, nearest, popular, free});
     try {
         if(recent)
-            response =  await recentActivitiesModel();
-        if(all)
+            response = await recentActivitiesModel();
+        else if(free)
+            response = await freeActivitiesModel();
+        else
             response = await defaultActivitiesModel();
-        if(free) response = await freeActivitiesModel();
         // console.log("Response from recentActivitiesModel:", response);
         res.status(200).json(response);
     } catch (error) {
