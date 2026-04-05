@@ -40,7 +40,7 @@ export default async function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
        
         <QueryProvider>
           {isAuthenticated ? <AuthHeader/> : <UnauthHeader />}

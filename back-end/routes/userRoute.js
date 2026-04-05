@@ -17,21 +17,22 @@ import {delCreatedEventController} from "../controllers/delCreatedEventControlle
 import {updateProfileController} from "../controllers/updateProfileController.js"
 import {fetchBriefProfileController} from "../controllers/fetchBriefProfileController.js"
 import {updatePasswordController} from "../controllers/updatePasswordController.js"
+import { cacheMiddleware } from "../middleware/redisCache.js"
 
 const router = express.Router();
 
-    router.post("/signup", signUpController);
-    router.post("/login",loginController); //verify the MFA if user has MFA enabled
-    router.post("/logout", logoutController);
-    router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
+router.post("/signup", signUpController);
+router.post("/login",loginController); //verify the MFA if user has MFA enabled
+router.post("/logout", logoutController);
+router.post("/setMFA", authenticateToken, setMFAController); //set the MFA generate secret code after the user has successfully logined
 router.post("/deleteAccount", authenticateToken, deleteAccountController);
 router.post("/updateProfile", authenticateToken, updateProfileController); 
 router.post("/updatePassword", authenticateToken, updatePasswordController);
 
 //user as an organizer getting his created events
-router.get("/created_events", authenticateToken ,organizerCreatedEvents);
-router.get("/interested_events", authenticateToken , showInterestedEvents);
-router.get("/attend_events", authenticateToken , showAttendingEvents);
+router.get("/created_events", authenticateToken, cacheMiddleware("created_events", 300), organizerCreatedEvents);
+router.get("/interested_events", authenticateToken ,  cacheMiddleware("interested_events", 300), showInterestedEvents);
+router.get("/attend_events", authenticateToken , cacheMiddleware("attending_events", 300), showAttendingEvents);
 router.get("/isEnabledMFA", authenticateToken, isEnabledMFA);
 router.get("/verifyMFA", authenticateToken, verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
 router.get("/totalEventCount", authenticateToken, fetchEventCountController);
