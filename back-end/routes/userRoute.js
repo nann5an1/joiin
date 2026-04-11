@@ -18,6 +18,7 @@ import {updateProfileController} from "../controllers/updateProfileController.js
 import {fetchBriefProfileController} from "../controllers/fetchBriefProfileController.js"
 import {updatePasswordController} from "../controllers/updatePasswordController.js"
 import { cacheMiddleware } from "../middleware/redisCache.js"
+import { showHistoryEvents } from "../controllers/showHistoryEventsController.js"
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ router.post("/updatePassword", authenticateToken, updatePasswordController);
 router.get("/created_events", authenticateToken, cacheMiddleware("created_events", 300), organizerCreatedEvents);
 router.get("/interested_events", authenticateToken ,  cacheMiddleware("interested_events", 300), showInterestedEvents);
 router.get("/attend_events", authenticateToken , cacheMiddleware("attending_events", 300), showAttendingEvents);
+router.get("/history_events", authenticateToken, cacheMiddleware("attending_events", 300), showHistoryEvents);
 router.get("/isEnabledMFA", authenticateToken, isEnabledMFA);
 router.get("/verifyMFA", authenticateToken, verifyMFA); //this will check if the user has MFA enabled and if yes, will verify the MFA
 router.get("/totalEventCount", authenticateToken, fetchEventCountController);

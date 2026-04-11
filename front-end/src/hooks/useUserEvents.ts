@@ -3,6 +3,7 @@ import {
   getAttendingEvents,
   removeAttendingEvent,
   getCreatedEvents,
+  getHistoryEvents,
   deleteCreatedEvent,
   getInterestedEvents,
   removeInterestedEvent,
@@ -12,6 +13,8 @@ export function useAttendingEvents() {
   return useQuery({
     queryKey: ["attendingEvents"],
     queryFn: getAttendingEvents,
+    refetchOnMount: 'always',
+    staleTime: 0,
   });
 }
 
@@ -32,6 +35,13 @@ export function useCreatedEvents() {
   });
 }
 
+export function useHistoryEvents() {
+  return useQuery({
+    queryKey: ["historyEvents"],
+    queryFn: getHistoryEvents,
+  })
+}
+
 export function useDeleteCreatedEvent() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -39,13 +49,15 @@ export function useDeleteCreatedEvent() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["createdEvents"] });
     },
-  });
+  }); 
 }
 
 export function useInterestedEvents() {
   return useQuery({
     queryKey: ["interestedEvents"],
     queryFn: getInterestedEvents,
+    refetchOnMount: 'always',
+    staleTime: 0,
   });
 }
 

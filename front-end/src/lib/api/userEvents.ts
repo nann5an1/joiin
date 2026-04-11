@@ -16,6 +16,11 @@ export async function getCreatedEvents() {
   return res.data;
 }
 
+export async function getHistoryEvents(){
+  const res = await apiClient.get("/user/history_events");
+  return res.data;
+}
+
 export async function deleteCreatedEvent(event_id: number) {
   const res = await apiClient.delete(`/user/del_created_event?event_id=${event_id}`);
   return res.data;

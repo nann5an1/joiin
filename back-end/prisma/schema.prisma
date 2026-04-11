@@ -9,7 +9,7 @@ datasource db {
 
 model attending_events {
   id       Int    @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  user_id  String @db.VarChar(45)
+  user_id  Int
   event_id String @db.VarChar(45)
 }
 
@@ -42,9 +42,15 @@ model create_events {
   @@index([user_id], map: "fk_createevents_user")
 }
 
+model history_events {
+  id       Int    @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  user_id  Int
+  event_id String @db.VarChar(45)
+}
+
 model interested_events {
   id       Int    @id @default(autoincrement())
-  user_id  String @db.VarChar(45)
+  user_id  Int
   event_id String @db.VarChar(45)
 }
 

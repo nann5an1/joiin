@@ -15,18 +15,7 @@ export const UnauthHeader = () => {
 
           {/* Center nav */}
           <div className="hidden md:flex items-center gap-8">
-            <a
-              href="/#features"
-              className="text-gray-600 hover:text-blue-600 transition-colors text-md font-medium"
-            >
-              Features
-            </a>
-            <a
-              href="/#how-it-works"
-              className="text-gray-600 hover:text-blue-600 transition-colors text-md font-medium"
-            >
-              How It Works
-            </a>
+
             <Link
               href="/upcoming_events"
               className="text-gray-600 hover:text-blue-600 transition-colors text-md font-medium"

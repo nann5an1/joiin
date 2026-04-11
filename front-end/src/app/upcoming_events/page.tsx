@@ -1,11 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Heart, Plus, Filter, Search, MapPin, LayoutGrid, List } from 'lucide-react';
+import { Heart, Plus, Filter, Search, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import EventCard from '../components/eventCard';
 import { useAllEvents, useSearchEvents, useJoinEvent, useAddInterestedEvent } from '@/hooks/useEvents';
+import { useAttendingEvents, useInterestedEvents, useRemoveAttendingEvent, useRemoveInterestedEvent } from '@/hooks/useUserEvents';
 
 type FilterType = 'all' | 'free' | 'indoor' | 'outdoor';
 
@@ -21,7 +22,6 @@ export default function UpcomingEventsPage() {
     const searchParams = useSearchParams();
 
     const [activeFilter, setActiveFilter] = useState<FilterType>('all');
-    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [searchInput, setSearchInput] = useState('');
     const [locationInput, setLocationInput] = useState('');
 
@@ -51,8 +51,20 @@ export default function UpcomingEventsPage() {
         return str.includes(activeFilter);
     });
 
+    const { data: rawAttending } = useAttendingEvents();
+    const { data: rawInterested } = useInterestedEvents();
+
+    const attendingIds = new Set<number>(
+        Array.isArray(rawAttending) ? rawAttending.map((e: any) => Number(e.id)) : []
+    );
+    const interestedIds = new Set<number>(
+        Array.isArray(rawInterested) ? rawInterested.map((e: any) => Number(e.id)) : []
+    );
+
     const { mutate: joinEvent } = useJoinEvent();
     const { mutate: addInterested } = useAddInterestedEvent();
+    const { mutate: removeAttending } = useRemoveAttendingEvent();
+    const { mutate: removeInterested } = useRemoveInterestedEvent();
 
     useEffect(() => {
         if (parsed_eventId != null) {
@@ -157,7 +169,7 @@ export default function UpcomingEventsPage() {
             <hr className="border-gray-100" />
 
             {/* Results */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <section className="max-w-full sm:px-12 lg:px-16 sm:mx-48">
                 {searchString && (
                     <div className="mb-5 flex items-center gap-3 text-sm text-blue-700 bg-blue-50 rounded-lg px-4 py-2.5">
                         <span>
@@ -172,48 +184,27 @@ export default function UpcomingEventsPage() {
                     </div>
                 )}
 
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6">
                     <p className="text-xl font-bold text-gray-900">
                         Showing {activities.length} event{activities.length !== 1 ? 's' : ''}
                     </p>
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => setViewMode('grid')}
-                            className={`p-2 rounded-lg border transition-colors ${
-                                viewMode === 'grid'
-                                    ? 'border-blue-400 text-blue-500 bg-blue-50'
-                                    : 'border-gray-200 text-gray-400 hover:border-gray-300'
-                            }`}
-                        >
-                            <LayoutGrid className="h-4 w-4" />
-                        </button>
-                        <button
-                            onClick={() => setViewMode('list')}
-                            className={`p-2 rounded-lg border transition-colors ${
-                                viewMode === 'list'
-                                    ? 'border-blue-400 text-blue-500 bg-blue-50'
-                                    : 'border-gray-200 text-gray-400 hover:border-gray-300'
-                            }`}
-                        >
-                            <List className="h-4 w-4" />
-                        </button>
-                    </div>
                 </div>
 
                 <EventCard
                     activities={activities}
                     loading={loading}
                     error={error}
-                    gridClassName={
-                        viewMode === 'grid'
-                            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                            : 'grid-cols-1'
-                    }
+                    gridClassName="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
                     onActionDetails={(eventId: number) => router.push(`/event_details?event_id=${eventId}`)}
-                    onActionInterested={(eventId: number) => addInterested(eventId)}
-                    onActionJoin={(eventId: number) => joinEvent(eventId)}
-                    interestedIcon={<Heart className="h-5 w-5 text-gray-500" strokeWidth={1.2} />}
-                    joinIcon={<Plus className="h-5 w-5 text-gray-500" strokeWidth={1.2} />}
+                    onAddInterested={(eventId: number) => addInterested(eventId)}
+                    onRemoveInterested={(eventId: number) => removeInterested(eventId)}
+                    onAddJoin={(eventId: number) => joinEvent(eventId)}
+                    onRemoveJoin={(eventId: number) => removeAttending(eventId)}
+                    attendingIds={attendingIds}
+                    interestedIds={interestedIds}
+                    interestedIcon={<Heart className="h-7 w-7 text-black-600 hover:text-red-300" strokeWidth={1.7} />}
+                    joinIcon={<Plus className="h-7 w-7 text-gray-600 hover:text-blue-300" strokeWidth={1.2} />}
+                    gap="gap-12"
                 />
             </section>
         </div>

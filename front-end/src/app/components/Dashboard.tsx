@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Trophy, Heart, Clock, Users, Calendar, MapPin, Settings, Plus } from 'lucide-react';
 import { format, isValid } from 'date-fns';
 import { useUserName } from '@/hooks/useUser';
-import { useCreatedEvents, useInterestedEvents, useAttendingEvents, useRemoveInterestedEvent, useRemoveAttendingEvent } from '@/hooks/useUserEvents';
+import { useCreatedEvents, useHistoryEvents, useInterestedEvents, useAttendingEvents, useRemoveInterestedEvent, useRemoveAttendingEvent } from '@/hooks/useUserEvents';
 import { useJoinEvent } from '@/hooks/useEvents';
 
 type Tab = 'created' | 'interested' | 'attended' | 'history';
@@ -44,43 +44,49 @@ export default function Dashboard({ activeTab }: { activeTab: Tab }) {
     const { data: userNameData } = useUserName();
     const userName = userNameData?.data?.username ?? 'there';
 
-    const { data: createdEvents = [], isLoading: createdLoading } = useCreatedEvents();
-    const { data: interestedEvents = [], isLoading: intLoading } = useInterestedEvents();
-    const { data: attendedEvents = [], isLoading: attLoading } = useAttendingEvents();
+    const { data: rawCreatedEvents, isLoading: createdLoading } = useCreatedEvents();
+    const { data: rawInterestedEvents, isLoading: intLoading } = useInterestedEvents();
+    const { data: rawAttendedEvents, isLoading: attLoading } = useAttendingEvents();
+    const { data: rawHistoryEvents, isLoading: histLoading } = useHistoryEvents();
+
+    const createdEvents: any[] = Array.isArray(rawCreatedEvents) ? rawCreatedEvents : [];
+    const interestedEvents: any[] = Array.isArray(rawInterestedEvents) ? rawInterestedEvents : [];
+    const attendedEvents: any[] = Array.isArray(rawAttendedEvents) ? rawAttendedEvents : [];
+    const historyEvents: any[] = Array.isArray(rawHistoryEvents) ? rawHistoryEvents : [];
 
     const { mutate: removeInterested } = useRemoveInterestedEvent();
     const { mutate: removeAttending } = useRemoveAttendingEvent();
     const { mutate: joinEvent } = useJoinEvent();
 
-    const totalParticipants = (createdEvents as any[]).reduce((sum, e) => sum + (Number(e.current_count) || 0), 0);
-    const pastEvents = (attendedEvents as any[]).filter(e => new Date(e.end_date) < new Date()).length;
+    const totalParticipants = createdEvents.reduce((sum, e) => sum + (Number(e.current_count) || 0), 0);
+    const pastEvents = attendedEvents.filter(e => e.end_date && new Date(e.end_date) < new Date()).length;
 
     return (
         <div className="min-h-screen login-page-bg">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8">
 
                 {/* Welcome */}
                 <div>
-                    <h1 className="text-3xl font-extrabold text-slate-900">Welcome back, {userName}!</h1>
-                    <p className="text-slate-500 mt-1 text-sm">Manage your events and track your sports activities</p>
+                    <h1 className="text-xl sm:text-3xl font-extrabold text-slate-900">Welcome back, {userName}!</h1>
+                    <p className="text-slate-500 mt-1 text-xs sm:text-sm">Manage your events and track your sports activities</p>
                 </div>
 
-                {/* Stat cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <StatCard label="Created" value={(createdEvents as any[]).length} icon={<Trophy className="h-6 w-6 text-white" />} gradient="from-blue-400 to-cyan-500" />
-                    <StatCard label="Interested" value={(interestedEvents as any[]).length} icon={<Heart className="h-6 w-6 text-white" />} gradient="from-blue-500 to-indigo-500" />
-                    <StatCard label="Past Events" value={pastEvents} icon={<Clock className="h-6 w-6 text-white" />} gradient="from-teal-400 to-emerald-500" />
-                    <StatCard label="Total Participants" value={totalParticipants} icon={<Users className="h-6 w-6 text-white" />} gradient="from-emerald-400 to-green-500" />
+                {/* Stat cards panel */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                    <StatCard label="Created" value={(createdEvents as any[]).length} icon={<Trophy className="h-5 w-5 sm:h-6 sm:w-6 text-white" />} gradient="from-blue-400 to-cyan-500" />
+                    <StatCard label="Interested" value={(interestedEvents as any[]).length} icon={<Heart className="h-5 w-5 sm:h-6 sm:w-6 text-white" />} gradient="from-blue-500 to-indigo-500" />
+                    <StatCard label="Past Events" value={pastEvents} icon={<Clock className="h-5 w-5 sm:h-6 sm:w-6 text-white" />} gradient="from-teal-400 to-emerald-500" />
+                    <StatCard label="Participants" value={totalParticipants} icon={<Users className="h-5 w-5 sm:h-6 sm:w-6 text-white" />} gradient="from-emerald-400 to-green-500" />
                 </div>
 
                 {/* Tab bar + Create button */}
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-1 bg-white/60 rounded-xl p-1 border border-slate-200 shadow-sm">
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex gap-0.5 sm:gap-1 bg-white/60 rounded-xl p-1 border border-slate-200 shadow-sm overflow-x-auto">
                         {TABS.map(t => (
                             <Link
                                 key={t.key}
                                 href={TAB_URLS[t.key]}
-                                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                                className={`px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                                     activeTab === t.key
                                         ? 'bg-blue-500 text-white shadow-sm'
                                         : 'text-slate-600 hover:text-slate-900'
@@ -92,10 +98,10 @@ export default function Dashboard({ activeTab }: { activeTab: Tab }) {
                     </div>
                     <Link
                         href="/create"
-                        className="flex items-center border-md border-white gap-1.5 bg-cyan-500 hover:bg-cyan-200 text-blue-500 text-sm font-semibold px-4 py-2 rounded-xl shadow-md transition-colors"
+                        className="flex items-center shrink-0 gap-1.5 bg-cyan-500 hover:bg-cyan-400 text-white text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 rounded-xl shadow-md transition-colors"
                     >
                         <Plus className="h-4 w-4" />
-                        Create Event
+                        <span className="hidden sm:inline">Create Event</span>
                     </Link>
                 </div>
 
@@ -172,8 +178,8 @@ export default function Dashboard({ activeTab }: { activeTab: Tab }) {
 
                     {activeTab === 'history' && (
                         <HistoryList
-                            createdEvents={createdEvents}
-                            attendedEvents={attendedEvents}
+                            events={historyEvents}
+                            loading={histLoading}
                             onViewDetails={(id) => router.push(`/event_details?event_id=${id}`)}
                         />
                     )}
@@ -187,12 +193,12 @@ export default function Dashboard({ activeTab }: { activeTab: Tab }) {
 
 function StatCard({ label, value, icon, gradient }: { label: string; value: number; icon: React.ReactNode; gradient: string }) {
     return (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex items-center justify-between">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-3 sm:p-4 flex items-center justify-between">
             <div>
-                <p className="text-xs text-slate-500 font-medium">{label}</p>
-                <p className="text-2xl font-extrabold text-slate-900 mt-0.5">{value}</p>
+                <p className="text-xs text-slate-500 font-medium leading-tight">{label}</p>
+                <p className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">{value}</p>
             </div>
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+            <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0`}>
                 {icon}
             </div>
         </div>
@@ -202,15 +208,15 @@ function StatCard({ label, value, icon, gradient }: { label: string; value: numb
 function EventRow({ event, children }: { event: any; children: React.ReactNode }) {
     const date = (() => { try { return format(new Date(event.start_date), 'MMM d, yyyy'); } catch { return '—'; } })();
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-5 py-4">
-            <div className="flex items-center justify-between gap-3 flex-wrap">
-                <h3 className="text-base font-bold text-slate-900 flex-1 min-w-0 pb-2">{event.title}</h3>
-                <div className="flex items-center gap-2 shrink-0 flex-wrap">{children}</div>
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm px-4 sm:px-5 py-3 sm:py-4">
+            <div className="flex items-start sm:items-center justify-between gap-2 flex-wrap">
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 flex-1 min-w-0">{event.title}</h3>
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">{children}</div>
             </div>
-            <div className="flex items-center gap-6 mt-2.5 text-sm text-slate-500 flex-wrap">
-                <span className="flex items-center gap-2"><Calendar className="h-3 w-3 shrink-0 text-blue-500" />{date}</span>
-                <span className="flex items-center gap-2"><MapPin className="h-3 w-3 shrink-0 text-blue-500" />{event.location}</span>
-                <span className="flex items-center gap-2"><Users className="h-3 w-3 shrink-0 text-blue-500" />{event.current_count ?? 0} participants</span>
+            <div className="flex items-center gap-3 sm:gap-6 mt-2 sm:mt-2.5 text-xs sm:text-sm text-slate-500 flex-wrap">
+                <span className="flex items-center gap-1.5"><Calendar className="h-3 w-3 shrink-0 text-blue-500" />{date}</span>
+                <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3 shrink-0 text-blue-500" />{event.location}</span>
+                <span className="flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0 text-blue-500" />{event.current_count ?? 0} participants</span>
             </div>
         </div>
     );
@@ -222,39 +228,35 @@ function EventList({ events, loading, renderRow }: { events: any[]; loading: boo
     return <>{(events as any[]).map(renderRow)}</>;
 }
 
-function HistoryList({ createdEvents, attendedEvents, onViewDetails }: { createdEvents: any[]; attendedEvents: any[]; onViewDetails: (id: number) => void }) {
-    const now = new Date();
-    const pastCreated = (createdEvents as any[]).filter(e => new Date(e.end_date) < now).map(e => ({ ...e, role: 'Creator' }));
-    const pastAttended = (attendedEvents as any[]).filter(e => new Date(e.end_date) < now).map(e => ({ ...e, role: 'Attendee' }));
-    const all = [...pastCreated, ...pastAttended].sort((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
-
-    if (!all.length) return <p className="text-center text-slate-400 py-8">No history yet</p>;
+function HistoryList({ events, loading, onViewDetails }: { events: any[]; loading: boolean; onViewDetails: (id: number) => void }) {
+    if (loading) return <p className="text-center text-slate-400 py-8">Loading...</p>;
+    if (!events.length) return <p className="text-center text-slate-400 py-8">No history yet</p>;
 
     return (
         <>
-            {all.map((e, i) => (
-                <div key={`${e.role}-${e.id}-${i}`} className="bg-white rounded-2xl border border-slate-100 shadow-sm px-5 py-4">
-                    <div className="flex items-center justify-between gap-3 flex-wrap">
-                        <h3 className="text-base font-bold text-slate-900 flex-1 min-w-0">{e.title}</h3>
-                        <div className="flex items-center gap-2 shrink-0 flex-wrap">
-                            <span className={`text-xs font-semibold px-2 py-1.5 rounded-lg border ${
+            {events.map((e, i) => (
+                <div key={`${e.role}-${e.id}-${i}`} className="bg-white rounded-2xl border border-slate-100 shadow-sm px-4 sm:px-5 py-3 sm:py-4">
+                    <div className="flex items-start sm:items-center justify-between gap-2 flex-wrap">
+                        <h3 className="text-sm sm:text-base font-bold text-slate-900 flex-1 min-w-0">{e.title}</h3>
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                            <span className={`text-xs font-semibold px-2 py-1 rounded-lg border ${
                                 e.role === 'Creator' ? 'border-blue-400 text-blue-600 bg-blue-50' : 'border-gray-300 text-gray-600 bg-white'
                             }`}>{e.role}</span>
                             <button
                                 onClick={() => onViewDetails(e.id)}
-                                className="text-sm font-medium text-slate-600 border border-slate-200 bg-white hover:bg-slate-50 px-3 py-2 rounded-lg transition-colors"
+                                className="text-xs sm:text-sm font-medium text-slate-600 border border-slate-200 bg-white hover:bg-slate-50 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors"
                             >
                                 View Details
                             </button>
                         </div>
                     </div>
-                    <div className="flex items-center gap-6 mt-2.5 text-sm text-slate-500 flex-wrap">
-                        <span className="flex items-center gap-2">
-                            <Calendar className="h-2 w-2 shrink-0 text-blue-500" />
+                    <div className="flex items-center gap-3 sm:gap-6 mt-2 sm:mt-2.5 text-xs sm:text-sm text-slate-500 flex-wrap">
+                        <span className="flex items-center gap-1.5">
+                            <Calendar className="h-3 w-3 shrink-0 text-blue-500" />
                             {(() => { try { return format(new Date(e.start_date), 'MMM d, yyyy'); } catch { return '—'; } })()}
                         </span>
-                        <span className="flex items-center gap-2"><MapPin className="h-2 w-2 shrink-0 text-cyan-500" />{e.location}</span>
-                        <span className="flex items-center gap-2"><Users className="h-2 w-2 shrink-0 text-cyan-500" />{e.current_count ?? 0} participants</span>
+                        <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3 shrink-0 text-cyan-500" />{e.location}</span>
+                        <span className="flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0 text-cyan-500" />{e.current_count ?? 0} participants</span>
                     </div>
                 </div>
             ))}

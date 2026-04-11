@@ -64,7 +64,7 @@ export function EventDetailsComponent({
 
   return (
     <div className="min-h-screen login-page-bg">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
         {/* Back */}
         <button
@@ -80,7 +80,7 @@ export function EventDetailsComponent({
           <div className="lg:col-span-2 space-y-5">
 
             {/* Hero Image */}
-            <div className="relative h-72 sm:h-80 rounded-2xl overflow-hidden">
+            <div className="relative w-full rounded-2xl overflow-hidden" style={{ aspectRatio: '16/9', maxHeight: '380px' }}>
               {imageUrl ? (
                 <img
                   src={`http://localhost:3000${imageUrl}`}
@@ -101,11 +101,11 @@ export function EventDetailsComponent({
             </div>
 
             {/* Info Card */}
-            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-5">
-              <h1 className="text-2xl font-extrabold text-slate-900">{title}</h1>
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 sm:p-6 space-y-5">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900">{title}</h1>
 
               {/* Meta grid */}
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                 <div>
                   <p className="text-xs font-medium text-slate-400 mb-1">Date</p>
                   <div className="flex items-center gap-1.5 text-sm font-medium text-slate-700">
@@ -170,7 +170,7 @@ export function EventDetailsComponent({
           </div>
 
           {/* ── Right Sidebar ── */}
-          <div className="space-y-4">
+          <div className="space-y-4 lg:sticky lg:top-6">
 
             {/* Registration Card */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
